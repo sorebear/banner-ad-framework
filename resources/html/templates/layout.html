@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+    <title>{{ banner }}</title>
+    <meta charset="utf-8">
+    <!-- disable IE11 phone number detection -->
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body class="{{ banner }} {% block bodyClass %}{% endblock %}">
+    <div class="main-wrapper">
+      <div class="main-content">
+        {% block content %} {% endblock %}
+      </div>
+    </div>
+    <div id="error-wrapper">
+      <pre id="errors"></pre>
+    </div>
+    <script src="js/main.min.js"></script>
+</body>
+</html>
