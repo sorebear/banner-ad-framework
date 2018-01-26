@@ -47,11 +47,18 @@ require('./app/tasks/build-shared-assets.js')(gulp, banners);
 gulp.task("default",
 	["clean-dist-shared", "images-shared", "styles-shared", "scripts-shared", "html-shared"],
 	() => {
-		console.log("Starting Default Task");
+		console.log("Starting Build Task with Shared Assets");
 	}
 );
 
-gulp.task("build:seperated", ["default"]);
+gulp.task("build:shared", ["default"]);
+
+gulp.task("build:seperated",
+	["clean-dist-seperated", "images-seperated", "styles-seperated", "scripts-seperated", "html-seperated"],
+	() => {
+		console.log("Starting Build Task with Seperated Assets")
+	}
+);
 
 // Watch Files For Changes
 gulp.task("watch", ["default"], () => {

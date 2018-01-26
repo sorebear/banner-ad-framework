@@ -39,7 +39,7 @@ module.exports = (gulp, banners) =>
          .pipe(nunjucksRender({
             path: './resources/html/templates'
          }))
-         .pipe(gulp.dest('dist/seperated_assets/' + item))
+         .pipe(gulp.dest('dist/seperated-assets/' + item))
       });
    });
 

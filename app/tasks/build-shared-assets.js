@@ -98,7 +98,6 @@ module.exports = (gulp, banners) =>
           )
           .pipe(sourcemaps.init())
           .pipe(uglify())
-          .pipe(concat("main.min.js"))
           .pipe(sourcemaps.write())
           .pipe(gulp.dest(DIST_PATH + "/js"));
           // .pipe(liveReload());
