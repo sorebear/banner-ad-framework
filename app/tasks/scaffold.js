@@ -24,73 +24,86 @@
 * by editng html/templates/layout.html
 */
 
-const del = require("del");
-const fs = require("fs");
-const RESOURCES_PATH = "resources";
-const HTML_PATH = "resources/html/";
-const JS_PATH = "resources/js/";
-const SCSS_PATH = "resources/scss/";
-const IMG_PATH = "resources/img/";
+const del = require('del');
+const fs = require('fs');
+const RESOURCES_PATH = 'resources';
+const TEMPLATE_PATH = 'app/templates'
+const HTML_PATH = 'resources/html/';
+const JS_PATH = 'resources/js/';
+const SCSS_PATH = 'resources/scss/';
+const IMG_PATH = 'resources/img/';
 
-module.exports = (gulp, banners) =>
-{
-   gulp.task("scaffold", () => {
-      checkThenMakeDir(RESOURCES_PATH);
-      const subFolders = ['html', 'scss', 'img'];
-      for (let i = 0; i < subFolders.length; i++) {
-         checkThenMakeDir(RESOURCES_PATH + "/" + subFolders[i]);
-         checkThenMakeDir(RESOURCES_PATH + "/" + subFolders[i] + "/pages");
-      }
-      for (let item in banners) {
-         scaffoldHTML(item);
-         scaffoldSCSS(item);
-         scaffoldIMG(item);
-      }
-   });
+module.exports = (gulp, banners) => {
+	gulp.task('scaffold', () => {
+		checkThenMakeDir(RESOURCES_PATH);
+		const subFolders = ['html', 'scss', 'img'];
+		for (let i = 0; i < subFolders.length; i++) {
+			checkThenMakeDir(RESOURCES_PATH + '/' + subFolders[i]);
+			checkThenMakeDir(RESOURCES_PATH + '/' + subFolders[i] + '/pages');
+		}
+		for (let item in banners) {
+			scaffoldHTML(item);
+			scaffoldSCSS(item);
+			scaffoldIMG(item);
+		}
+	});
 
-   const checkThenMakeDir = path => {
-      if (!fs.existsSync(path)) {
-         fs.mkdirSync(path);
-      }
-   }
-   
-   const checkThenWriteFile = (path, content) => {
-      if (!fs.existsSync(path)) {
-         fs.writeFileSync(path, content);
-      }
-   }
-   
-   // Scaffold SCSS
-   const scaffoldSCSS = item => {
-      checkThenWriteFile(SCSS_PATH + "/pages/" + item + ".scss", "");
-   }
-   
-   // Scaffold HTML
-   const scaffoldHTML = item => {
-      checkThenWriteFile(
-         HTML_PATH + "/pages/" + item + ".html", 
-         `{% set banner = "${item}" %}\n\n{% extends "layout.html" %}\n{% block bodyClass %}{% endblock %}\n\n{% block content %}\n  <!--enter content for ${item} here-->\n{% endblock %}`
-      );
-   }
-   
-   // Scaffold IMG
-   const scaffoldIMG = item => {
-      checkThenMakeDir(IMG_PATH + "/pages/" + item);
-   }
-   
-   // Clean Scaffold
-   gulp.task("scaffold:clean", () => {
-      return del.sync([RESOURCES_PATH + "/html/pages", RESOURCES_PATH + "/js/pages", RESOURCES_PATH + "/scss/pages", RESOURCES_PATH + "/img/pages"])
-   });
+	const checkThenMakeDir = path => {
+		if (!fs.existsSync(path)) {
+			fs.mkdirSync(path);
+		}
+	};
 
-   // Re-Scaffold Task
-   gulp.task(
-      "re-scaffold",
-      ["scaffold:clean", "scaffold"],
-      () => {
-         console.log("Rebuilding Resources");
-      }
-   );
+	const checkThenWriteFile = (path, content) => {
+		if (!fs.existsSync(path)) {
+			fs.writeFileSync(path, content);
+		}
+	};
+
+	// Scaffold SCSS
+	const scaffoldSCSS = item => {
+		checkThenWriteFile(SCSS_PATH + '/pages/' + item + '.scss', '');
+	};
+
+	const Templater = function (filePath, name) {
+		const nameTag = '<%fileName%>';
+		let tpl = fs.readFileSync(filePath, 'utf8');
+
+		tpl = tpl.replace(nameTag, name);
+
+		this.get = () => {
+			return tpl;
+		}
+	}
+
+	// Scaffold HTML
+	const scaffoldHTML = item => {
+		
+		template = new Templater(`${TEMPLATE_PATH}/htmlPage.tpl`, item);
+
+		checkThenWriteFile(
+			HTML_PATH + '/pages/' + item + '.html',
+			template.get()
+		);
+	};
+
+	// Scaffold IMG
+	const scaffoldIMG = item => {
+		checkThenMakeDir(IMG_PATH + '/pages/' + item);
+	};
+
+	// Clean Scaffold
+	gulp.task('scaffold:clean', () => {
+		return del.sync([
+			RESOURCES_PATH + '/html/pages',
+			RESOURCES_PATH + '/js/pages',
+			RESOURCES_PATH + '/scss/pages',
+			RESOURCES_PATH + '/img/pages'
+		]);
+	});
+
+	// Re-Scaffold Task
+	gulp.task('re-scaffold', ['scaffold:clean', 'scaffold'], () => {
+		console.log('Rebuilding Resources');
+	});
 };
-
-
