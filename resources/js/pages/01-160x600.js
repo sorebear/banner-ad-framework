@@ -1,1 +1,0 @@
-//Place exclusive scripts for 01-160x600 here.

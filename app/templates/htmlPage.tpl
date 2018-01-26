@@ -1,4 +1,4 @@
-{% set banner = "01-300x600" %}
+{% set banner = "<%fileName%>" %}
 
 {% extends "layout.html" %}
 
