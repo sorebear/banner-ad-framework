@@ -1,4 +1,5 @@
 {% set banner = "02-160x600" %}
+{% set size = "width: 160px; height:600px;" %}
 
 {% extends "layout.html" %}
 
@@ -12,8 +13,12 @@
 
 {% block content %}
 
-  <!--enter content for 01-728x90 here-->
+  <!--enter content here-->
 
+{% endblock %}
+
+{% block isi %}
+  {% include './isi.html' %}
 {% endblock %}
 
 {% block scripts %}

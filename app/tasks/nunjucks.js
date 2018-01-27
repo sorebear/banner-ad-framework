@@ -22,32 +22,34 @@ const fs = require('fs');
 
 module.exports = (gulp, banners) => {
 	const HTML_PAGES_PATH = './resources/html/pages';
-	const HTML_TPL_PATH = './resources/html/templates';
+	const HTML_COMP_PATH = './resources/html/components';
 	const DIST_SHARED_PATH = 'dist/shared-assets';
 	const DIST_SEPERATED_PATH = 'dist/seperated-assets';
 
 	gulp.task('html-seperated', () => {
-		return Object.keys(banners).forEach(item => {
+
+		return Object.keys(banners).forEach(banner => {
 			return gulp
-				.src(`${HTML_PAGES_PATH}/${item}.html`)
+				.src(`${HTML_PAGES_PATH}/${banner}.html`)
 				.pipe(
 					nunjucksRender({
-						path: HTML_TPL_PATH
+						path: HTML_COMP_PATH
 					})
 				)
-				.pipe(gulp.dest(`${DIST_SEPERATED_PATH}/${item}`));
+				.pipe(gulp.dest(`${DIST_SEPERATED_PATH}/${banner}`));
 		});
 	});
 
 	gulp.task('html-shared', () => {
-		return Object.keys(banners).forEach(item => {
+
+		return Object.keys(banners).forEach(banner => {
 			const orientation =
-				banners[item]['height'] > banners[item]['width'] ? 'vertical' : 'horizontal';
-			const pageStyle = fs.existsSync(`${DIST_SHARED_PATH}/css/${item}.css`)
-				? `css/${item}.css`
+				banners[banner]['height'] > banners[banner]['width'] ? 'vertical' : 'horizontal';
+			const pageStyle = fs.existsSync(`${DIST_SHARED_PATH}/css/${banner}.css`)
+				? `css/${banner}.css`
 				: null;
 			return gulp
-				.src(`${HTML_PAGES_PATH}/${item}.html`)
+				.src(`${HTML_PAGES_PATH}/${banner}.html`)
 				.pipe(
 					nunjucksRender({
 						data: {
@@ -55,7 +57,7 @@ module.exports = (gulp, banners) => {
 							orientationStyle: `css/${orientation}.css`,
 							orientationScript: `js/${orientation}.js`
 						},
-						path: HTML_TPL_PATH
+						path: HTML_COMP_PATH,
 					})
 				)
 				.pipe(gulp.dest(DIST_SHARED_PATH));

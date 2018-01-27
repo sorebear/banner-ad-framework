@@ -43,19 +43,34 @@ require('./app/tasks/build-seperated-assets.js')(gulp, banners);
  */
 require('./app/tasks/build-shared-assets.js')(gulp, banners);
 
-// Default Task
-gulp.task("default",
+gulp.task("default", ["build:shared"]);
+
+// Build Project with Shared Assets (This is default)
+gulp.task("build:shared",
+	["clean-dist-shared", "styles-shared", "scripts-shared"],
+	() => {
+		gulp.start('html-shared');
+	}
+);
+
+// Build Project with Seperated Assets
+gulp.task("build:seperated",
+	["clean-dist-seperated", "styles-seperated", "scripts-seperated", "html-seperated"],
+	() => {
+		console.log("Starting Build Task with Seperated Assets")
+	}
+);
+
+// Build Project WITH Pictures and Shared Assets
+gulp.task("build:shared-pictures",
 	["clean-dist-shared", "styles-shared", "scripts-shared", "images-shared"],
 	() => {
 		gulp.start('html-shared');
 	}
 );
 
-// Build Project with Shared Assets (This is default)
-gulp.task("build:shared", ["default"]);
-
-// Build Project with Seperated Assets
-gulp.task("build:seperated",
+// Build Project WITH Pictures and Seperated Assets
+gulp.task("build:seperated-pictures",
 	["clean-dist-seperated", "images-seperated", "styles-seperated", "scripts-seperated", "html-seperated"],
 	() => {
 		console.log("Starting Build Task with Seperated Assets")

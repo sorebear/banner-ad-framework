@@ -38,13 +38,13 @@ module.exports = (gulp, banners) => {
 		checkThenMakeDir(RESOURCES_PATH);
 		const subFolders = ['html', 'scss', 'img'];
 		for (let i = 0; i < subFolders.length; i++) {
-			checkThenMakeDir(RESOURCES_PATH + '/' + subFolders[i]);
-			checkThenMakeDir(RESOURCES_PATH + '/' + subFolders[i] + '/pages');
+			checkThenMakeDir(`${RESOURCES_PATH}/${subFolders[i]}`);
+			checkThenMakeDir(`${RESOURCES_PATH}/${subFolders[i]}/pages`);
 		}
-		for (let item in banners) {
-			scaffoldHTML(item);
-			scaffoldSCSS(item);
-			scaffoldIMG(item);
+		for (let banner in banners) {
+			scaffoldHTML(banner);
+			scaffoldSCSS(banner);
+			scaffoldIMG(banner);
 		}
 	});
 
@@ -61,15 +61,19 @@ module.exports = (gulp, banners) => {
 	};
 
 	// Scaffold SCSS
-	const scaffoldSCSS = item => {
-		checkThenWriteFile(SCSS_PATH + '/pages/' + item + '.scss', '');
+	const scaffoldSCSS = banner => {
+		checkThenWriteFile(`${SCSS_PATH}/pages/${banner}.scss`, '');
 	};
 
-	const Templater = function (filePath, name) {
+	const Templater = function (filePath, banner) {
 		const nameTag = '<%fileName%>';
+		const widthTag = '<%width%>';
+		const heightTag = '<%height%>';
 		let tpl = fs.readFileSync(filePath, 'utf8');
 
-		tpl = tpl.replace(nameTag, name);
+		tpl = tpl.replace(nameTag, banner);
+		tpl = tpl.replace(heightTag, banners[banner]['height']);
+		tpl = tpl.replace(widthTag, banners[banner]['width']);
 
 		this.get = () => {
 			return tpl;
@@ -77,28 +81,27 @@ module.exports = (gulp, banners) => {
 	}
 
 	// Scaffold HTML
-	const scaffoldHTML = item => {
+	const scaffoldHTML = banner => {
 		
-		template = new Templater(`${TEMPLATE_PATH}/htmlPage.tpl`, item);
+		template = new Templater(`${TEMPLATE_PATH}/htmlPage.tpl`, banner);
 
 		checkThenWriteFile(
-			HTML_PATH + '/pages/' + item + '.html',
+			`${HTML_PATH}/pages/${banner}.html`,
 			template.get()
 		);
 	};
 
 	// Scaffold IMG
-	const scaffoldIMG = item => {
-		checkThenMakeDir(IMG_PATH + '/pages/' + item);
+	const scaffoldIMG = banner => {
+		checkThenMakeDir(`${IMG_PATH}/pages/${banner}`);
 	};
 
 	// Clean Scaffold
 	gulp.task('scaffold:clean', () => {
 		return del.sync([
-			RESOURCES_PATH + '/html/pages',
-			RESOURCES_PATH + '/js/pages',
-			RESOURCES_PATH + '/scss/pages',
-			RESOURCES_PATH + '/img/pages'
+			`${RESOURCES_PATH}/html/pages`,
+			`${RESOURCES_PATH}/scss/pages`,
+			`${RESOURCES_PATH}/img/pages`
 		]);
 	});
 

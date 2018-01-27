@@ -1,0 +1,29 @@
+.isi-container {
+   overflow-y: scroll;
+   display: block;
+   position: relative;
+   height: 100%;
+   width: 100%;
+   -webkit-tap-highlight-color: transparent;
+}
+
+.isi {
+   position: absolute;
+   width: 100%;
+   top: 0;
+   left: 0;
+   padding: 5px;
+   font-size: 9px;
+
+   &__warning-box {
+      padding: 5px;
+      border: 1px solid grey;
+   }
+
+   &__content {
+
+      p {
+         margin: 1rem 0;
+      }
+   }
+}

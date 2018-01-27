@@ -1,4 +1,6 @@
-const uglify = require('gulp-uglify');
+const uglify = require('uglify-es');
+const composer = require('gulp-uglify/composer');
+const gStreamify = require('gulp-streamify');
 const autoPrefixer = require('gulp-autoprefixer');
 const plumber = require('gulp-plumber');
 const sourcemaps = require('gulp-sourcemaps');
@@ -7,12 +9,14 @@ const babel = require('gulp-babel');
 const del = require('del');
 const fs = require('fs');
 const concat = require('gulp-concat');
+const source = require('vinyl-source-stream');
+const browserify = require('browserify');
 
 // File Paths to Watch
 const DIST_PATH = 'dist/shared-assets';
-const JS_PATH = 'resources/js/';
-const SCSS_PATH = 'resources/scss/';
-const IMG_PATH = 'resources/img/';
+const JS_PATH = 'resources/js';
+const SCSS_PATH = 'resources/scss';
+const IMG_PATH = 'resources/img';
 const IMG_EXTENSION = '*.{png,jpeg,jpg,svg,gif}';
 
 //Image Compression
@@ -25,16 +29,16 @@ module.exports = (gulp, banners) => {
 	gulp.task('styles-shared', () => {
 		console.log('Starting Styles Task');
 		let source = [
-			SCSS_PATH + 'main.scss',
-			SCSS_PATH + 'vertical.scss',
-			SCSS_PATH + 'horizontal.scss'
+			`${SCSS_PATH}/main.scss`,
+			`${SCSS_PATH}/vertical.scss`,
+			`${SCSS_PATH}/horizontal.scss`
 		];
-		Object.keys(banners).forEach(item => {
-			fs.readFile(SCSS_PATH + 'pages/' + item + '.scss', 'utf-8', (err, data) => {
+		Object.keys(banners).forEach(banner => {
+			fs.readFile(`${SCSS_PATH}/pages/${banner}.scss`, 'utf-8', (err, data) => {
 				if (err) throw err;
 				if (data) {
 					return gulp
-						.src(SCSS_PATH + 'pages/' + item + '.scss')
+						.src(`${SCSS_PATH}/pages/${banner}.scss`)
 						.pipe(
 							plumber(err => {
 								console.log('Styles Task Error: ', err);
@@ -49,7 +53,7 @@ module.exports = (gulp, banners) => {
 							})
 						)
 						.pipe(sourcemaps.write())
-						.pipe(gulp.dest(DIST_PATH + '/css'));
+						.pipe(gulp.dest(`${DIST_PATH}/css`));
 				}
 			});
 		});
@@ -69,46 +73,51 @@ module.exports = (gulp, banners) => {
 				})
 			)
 			.pipe(sourcemaps.write())
-			.pipe(gulp.dest(DIST_PATH + '/css'));
+			.pipe(gulp.dest(`${DIST_PATH}/css`));
 		// .pipe(liveReload());
 	});
 
 	// Scripts
 	gulp.task('scripts-shared', () => {
 		console.log('Starting Scripts Task');
-		return Object.keys(banners).forEach(item => {
-			return gulp
-				.src([JS_PATH + 'main.js', JS_PATH + 'vertical.js', JS_PATH + 'horizontal.js'])
-				.pipe(
-					plumber(err => {
-						console.log('Scripts Task Error: ', err);
-						this.emit('end');
-					})
-				)
-				.pipe(
-					babel({
-						presets: ['es2015']
-					})
-				)
-				.pipe(sourcemaps.init())
-				.pipe(uglify())
-				.pipe(sourcemaps.write())
-				.pipe(gulp.dest(DIST_PATH + '/js'));
-			// .pipe(liveReload());
+		const jsFiles = ['main.js', 'vertical.js', 'horizontal.js'];
+		jsFiles.forEach(file => {
+			browserify(`${JS_PATH}/${file}`)
+				.bundle()
+				.pipe(source(file))
+				.pipe(gulp.dest(`${DIST_PATH}/js`))
 		});
+		// return gulp
+		// 	.src([`${JS_PATH}/main.js`, `${JS_PATH}/vertical.js`, `${JS_PATH}/horizontal.js`])
+		// 	.pipe(
+		// 		plumber(err => {
+		// 			console.log('Scripts Task Error: ', err);
+		// 			this.emit('end');
+		// 		})
+		// 	)
+		// 	.pipe(
+		// 		babel({
+		// 			presets: ['es2015']
+		// 		})
+		// 	)
+		// 	.pipe(sourcemaps.init())
+		// 	.pipe(uglify())
+		// 	.pipe(sourcemaps.write())
+		// 	.pipe(gulp.dest(`${DIST_PATH}/js`));
+		// // .pipe(liveReload());
 	});
 
 	// Images
 	gulp.task('images-shared', () => {
 		console.log('Starting Images Task');
-		return Object.keys(banners).forEach(item => {
+		return Object.keys(banners).forEach(banner => {
 			return gulp
 				.src([
-					IMG_PATH + 'shared/' + IMG_EXTENSION,
-					IMG_PATH + 'pages/' + item + '/' + IMG_EXTENSION,
-					banners[item]['height'] > banners[item]['width']
-						? IMG_PATH + 'vertical/' + IMG_EXTENSION
-						: IMG_PATH + 'horizontal/' + IMG_EXTENSION
+					`${IMG_PATH}/shared/${IMG_EXTENSION}`,
+					`${IMG_PATH}/pages/${banner}/${IMG_EXTENSION}`,
+					banners[banner]['height'] > banners[banner]['width']
+						? `${IMG_PATH}/vertical/${IMG_EXTENSION}`
+						: `${IMG_PATH}/horizontal/${IMG_EXTENSION}`
 				])
 				.pipe(
 					imagemin([
