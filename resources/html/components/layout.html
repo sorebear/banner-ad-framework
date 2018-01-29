@@ -11,8 +11,23 @@
     <body class="{% block bodyClass %}{% endblock %}">
         <div class="main-wrapper">
             <div id="banner-wrapper" class="banner-wrapper {{ banner }}" style="{{ size }}">
+                
                 {% block content %}{% endblock %}
-                {% block isi %}{% endblock %}
+
+                <div id="isi-container-wrapper" class="isi-container-wrapper">
+                    <div id="custom-scrollbar" class="custom-scrollbar">
+                        <div class="custom-scrollbar__track">
+                            <div id="thumb" class="custom-scrollbar__thumb" draggable="true"></div>
+                        </div>
+                    </div>
+                    <div id="isi-container" class="isi-container">
+                        <div id="isi" class="isi">
+                            
+                            {% block isi %}{% endblock %}
+                        
+                        </div>
+                    </div> 
+                </div>  
             </div>
         </div>
         <div id="error-wrapper">

@@ -1,38 +1,49 @@
 // Place universal JS here
 var scrollSpeed = 20;
-var iScroll = require('./vendor/iscroll');
-var isiScroll = null;
-var isi = null;
-var banner = null;
-var isiHeight = null;
-var bannerHeight = null;
-var scrollbarWidth = null;
+var $ = require('./vendor/jquery-3.3.1.min.js');
 
 document.addEventListener("DOMContentLoaded", function() {
-	// isiScroll = new iScroll('#isi-container', {
-	// 	mouseWheel: true,
-	// 	scrollbars: true
-	// });
-	debugger;
-	isiContainer = document.getElementById('isi-container');
-	isi = document.getElementById('isi');
-	banner = document.getElementById('banner-wrapper');
-	customScrollbar = document.getElementById('custom-scrollbar');
-
-	isiHeight = isi.scrollHeight;
-	bannerHeight = banner.scrollHeight;
-	isi.style.height = isiHeight;
-
-	scrollWidth = isiContainer.offsetWidth - isi.offsetWidth;
-	customScrollbar.style.width = scrollWidth + "px";
-
-	// isiScroll.scrollTo(0, isiHeight * -1 + bannerHeight, isiHeight * scrollSpeed, iScroll.utils.ease.quadratic);
-	addListeners();
+	var isi = new IsiComponent;
+	isi.init();
 });
 
-function addListeners() {
-	isi.addEventListener("mouseenter", function() { 
-		
-	 });
-	isi.addEventListener("mouseleave", function() {console.log("Mouse is out") });
+function IsiComponent() {
+	this.isiContainer = document.getElementById('isi-container');
+	this.isi = document.getElementById('isi');
+	this.customScrollbar = document.getElementById('custom-scrollbar');
+	this.thumb = document.getElementById('thumb');
+
+	this.containerHeight = this.isiContainer.offsetHeight;
+	this.isiHeight = this.isi.scrollHeight;
+	this.scrollableHeight = this.isiHeight - this.containerHeight;
+	this.scrollbarWidth = this.isiContainer.offsetWidth - this.isi.offsetWidth;
+
+	this.isiAnimation = null;
+
+	this.init = function() {
+		this.setStyles();
+		this.startAutoScroll();
+		this.isiContainer.addEventListener("scroll", this.scrollThumb.bind(this));
+		this.isiContainer.addEventListener("mouseenter", this.pauseAutoScroll.bind(this));
+		this.isiContainer.addEventListener("mouseleave", this.startAutoScroll.bind(this));
+	}
+
+	this.setStyles = function() {
+		this.isi.style.height = this.isiHeight;
+		this.customScrollbar.style.width = this.scrollbarWidth + "px";
+	}
+
+	this.scrollThumb = function() {
+		this.thumb.style.top = this.isiContainer.scrollTop / this.scrollableHeight * 100 + "%";
+	}
+
+	this.startAutoScroll = function() {
+		this.isiAnimation = $('#isi-container').animate({
+			scrollTop: this.scrollableHeight
+		}, (this.scrollableHeight - this.isiContainer.scrollTop) * 10, 'linear');
+	}
+
+	this.pauseAutoScroll = function() {
+		this.isiAnimation.stop();
+	}
 }

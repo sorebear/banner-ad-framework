@@ -27,12 +27,16 @@ module.exports = (gulp, banners) => {
 	const DIST_SEPERATED_PATH = 'dist/seperated-assets';
 
 	gulp.task('html-seperated', () => {
-
 		return Object.keys(banners).forEach(banner => {
+			const orientation =
+				banners[banner]['height'] > banners[banner]['width'] ? 'vertical' : 'horizontal';
 			return gulp
 				.src(`${HTML_PAGES_PATH}/${banner}.html`)
 				.pipe(
 					nunjucksRender({
+						data: {
+							orientationStyle: `css/${orientation}.css`
+						},
 						path: HTML_COMP_PATH
 					})
 				)
@@ -41,7 +45,6 @@ module.exports = (gulp, banners) => {
 	});
 
 	gulp.task('html-shared', () => {
-
 		return Object.keys(banners).forEach(banner => {
 			const orientation =
 				banners[banner]['height'] > banners[banner]['width'] ? 'vertical' : 'horizontal';
@@ -57,7 +60,7 @@ module.exports = (gulp, banners) => {
 							orientationStyle: `css/${orientation}.css`,
 							orientationScript: `js/${orientation}.js`
 						},
-						path: HTML_COMP_PATH,
+						path: HTML_COMP_PATH
 					})
 				)
 				.pipe(gulp.dest(DIST_SHARED_PATH));

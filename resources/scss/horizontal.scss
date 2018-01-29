@@ -1,4 +1,13 @@
 /* Place SCSS for horizontal banners here */
+@import "modules/all";
+
+$isi-height : 100%;
+$isi-width: 50%;
+
+@import "partials/all";
+
+@import "vendor/normalize";
+
 
 .body {
    background-color: red;
@@ -7,3 +16,4 @@
       color: crimson;
    }
 }
+

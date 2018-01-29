@@ -26,13 +26,14 @@ module.exports = (gulp, banners) => {
 	gulp.task('styles-seperated', () => {
 		console.log('Starting Styles Task');
 		return Object.keys(banners).forEach(banner => {
+			const orientation =
+				banners[banner]['height'] > banners[banner]['width']
+					? 'vertical'
+					: 'horizontal';
 			return gulp
 				.src([
-					`${SCSS_PATH}/main.scss`,
 					`${SCSS_PATH}/pages/${banner}.scss`,
-					banners[banner]['height'] > banners[banner]['width']
-						? `${SCSS_PATH}/vertical.scss`
-						: `${SCSS_PATH}/horizontal.scss`
+					`${SCSS_PATH}/${orientation}.scss`
 				])
 				.pipe(
 					plumber(err => {
@@ -47,7 +48,7 @@ module.exports = (gulp, banners) => {
 						outputStyle: 'compressed'
 					})
 				)
-				.pipe(concat('main.css'))
+				.pipe(concat(`${orientation}.css`))
 				.pipe(sourcemaps.write())
 				.pipe(gulp.dest(`${DIST_PATH}/${banner}/css`));
 			// .pipe(liveReload());
@@ -63,8 +64,7 @@ module.exports = (gulp, banners) => {
 				banners[banner]['height'] > banners[banner]['width']
 					? `${JS_PATH}/vertical.js`
 					: `${JS_PATH}/horizontal.js`,
-				`${JS_PATH}/vendor/iscroll.js`,
-				`${JS_PATH}/vendor/web-animations.min.js`
+				`${JS_PATH}/vendor/jquery-3.3.1.min.js`
 			])
 				.bundle()
 				.pipe(source('main.js'))

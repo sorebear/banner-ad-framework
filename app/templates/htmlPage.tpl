@@ -4,7 +4,6 @@
 {% extends "layout.html" %}
 
 {% block stylesheets %}
-   <link rel="stylesheet" href="css/main.css">
    {% if orientationStyle %}<link rel="stylesheet" href="{{ orientationStyle }}">{% endif %}
    {% if pageStyle %}<link rel="stylesheet" href="{{ pageStyle }}">{% endif %}
 {% endblock %}

@@ -1,10 +1,9 @@
-{% set banner = "01-300x600" %}
-{% set size = "width: 300px; height:600px;" %}
+{% set banner = "01-200x750" %}
+{% set size = "width: 200px; height:750px;" %}
 
 {% extends "layout.html" %}
 
 {% block stylesheets %}
-   <link rel="stylesheet" href="css/main.css">
    {% if orientationStyle %}<link rel="stylesheet" href="{{ orientationStyle }}">{% endif %}
    {% if pageStyle %}<link rel="stylesheet" href="{{ pageStyle }}">{% endif %}
 {% endblock %}

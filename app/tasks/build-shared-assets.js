@@ -87,23 +87,6 @@ module.exports = (gulp, banners) => {
 				.pipe(source(file))
 				.pipe(gulp.dest(`${DIST_PATH}/js`))
 		});
-		// return gulp
-		// 	.src([`${JS_PATH}/main.js`, `${JS_PATH}/vertical.js`, `${JS_PATH}/horizontal.js`])
-		// 	.pipe(
-		// 		plumber(err => {
-		// 			console.log('Scripts Task Error: ', err);
-		// 			this.emit('end');
-		// 		})
-		// 	)
-		// 	.pipe(
-		// 		babel({
-		// 			presets: ['es2015']
-		// 		})
-		// 	)
-		// 	.pipe(sourcemaps.init())
-		// 	.pipe(uglify())
-		// 	.pipe(sourcemaps.write())
-		// 	.pipe(gulp.dest(`${DIST_PATH}/js`));
 		// // .pipe(liveReload());
 	});
 
