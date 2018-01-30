@@ -1,5 +1,13 @@
 /* Place SCSS for vertical banners here */
 @import "modules/all";
-@import "partials/all";
 
+$content-height : 71%;
+$content-width: 100%;
+$isi-height : 29%;
+$isi-width: 100%;
+
+$gradient-direction: bottom;
+$flex-direction: column;
+
+@import "partials/all";
 @import "vendor/normalize";

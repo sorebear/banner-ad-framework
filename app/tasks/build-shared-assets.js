@@ -29,7 +29,6 @@ module.exports = (gulp, banners) => {
 	gulp.task('styles-shared', () => {
 		console.log('Starting Styles Task');
 		let source = [
-			`${SCSS_PATH}/main.scss`,
 			`${SCSS_PATH}/vertical.scss`,
 			`${SCSS_PATH}/horizontal.scss`
 		];
@@ -93,27 +92,19 @@ module.exports = (gulp, banners) => {
 	// Images
 	gulp.task('images-shared', () => {
 		console.log('Starting Images Task');
-		return Object.keys(banners).forEach(banner => {
-			return gulp
-				.src([
-					`${IMG_PATH}/shared/${IMG_EXTENSION}`,
-					`${IMG_PATH}/pages/${banner}/${IMG_EXTENSION}`,
-					banners[banner]['height'] > banners[banner]['width']
-						? `${IMG_PATH}/vertical/${IMG_EXTENSION}`
-						: `${IMG_PATH}/horizontal/${IMG_EXTENSION}`
+		return gulp
+			.src(`${IMG_PATH}/**/${IMG_EXTENSION}`)
+			.pipe(
+				imagemin([
+					imagemin.gifsicle(),
+					imagemin.jpegtran(),
+					imagemin.optipng(),
+					imagemin.svgo(),
+					imageminPngquant(),
+					imageminJpegRecompress()
 				])
-				.pipe(
-					imagemin([
-						imagemin.gifsicle(),
-						imagemin.jpegtran(),
-						imagemin.optipng(),
-						imagemin.svgo(),
-						imageminPngquant(),
-						imageminJpegRecompress()
-					])
-				)
-				.pipe(gulp.dest(`${DIST_PATH}/img`));
-		});
+			)
+			.pipe(gulp.dest(`${DIST_PATH}/img`));
 	});
 
 	gulp.task('clean-dist-shared', () => {

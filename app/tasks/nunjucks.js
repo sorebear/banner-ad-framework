@@ -28,8 +28,7 @@ module.exports = (gulp, banners) => {
 
 	gulp.task('html-seperated', () => {
 		return Object.keys(banners).forEach(banner => {
-			const orientation =
-				banners[banner]['height'] > banners[banner]['width'] ? 'vertical' : 'horizontal';
+			const { orientation } = banners[banner];
 			return gulp
 				.src(`${HTML_PAGES_PATH}/${banner}.html`)
 				.pipe(
@@ -46,8 +45,7 @@ module.exports = (gulp, banners) => {
 
 	gulp.task('html-shared', () => {
 		return Object.keys(banners).forEach(banner => {
-			const orientation =
-				banners[banner]['height'] > banners[banner]['width'] ? 'vertical' : 'horizontal';
+			const { orientation } = banners[banner];
 			const pageStyle = fs.existsSync(`${DIST_SHARED_PATH}/css/${banner}.css`)
 				? `css/${banner}.css`
 				: null;

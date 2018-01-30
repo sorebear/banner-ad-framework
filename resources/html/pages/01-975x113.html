@@ -12,7 +12,8 @@
 
 {% block content %}
 
-  <!--enter content here-->
+  {% include './main-content.html' %}
+  <!--enter page specific content here-->
 
 {% endblock %}
 

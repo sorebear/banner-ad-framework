@@ -1,2 +1,11 @@
-$isi-height : 50%;
-$isi-width: 100%;
+// Declare Variables with consistent values here
+// Variables with orientation specific values should be written in horizontal.scss and vertical.scss
+
+// Colors
+$yellow: rgb(254, 197, 46);
+$turqoise: rgb(33, 179, 150);
+$navy: rgb(17,58,114);
+
+// Sizes
+
+$thumb-height: 35px;

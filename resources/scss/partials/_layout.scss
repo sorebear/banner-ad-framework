@@ -4,4 +4,12 @@
 
 .banner-wrapper {
    position: relative;
+   display: flex;
+   flex-direction: $flex-direction;
+}
+
+.main-content {
+   height: $content-height;
+   width: $content-width;
+   background-image: linear-gradient(to $gradient-direction, $yellow 0%, $turqoise 75%, $navy 100%);
 }

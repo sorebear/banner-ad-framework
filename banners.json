@@ -1,18 +1,22 @@
 {
   "01-375x750": {
     "width": 375,
-    "height": 750
+    "height": 750,
+    "orientation": "vertical" 
   },
   "01-375x313": {
     "width": 375,
-    "height": 313
+    "height": 313,
+    "orientation": "vertical"
   },
   "01-200x750": {
     "width": 200,
-    "height": 750
+    "height": 750,
+    "orientation": "vertical"
   },
   "01-975x113": {
     "width": 975,
-    "height": 113
+    "height": 113,
+    "orientation": "horizontal"
   }
 }

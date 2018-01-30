@@ -1,19 +1,14 @@
 /* Place SCSS for horizontal banners here */
 @import "modules/all";
 
+$content-height : 100%;
+$content-width: 71%;
 $isi-height : 100%;
-$isi-width: 50%;
+$isi-width: 29%;
+
+$gradient-direction: right;
+$flex-direction: row;
 
 @import "partials/all";
-
 @import "vendor/normalize";
-
-
-.body {
-   background-color: red;
-
-   p {
-      color: crimson;
-   }
-}
 

@@ -1,4 +1,3 @@
-const uglify = require('gulp-uglify');
 const autoPrefixer = require('gulp-autoprefixer');
 const plumber = require('gulp-plumber');
 const sourcemaps = require('gulp-sourcemaps');
@@ -26,10 +25,7 @@ module.exports = (gulp, banners) => {
 	gulp.task('styles-seperated', () => {
 		console.log('Starting Styles Task');
 		return Object.keys(banners).forEach(banner => {
-			const orientation =
-				banners[banner]['height'] > banners[banner]['width']
-					? 'vertical'
-					: 'horizontal';
+			const { orientation } = banners[banner]; 
 			return gulp
 				.src([
 					`${SCSS_PATH}/pages/${banner}.scss`,
@@ -59,82 +55,28 @@ module.exports = (gulp, banners) => {
 	gulp.task('scripts-seperated', () => {
 		console.log('Starting Scripts Task');
 		return Object.keys(banners).forEach(banner => {
+			const { orientation } = banners[banner];
 			return browserify([
 				`${JS_PATH}/main.js`,
-				banners[banner]['height'] > banners[banner]['width']
-					? `${JS_PATH}/vertical.js`
-					: `${JS_PATH}/horizontal.js`,
+				`${JS_PATH}/${orientation}.js`,
 				`${JS_PATH}/vendor/jquery-3.3.1.min.js`
 			])
 				.bundle()
 				.pipe(source('main.js'))
 				.pipe(gulp.dest(`${DIST_PATH}/${banner}/js`));
-
-			// return gulp
-			// 	.src([
-			// 		`${JS_PATH}/main.js`,
-			// 		banners[banner]['height'] > banners[banner]['width']
-			// 			? `${JS_PATH}/vertical.js`
-			// 			: `${JS_PATH}/horizontal.js`
-			// 	])
-			// 	.pipe(
-			// 		plumber(err => {
-			// 			console.log('Scripts Task Error: ', err);
-			// 			this.emit('end');
-			// 		})
-			// 	)
-			// 	.pipe(
-			// 		babel({
-			// 			presets: ['es2015']
-			// 		})
-			// 	)
-			// 	.pipe(sourcemaps.init())
-			// 	.pipe(uglify())
-			// 	.pipe(concat('main.js'))
-			// 	.pipe(sourcemaps.write())
-			// 	.pipe(gulp.dest(`${DIST_PATH}/${banner}/js`));
-			// 	.pipe(liveReload());
 		});
-		// console.log('Starting Scripts Task');
-		// return Object.keys(banners).forEach(banner => {
-		// 	return gulp
-		// 		.src([
-		// 			`${JS_PATH}/main.js`,
-		// 			banners[banner]['height'] > banners[banner]['width']
-		// 				? `${JS_PATH}/vertical.js`
-		// 				: `${JS_PATH}/horizontal.js`
-		// 		])
-		// 		.pipe(
-		// 			plumber(err => {
-		// 				console.log('Scripts Task Error: ', err);
-		// 				this.emit('end');
-		// 			})
-		// 		)
-		// 		.pipe(
-		// 			babel({
-		// 				presets: ['es2015']
-		// 			})
-		// 		)
-		// 		.pipe(sourcemaps.init())
-		// 		.pipe(uglify())
-		// 		.pipe(concat('main.js'))
-		// 		.pipe(sourcemaps.write())
-		// 		.pipe(gulp.dest(`${DIST_PATH}/${banner}/js`));
-		// 	// .pipe(liveReload());
-		// });
 	});
 
 	// Images
 	gulp.task('images-seperated', () => {
 		console.log('Starting Images Task');
 		return Object.keys(banners).forEach(banner => {
+			const { orientation } = banners[banner];
 			return gulp
 				.src([
 					`${IMG_PATH}/shared/${IMG_EXTENSION}`,
 					`${IMG_PATH}/pages/${banner}/${IMG_EXTENSION}`,
-					banners[banner]['height'] > banners[banner]['width']
-						? `${IMG_PATH}/vertical/${IMG_EXTENSION}`
-						: `${IMG_PATH}/horizontal/${IMG_EXTENSION}`
+					`${IMG_PATH}/${orientation}/${IMG_EXTENSION}`,
 				])
 				.pipe(
 					imagemin([
