@@ -5,7 +5,15 @@
 $yellow: rgb(254, 197, 46);
 $turqoise: rgb(33, 179, 150);
 $navy: rgb(17,58,114);
+$medium-grey: rgb(153, 153, 153);
+$white-semi-transparent: rgba(255, 255, 255, 0.5);
 
-// Sizes
+// Component Colors
+$isi-background-color: $navy;
+$isi-scrollbar-background-color: $isi-background-color;
+$thumb-color: $white-semi-transparent;
+$isi-text-color: white;
 
+// Component Sizes
 $thumb-height: 35px;
+$isi-padding: 5px;

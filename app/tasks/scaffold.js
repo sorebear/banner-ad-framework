@@ -70,11 +70,9 @@ module.exports = (gulp, banners) => {
 		const widthTag = '<%width%>';
 		const heightTag = '<%height%>';
 		let tpl = fs.readFileSync(filePath, 'utf8');
-
 		tpl = tpl.replace(nameTag, banner);
 		tpl = tpl.replace(heightTag, banners[banner]['height']);
 		tpl = tpl.replace(widthTag, banners[banner]['width']);
-
 		this.get = () => {
 			return tpl;
 		}
@@ -82,9 +80,7 @@ module.exports = (gulp, banners) => {
 
 	// Scaffold HTML
 	const scaffoldHTML = banner => {
-		
 		template = new Templater(`${TEMPLATE_PATH}/htmlPage.tpl`, banner);
-
 		checkThenWriteFile(
 			`${HTML_PATH}/pages/${banner}.html`,
 			template.get()

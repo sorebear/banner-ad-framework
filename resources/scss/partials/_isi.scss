@@ -10,23 +10,17 @@
    display: block;
    position: relative;
    height: 100%;
-   -webkit-tap-highlight-color: transparent;
 }
 
 .isi {
    position: absolute;
-   background-color: $navy;
-   color: white;
+   background-color: $isi-background-color;
+   color: $isi-text-color;
    width: 100%;
    top: 0;
    left: 0;
-   padding: 5px 0 5px 5px;
+   padding: $isi-padding 0 $isi-padding $isi-padding;
    font-size: 9px;
-
-   &__warning-box {
-      padding: 5px;
-      border: 1px solid grey;
-   }
 
    &__content {
 

@@ -21,36 +21,33 @@ const debug = require('gulp-debug');
 const fs = require('fs');
 
 module.exports = (gulp, banners) => {
-	const HTML_PAGES_PATH = './resources/html/pages';
-	const HTML_COMP_PATH = './resources/html/components';
-	const DIST_SHARED_PATH = 'dist/shared-assets';
-	const DIST_SEPERATED_PATH = 'dist/seperated-assets';
+	const HTML_PATH = './resources/html';
 
 	gulp.task('html-seperated', () => {
 		return Object.keys(banners).forEach(banner => {
 			const { orientation } = banners[banner];
 			return gulp
-				.src(`${HTML_PAGES_PATH}/${banner}.html`)
+				.src(`${HTML_PATH}/pages/${banner}.html`)
 				.pipe(
 					nunjucksRender({
 						data: {
 							orientationStyle: `css/${orientation}.css`
 						},
-						path: HTML_COMP_PATH
+						path: `${HTML_PATH}/components`
 					})
 				)
-				.pipe(gulp.dest(`${DIST_SEPERATED_PATH}/${banner}`));
+				.pipe(gulp.dest(`dist/seperated-assets/${banner}`));
 		});
 	});
 
 	gulp.task('html-shared', () => {
 		return Object.keys(banners).forEach(banner => {
 			const { orientation } = banners[banner];
-			const pageStyle = fs.existsSync(`${DIST_SHARED_PATH}/css/${banner}.css`)
+			const pageStyle = fs.existsSync(`dist/shared-assets/css/${banner}.css`)
 				? `css/${banner}.css`
 				: null;
 			return gulp
-				.src(`${HTML_PAGES_PATH}/${banner}.html`)
+				.src(`${HTML_PATH}/pages/${banner}.html`)
 				.pipe(
 					nunjucksRender({
 						data: {
@@ -58,18 +55,22 @@ module.exports = (gulp, banners) => {
 							orientationStyle: `css/${orientation}.css`,
 							orientationScript: `js/${orientation}.js`
 						},
-						path: HTML_COMP_PATH
+						path: `${HTML_PATH}/components`
 					})
 				)
-				.pipe(gulp.dest(DIST_SHARED_PATH));
+				.pipe(gulp.dest('dist/shared-assets'));
 		});
 	});
 
-	//   gulp.task('watchHtml', () =>
-	//     {
-	//       gulp.start('html');
+	// Watch Files For Changes
+	gulp.task('watchHtml', () => {
+		gulp.start('html-shared');
+		gulp.watch([
+			`${HTML_PATH}/**/*.html`,
+			`${HTML_PATH}/*.html`,
+		],
+		['html-shared']);
+	});
+}
 
-	//       gulp.watch([htmlLoc + '/**/*.html'], ['html']);
-	//     }
-	//   );
-};
+
