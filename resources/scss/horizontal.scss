@@ -13,3 +13,23 @@ $flex-direction: row;
 
 @import "partials/all";
 
+.v-only {
+   display: none;
+}
+
+.main-content {
+   display: flex;
+
+   &__image-container {
+      padding-top: 0;
+      height: 100%;
+   }
+
+   & > * {
+      width: 33%;
+   }
+
+}
+
+
+

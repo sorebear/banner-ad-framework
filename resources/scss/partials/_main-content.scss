@@ -1,0 +1,27 @@
+.main-content {
+   height: $main-content-height;
+   width: $main-content-width;
+   background-image: linear-gradient(to $gradient-direction, $yellow 0%, $turqoise 75%, $navy 100%);
+   padding: $content-outer-padding;
+   display: flex;
+   flex-direction: $flex-direction;
+
+   &__image-container {
+      position: relative;
+      background-image: url('../img/cc-abstract.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 100%;
+      height: 0;
+      padding-top: 52.66%;
+   }
+
+   &__image {
+      width: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+   }
+}

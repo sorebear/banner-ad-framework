@@ -14,12 +14,13 @@
 
 .isi {
    position: absolute;
-   background-color: $isi-background-color;
-   color: $isi-text-color;
+   padding: $content-outer-padding;
+   padding-right: 0;
    width: 100%;
    top: 0;
    left: 0;
-   padding: $isi-padding 0 $isi-padding $isi-padding;
+   background-color: $isi-background-color;
+   color: $isi-text-color;
    font-size: 9px;
 
    &__content {

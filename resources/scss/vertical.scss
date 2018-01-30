@@ -11,5 +11,9 @@ $isi-width: 100%;
 $gradient-direction: bottom;
 $flex-direction: column;
 
+.h-only {
+   display: none;
+}
+
 @import "partials/all";
 

@@ -7,9 +7,3 @@
    display: flex;
    flex-direction: $flex-direction;
 }
-
-.main-content {
-   height: $main-content-height;
-   width: $main-content-width;
-   background-image: linear-gradient(to $gradient-direction, $yellow 0%, $turqoise 75%, $navy 100%);
-}

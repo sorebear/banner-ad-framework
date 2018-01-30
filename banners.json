@@ -4,9 +4,9 @@
     "height": 750,
     "orientation": "vertical" 
   },
-  "01-375x313": {
+  "01-375x500": {
     "width": 375,
-    "height": 313,
+    "height": 500,
     "orientation": "vertical"
   },
   "01-200x750": {

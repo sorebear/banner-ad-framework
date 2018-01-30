@@ -1,6 +1,11 @@
 // Place universal JS here
-var scrollSpeed = 20;
 var $ = require('./vendor/jquery-3.3.1.min.js');
+
+/**
+ * The scrollSpeedMultiplyer variable is multiplied by the isi's total height minus it's current offset height
+ * This ensures the scrollspeed is consistent across different sizes and animation starting positions.
+ */
+var scrollSpeedMultiplyer = 20;
 
 document.addEventListener('DOMContentLoaded', function() {
 	var isi = new IsiComponent();
@@ -37,7 +42,7 @@ function IsiComponent() {
 	this.setStyles = function() {
 		this.isi.style.height = this.isiHeight;
 		this.customScrollbar.style.width = this.scrollbarWidth + 'px';
-		this.customScrollbarTrack.style.height = this.wrapperHeight - this.thumbHeight - 2 + "px";
+		this.customScrollbarTrack.style.height = this.wrapperHeight - this.thumbHeight - 2 + 'px';
 	};
 
 	this.customWheelScroll = function(e) {
@@ -53,7 +58,7 @@ function IsiComponent() {
 			{
 				scrollTop: this.scrollableHeight
 			},
-			(this.scrollableHeight - this.isiContainer.scrollTop) * 10,
+			(this.scrollableHeight - this.isiContainer.scrollTop) * scrollSpeedMultiplyer,
 			'linear'
 		);
 	};
