@@ -17,7 +17,6 @@
 
 const gutil = require('gulp-util');
 const nunjucksRender = require('gulp-nunjucks-render');
-const debug = require('gulp-debug');
 const fs = require('fs');
 
 module.exports = (gulp, banners) => {
