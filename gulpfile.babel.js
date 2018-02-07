@@ -21,14 +21,14 @@ gulp.task('build:shared', [
 ]);
 
 /**
- * Build Project WITH Seperated Assets
+ * Build Project WITH separated Assets
  */
-gulp.task('build:seperated', [
-	'clean-dist-seperated',
-	'images-seperated',
-	'styles-seperated',
-	'scripts-seperated',
-	'html-seperated'
+gulp.task('build:separated', [
+	'clean-dist-separated',
+	'images-separated',
+	'styles-separated',
+	'scripts-separated',
+	'html-separated'
 ]);
 
 /**
@@ -37,6 +37,6 @@ gulp.task('build:seperated', [
 gulp.task('clean-dist-shared', () => {
 	return del.sync('dist/shared-assets');
 });
-gulp.task('clean-dist-seperated', () => {
-	return del.sync('dist/seperated-assets');
+gulp.task('clean-dist-separated', () => {
+	return del.sync('dist/separated-assets');
 });

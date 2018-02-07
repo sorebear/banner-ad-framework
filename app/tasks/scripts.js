@@ -19,8 +19,8 @@ module.exports = (gulp, banners) => {
 		});
    });
    
-   // Scripts Seperated
-	gulp.task('scripts-seperated', () => {
+   // Scripts separated
+	gulp.task('scripts-separated', () => {
 		console.log('Starting Scripts Task');
 		return Object.keys(banners).forEach(banner => {
 			const { orientation } = banners[banner];
@@ -31,7 +31,7 @@ module.exports = (gulp, banners) => {
 			])
 				.bundle()
 				.pipe(source('main.js'))
-				.pipe(gulp.dest(`dist/seperated-assets/${banner}/js`));
+				.pipe(gulp.dest(`dist/separated-assets/${banner}/js`));
 		});
    });
    

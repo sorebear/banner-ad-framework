@@ -18,5 +18,10 @@
     "width": 975,
     "height": 113,
     "orientation": "horizontal"
+  },
+  "01-975x313": {
+    "width": 975,
+    "height": 313,
+    "orientation": "horizontal"
   }
 }

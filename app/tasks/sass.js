@@ -52,8 +52,8 @@ module.exports = (gulp, banners) => {
 			.pipe(gulp.dest('dist/shared-assets/css'));
    });
    
-   // Sass Styles Seperated
-	gulp.task('styles-seperated', () => {
+   // Sass Styles separated
+	gulp.task('styles-separated', () => {
 		return Object.keys(banners).forEach(banner => {
 			const { orientation } = banners[banner]; 
 			return gulp
@@ -70,7 +70,7 @@ module.exports = (gulp, banners) => {
 				)
 				.pipe(concat(`${orientation}.css`))
 				.pipe(sourcemaps.write())
-				.pipe(gulp.dest(`dist/seperated-assets/${banner}/css`));
+				.pipe(gulp.dest(`dist/separated-assets/${banner}/css`));
 		});
    });
 
