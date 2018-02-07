@@ -1,27 +1,22 @@
 {
-  "01-375x750": {
-    "width": 375,
-    "height": 750,
+  "Medium Rectangle": {
+    "width": 320,
+    "height": 250,
     "orientation": "vertical" 
   },
-  "01-375x500": {
-    "width": 375,
-    "height": 500,
+  "Large Rectangle": {
+    "width": 336,
+    "height": 280,
     "orientation": "vertical"
   },
-  "01-200x750": {
-    "width": 200,
-    "height": 750,
+  "Leaderboard": {
+    "width": 728,
+    "height": 90,
+    "orientation": "horizontal"
+  },
+  "Wide Skyscraper": {
+    "width": 160,
+    "height": 600,
     "orientation": "vertical"
-  },
-  "01-975x113": {
-    "width": 975,
-    "height": 113,
-    "orientation": "horizontal"
-  },
-  "01-975x313": {
-    "width": 975,
-    "height": 313,
-    "orientation": "horizontal"
   }
 }

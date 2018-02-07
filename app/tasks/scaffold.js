@@ -6,19 +6,16 @@
 *
 * For new projects:
 *
-* First fill out ./banners.json with all the different banners for your
+* First fill out './banners.json' with all the different banners for your
 * project
 * Afterwards run `gulp scaffold:clean` to delete example banners. Then run
-* `gulp scaffold` to create sass and html pages.
+* `gulp scaffold` to create sass and html pages from './banners.json'.
 * You can also run `gulp re-scaffold` to both clean and create in one command
 *
-* To update an existing project:
-*
-* If new banners need to be added to an existing project, first add the
-* banner info to banners.json, then run `gulp scaffold`. It wont overwrite
-* old banner pages.
-* To delete a keymessage remove it from keymessage.json and run 
-
+* The preloaded sizes are based on DoubleClicks 'Top-performing ad sizes'
+* Other supported ad sizes include: 125x125, 180x150, 200x200, 200x446, 220x90, 234x60, 240x133, 250x250
+* 300x31, 300x50, 300x100, 300x600, 300x1050, 320x50, 320x100, 468x60, 960x90, 970x90, 970x250
+* The support page for this information can be found here: https://support.google.com/adxbuyer/answer/3011898?hl=en
 *
 * The HTML file that are given to banners upon scaffolding can be customized
 * by editng html/templates/layout.html

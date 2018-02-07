@@ -35,7 +35,7 @@ module.exports = (gulp, banners) => {
 						path: `${HTML_PATH}/components`
 					})
 				)
-				.pipe(gulp.dest(`dist/seperated-assets/${banner}`));
+				.pipe(gulp.dest(`dist/separated-assets/${banner}`));
 		});
 	});
 
