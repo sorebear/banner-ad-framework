@@ -38,11 +38,9 @@ module.exports = (gulp, banners) => {
 				.pipe(
 					imagemin([
 						imagemin.gifsicle(),
-						imagemin.jpegtran(),
 						imagemin.optipng(),
 						imagemin.svgo(),
-						imageminPngquant(),
-						imageminJpegRecompress()
+						imageminPngquant()
 					])
 				)
 				.pipe(gulp.dest(`dist/separated-assets/${banner}/img`));
