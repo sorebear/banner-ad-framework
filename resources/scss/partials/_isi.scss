@@ -5,7 +5,7 @@
 }
 
 .isi-container {
-   overflow-y: scroll;
+   overflow-y: hidden;
    overflow-x: hidden;
    display: block;
    position: relative;
@@ -15,7 +15,7 @@
 .isi {
    position: absolute;
    padding: $content-outer-padding;
-   padding-right: 0;
+   padding-right: $content-outer-padding + $scrollbar-width;
    width: 100%;
    top: 0;
    left: 0;
@@ -27,6 +27,7 @@
 
       p {
          margin: 1rem 0;
+         color: green;
       }
    }
 }

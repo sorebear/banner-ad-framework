@@ -1,11 +1,10 @@
 const flatten = require('gulp-flatten');
 const imagemin = require('gulp-imagemin');
 const imageminPngquant = require('imagemin-pngquant');
-const imageminJpegRecompress = require('imagemin-jpeg-recompress');
 
 // File Paths to Watch
 const IMG_PATH = 'resources/img';
-const IMG_EXTENSION = '*.{png,jpeg,jpg,svg,gif}';
+const IMG_EXTENSION = '*.{png,svg,gif}';
 
 module.exports = (gulp, banners) => {
 	// Images
@@ -16,11 +15,9 @@ module.exports = (gulp, banners) => {
 			.pipe(
 				imagemin([
 					imagemin.gifsicle(),
-					imagemin.jpegtran(),
 					imagemin.optipng(),
 					imagemin.svgo(),
-					imageminPngquant(),
-					imageminJpegRecompress()
+					imageminPngquant()
 				])
 			)
 			.pipe(flatten())
