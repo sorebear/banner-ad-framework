@@ -25,7 +25,7 @@ module.exports = (gulp, banners) => {
 	});
 
 	// Images
-	gulp.task('images-seperated', () => {
+	gulp.task('images-separated', () => {
 		console.log('Starting Images Task');
 		return Object.keys(banners).forEach(banner => {
 			const { orientation } = banners[banner];
@@ -45,7 +45,7 @@ module.exports = (gulp, banners) => {
 						imageminJpegRecompress()
 					])
 				)
-				.pipe(gulp.dest(`dist/seperated-assets/${banner}/img`));
+				.pipe(gulp.dest(`dist/separated-assets/${banner}/img`));
 		});
 	});
 

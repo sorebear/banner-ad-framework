@@ -22,7 +22,7 @@ const fs = require('fs');
 module.exports = (gulp, banners) => {
 	const HTML_PATH = './resources/html';
 
-	gulp.task('html-seperated', () => {
+	gulp.task('html-separated', () => {
 		return Object.keys(banners).forEach(banner => {
 			const { orientation } = banners[banner];
 			return gulp

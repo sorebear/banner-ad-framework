@@ -1,78 +1,31 @@
-module.exports = function($) {
-	/**
-	 * The scrollSpeedMultiplyer variable is multiplied by the isi's total height minus it's current offset height
-	 * This ensures the scrollspeed is consistent across different sizes and animation starting positions.
-	 */
-	this.scrollSpeedMultiplyer = 20;
-   this.isiContainerWrapper = document.getElementById('isi-container-wrapper');
-	this.isiContainer = document.getElementById('isi-container');
+module.exports = function(IScroll) {
+	this.isiScroll = new IScroll('#isi-container', {
+		mouseWheel: true,
+		scrollbars: true
+	});
+
 	this.isi = document.getElementById('isi');
-	this.customScrollbar = document.getElementById('custom-scrollbar');
-	this.customScrollbarTrack = document.getElementById('custom-scrollbar-track');
-	this.thumb = document.getElementById('thumb');
-	this.thumbHeight = this.thumb.offsetHeight;
-
-	this.wrapperHeight = this.isiContainer.offsetHeight;
-	this.isiHeight = this.isi.scrollHeight;
-	this.scrollableHeight = this.isiHeight - this.wrapperHeight;
-
-	this.isiAnimation = null;
-
 	this.init = function() {
-		console.log("Hello!");
-		this.setStyles();
-		this.autoScroll();
-		this.isiContainer.addEventListener('scroll', this.scrollThumb.bind(this));
-		this.isiContainer.addEventListener('wheel', this.customWheelScroll.bind(this));
-		this.customScrollbar.addEventListener('wheel', this.customWheelScroll.bind(this));
-		this.isiContainer.addEventListener('mouseenter', this.pauseAutoScroll.bind(this));
-		this.customScrollbar.addEventListener('mouseenter', this.pauseAutoScroll.bind(this));
-		this.isiContainer.addEventListener('mouseleave', this.resumeAutoScroll.bind(this));
-		this.customScrollbar.addEventListener('mouseleave', this.resumeAutoScroll.bind(this));
-		this.thumb.addEventListener('mousedown', this.dragThumb.bind(this));
-		document.addEventListener('mouseup', this.releaseThumb.bind(this));
-	};
-
-	this.setStyles = function() {
-		this.isi.style.height = this.isiHeight;
-		this.customScrollbarTrack.style.height = this.wrapperHeight - this.thumbHeight - 2 + 'px';
-	};
-
-	this.customWheelScroll = function(e) {
-		this.isiContainer.scrollTop += e.deltaY;
-	};
-
-	this.scrollThumb = function() {
-		this.thumb.style.top = this.isiContainer.scrollTop / this.scrollableHeight * 100 + '%';
-	};
-
-	this.dragThumb = function() {
-		this.pauseAutoScroll();
-	}
-
-	this.releaseThumb = function(e) {
-		console.log("You let go!");
-		this.resumeAutoScroll(e);
-	}
-
-	this.resumeAutoScroll = function(e) {
-		console.log(e.buttons);
-		if (e.buttons === 0) {
-			this.autoScroll();
-		}
-	}
-
-	this.autoScroll = function() {
-		this.isiAnimation = $('#isi-container').animate(
-			{
-				scrollTop: this.scrollableHeight
-			},
-			(this.scrollableHeight - this.isiContainer.scrollTop) * this.scrollSpeedMultiplyer,
-			'linear'
+		this.isiScroll.scrollBy(
+			0,
+			this.isiScroll.maxScrollY,
+			this.isiScroll.maxScrollY * -10,
+			IScroll.utils.ease.quadratic
 		);
-	}
-
-	this.pauseAutoScroll = function() {
-		this.isiAnimation.stop();
+		this.isi.addEventListener('mouseleave', this.resumeScroll.bind(this));
+		this.isi.addEventListener('mouseenter', this.pauseScroll.bind(this));
 	};
-}
+
+	this.pauseScroll = function() {
+		
+	};
+
+	this.resumeScroll = function() {
+		this.isiScroll.scrollBy(
+			0,
+			this.isiScroll.maxScrollY - this.isiScroll.y,
+			(this.isiScroll.maxScrollY - this.isiScroll.y) * -10,
+			IScroll.utils.ease.quadratic
+		);
+	};
+};

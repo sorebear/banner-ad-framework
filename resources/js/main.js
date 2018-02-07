@@ -1,8 +1,10 @@
 // Place universal JS here
 var $ = require('./vendor/jquery-3.3.1.min.js');
-var IsiComponent = require('./components/isi.js');
+var Isi = require('./components/isi.js');
+var IScroll = require('iscroll');
+var isiScroll;
 
 document.addEventListener('DOMContentLoaded', function() {
-	var isi = new IsiComponent($);
+	var isi = new Isi(IScroll);
 	isi.init();
 });

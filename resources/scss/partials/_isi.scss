@@ -7,6 +7,7 @@
 .isi-container {
    overflow-y: hidden;
    overflow-x: hidden;
+   background-color: $isi-background-color;
    display: block;
    position: relative;
    height: 100%;
@@ -19,7 +20,6 @@
    width: 100%;
    top: 0;
    left: 0;
-   background-color: $isi-background-color;
    color: $isi-text-color;
    font-size: 9px;
 
@@ -27,7 +27,7 @@
 
       p {
          margin: 1rem 0;
-         color: green;
+         color: white;
       }
    }
 }
