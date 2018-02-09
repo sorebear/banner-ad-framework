@@ -10,7 +10,6 @@ module.exports = (gulp, banners) => {
 	
 	// Scripts Shared
 	gulp.task('scripts-shared', () => {
-		console.log('Starting Scripts Task');
 		const jsFiles = ['main.js', 'vertical.js', 'horizontal.js'];
 		jsFiles.forEach(file => {
 			browserify(`${JS_PATH}/${file}`)
@@ -22,7 +21,6 @@ module.exports = (gulp, banners) => {
    
    // Scripts separated
 	gulp.task('scripts-separated', () => {
-		console.log('Starting Scripts Task');
 		return Object.keys(banners).forEach(banner => {
 			const { orientation } = banners[banner];
 			return browserify([

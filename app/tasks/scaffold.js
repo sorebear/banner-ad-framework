@@ -99,7 +99,5 @@ module.exports = (gulp, banners) => {
 	});
 
 	// Re-Scaffold Task
-	gulp.task('re-scaffold', ['scaffold:clean', 'scaffold'], () => {
-		console.log('Rebuilding Resources');
-	});
+	gulp.task('re-scaffold', ['scaffold:clean', 'scaffold']);
 };

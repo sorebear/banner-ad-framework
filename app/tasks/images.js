@@ -9,7 +9,6 @@ const IMG_EXTENSION = '*.{png,svg,gif}';
 module.exports = (gulp, banners) => {
 	// Images
 	gulp.task('images-shared', () => {
-		console.log('Starting Images Task');
 		return gulp
 			.src(`${IMG_PATH}/**/${IMG_EXTENSION}`)
 			.pipe(
@@ -26,7 +25,6 @@ module.exports = (gulp, banners) => {
 
 	// Images
 	gulp.task('images-separated', () => {
-		console.log('Starting Images Task');
 		return Object.keys(banners).forEach(banner => {
 			const { orientation } = banners[banner];
 			return gulp
