@@ -24,7 +24,6 @@ module.exports = function(IScroll) {
 			this.scrollSpeedMultiplier * -1,
 			IScroll.utils.ease.quadratic
 		);
-		// this.isiScroll.refresh();
 	};
 
 	this.resumeScroll = function() {
