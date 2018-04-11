@@ -1,5 +1,5 @@
 module.exports = function(IScroll) {
-	this.scrollSpeedMultiplier = -40;
+	this.scrollSpeedMultiplier = -10;
 	this.isiScroll = new IScroll('#isi-container', {
 		mouseWheel: true,
 		scrollbars: true,

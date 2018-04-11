@@ -17,7 +17,8 @@ gulp.task('build:shared', [
 	'watchHtml',
 	'watchStyles',
 	'watchScripts',
-	'watchImages'
+	'watchImages',
+	'watchTransfer',
 ]);
 
 /**
@@ -25,10 +26,11 @@ gulp.task('build:shared', [
  */
 gulp.task('build:separated', [
 	'clean-dist-separated',
-	'images-separated',
-	'styles-separated',
-	'scripts-separated',
-	'html-separated'
+	'watchSeparatedImages',
+	'watchSeparatedStyles',
+	'watchSeparatedScripts',
+	'watchSeparatedHtml',
+	'watchSeparatedTransfer',
 ]);
 
 /**

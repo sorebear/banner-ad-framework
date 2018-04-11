@@ -18,5 +18,10 @@
     "width": 160,
     "height": 600,
     "orientation": "vertical"
+  },
+  "Wide Skyscraper 2": {
+    "width": 260,
+    "height": 800,
+    "orientation": "vertical"
   }
 }
