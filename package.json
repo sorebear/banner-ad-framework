@@ -4,6 +4,7 @@
   "description": "A scaffold for creating HTML Banner Ads",
   "main": "gulpfile.js",
   "scripts": {
+    "start": "gulp build:separated",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Soren Baird",

@@ -2,6 +2,7 @@ const babel = require('gulp-babel');
 const source = require('vinyl-source-stream');
 const browserify = require('browserify');
 const uglify = require('gulp-uglify');
+const rename = require('gulp-rename');
 
 // File Paths to Watch
 const JS_PATH = 'resources/js';
@@ -29,9 +30,9 @@ module.exports = (gulp, banners) => {
 				`${JS_PATH}/vendor/jquery-3.3.1.min.js`
 			])
 				.bundle()
-				.pipe(source('main.js'),
-				uglify(),
-				gulp.dest(`dist/separated-assets/${banner}/js`));
+				// .pipe(uglify())
+				.pipe(source('main.js'))
+				.pipe(gulp.dest(`dist/separated-assets/${banner}/js`));
 		});
    });
    
@@ -43,5 +44,15 @@ module.exports = (gulp, banners) => {
 			`${JS_PATH}/*.js`,
       ],
       ['scripts-shared']);
+	});
+
+	// Watch JS Files For Changes
+	gulp.task('watchSeparatedScripts', () => {
+	gulp.start('scripts-separated');
+	gulp.watch([
+		`${JS_PATH}/**/*.js`,
+		`${JS_PATH}/*.js`,
+		],
+		['scripts-separated']);
 	});
 };

@@ -1,0 +1,1 @@
+<a href="<%banner%>/<%banner%>.html"><%banner%></a><br>

@@ -5,13 +5,13 @@ module.exports = (gulp, banners) => {
 			.src([
 				'resources/**/*',
 				'!resources/html',
-            '!resources/html/**/*',
-            '!resources/img',
-            '!resources/img/**/*',
-            '!resources/js',
-            '!resources/js/**/*',
-            '!resources/scss',
-            '!resources/scss/**/*',
+				'!resources/html/**/*',
+				'!resources/img',
+				'!resources/img/**/*',
+				'!resources/js',
+				'!resources/js/**/*',
+				'!resources/scss',
+				'!resources/scss/**/*',
 			])
 			.pipe(gulp.dest('dist/shared-assets'));
 	});
