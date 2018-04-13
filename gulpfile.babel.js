@@ -1,7 +1,6 @@
 const gulp = require('gulp');
 const del = require('del');
 const banners = require('./banners.json');
-const project = require('./project.json');
 
 /**
  * getTasks automatically pulls all gulp tasks from directory ./app/tasks/
@@ -11,7 +10,8 @@ require('./app/getTasks.js')(gulp, banners);
 /**
  * Build Project WITH Shared Assets (This is default)
  */
-gulp.task('default', ['build:shared']);
+gulp.task('default', ['build:separated']);
+
 gulp.task('build:shared', [
 	'clean-dist-shared',
 	'watchHtml',

@@ -5,6 +5,9 @@
   "main": "gulpfile.js",
   "scripts": {
     "start": "gulp build:separated",
+    "build": "gulp build:separated",
+    "build:separted": "gulp build:separated",
+    "build:shared": "gulp build:shared",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Soren Baird",

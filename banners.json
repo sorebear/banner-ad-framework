@@ -1,25 +1,25 @@
 {
-  "Medium Rectangle": {
+  "medium-rectangle": {
     "width": 320,
     "height": 250,
     "orientation": "vertical" 
   },
-  "Large Rectangle": {
+  "large-rectangle": {
     "width": 336,
     "height": 280,
     "orientation": "vertical"
   },
-  "Leaderboard": {
+  "leaderboard": {
     "width": 728,
     "height": 90,
     "orientation": "horizontal"
   },
-  "Wide Skyscraper": {
+  "wide-skyscraper": {
     "width": 160,
     "height": 600,
     "orientation": "vertical"
   },
-  "Wide Skyscraper 2": {
+  "wide-skyscraper-2": {
     "width": 260,
     "height": 800,
     "orientation": "vertical"

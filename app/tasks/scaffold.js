@@ -67,6 +67,7 @@ module.exports = (gulp, banners) => {
 	const scaffoldSCSS = banner => {
 		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/scss.tpl`, 'utf8');
 		tpl = tpl.replace('<%orientation%>', banners[banner]['orientation']);
+		tpl = tpl.replace('<%banner-title%>', banner);
 		checkThenWriteFile(`${SCSS_PATH}/pages/${banner}.scss`, tpl);
 	};
 
