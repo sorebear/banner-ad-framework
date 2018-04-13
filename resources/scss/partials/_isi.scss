@@ -24,10 +24,17 @@
    font-size: 9px;
 
    &__content {
-
       p {
          margin: 1rem 0;
          color: white;
+         
+         &:first-child {
+           margin-top: 0;
+         }
+
+         &:last-child {
+           margin-bottom: 0;
+         }
       }
    }
 }

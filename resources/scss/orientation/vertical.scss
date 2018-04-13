@@ -1,11 +1,9 @@
 /* Place SCSS for vertical banners here */
-@import "modules/all";
-@import "vendor/normalize";
 
 /* Declare Variables with Orientation-Specific Values Here */
-$main-content-height : 71%;
+$main-content-height : 50%;
 $main-content-width: 100%;
-$isi-height : 29%;
+$isi-height : 50%;
 $isi-width: 100%;
 
 $gradient-direction: bottom;
@@ -15,5 +13,5 @@ $flex-direction: column;
    display: none;
 }
 
-@import "partials/all";
+
 

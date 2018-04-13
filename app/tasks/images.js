@@ -4,7 +4,7 @@ const imageminPngquant = require('imagemin-pngquant');
 
 // File Paths to Watch
 const IMG_PATH = 'resources/img';
-const IMG_EXTENSION = '*.{png,svg,gif}';
+const IMG_EXTENSION = '*.{png,svg,gif,jpg}';
 
 module.exports = (gulp, banners) => {
 	// Images
@@ -51,6 +51,14 @@ module.exports = (gulp, banners) => {
 		gulp.watch(
 			[`${IMG_PATH}/${IMG_EXTENSION}`, `${IMG_PATH}/**/${IMG_EXTENSION}`],
 			['images-shared']
+		);
+	});
+
+	gulp.task('watchSeparatedImages', () => {
+		gulp.start('images-separated');
+		gulp.watch(
+			[`${IMG_PATH}/${IMG_EXTENSION}`, `${IMG_PATH}/**/${IMG_EXTENSION}`],
+			['images-separated']
 		);
 	});
 };

@@ -1,7 +1,7 @@
-{% set banner = "Large Rectangle" %}
-{% set size = "width: 336px; height:280px;" %}
+{% set banner = "<%fileName%>" %}
+{% set size = "width: <%width%>px; height:<%height%>px;" %}
 
-{% extends "layout.html" %}
+{% extends "layout-static.html" %}
 
 {% block stylesheets %}
    {% if orientationStyle %}<link rel="stylesheet" href="{{ orientationStyle }}">{% endif %}
@@ -19,9 +19,4 @@
 
 {% block isi %}
   {% include './isi.html' %}
-{% endblock %}
-
-{% block scripts %}
-   <script src="js/main.js"></script>
-   {% if orientationScript %}<script src="{{ orientationScript }}"></script>{% endif %}
 {% endblock %}

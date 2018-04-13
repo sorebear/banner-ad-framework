@@ -8,7 +8,7 @@
         <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         {% block stylesheets %}{% endblock %}
     </head>
-    <body class="{% block bodyClass %}{% endblock %}">
+    <body class="{% block bodyClass %}{% endblock %} static">
         <div class="body-wrapper">
             <div id="banner-wrapper" class="banner-wrapper {{ banner }}" style="{{ size }}">
                 <div id="main-content-wrapper" class="main-content-wrapper">
@@ -31,6 +31,5 @@
         <div id="error-wrapper">
             <pre id="errors"></pre>
         </div>
-        {% block scripts %}{% endblock %}
     </body>
 </html>

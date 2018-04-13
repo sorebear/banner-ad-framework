@@ -57,19 +57,14 @@ module.exports = (gulp, banners) => {
 		return Object.keys(banners).forEach(banner => {
 			const { orientation } = banners[banner]; 
 			return gulp
-				.src([
-					`${SCSS_PATH}/pages/${banner}.scss`,
-					`${SCSS_PATH}/${orientation}.scss`
-				])
-				.pipe(sourcemaps.init())
-				.pipe(autoPrefixer())
+				.src(`${SCSS_PATH}/pages/${banner}.scss`)
 				.pipe(
 					sass({
 						outputStyle: 'compressed'
 					})
 				)
+				.pipe(autoPrefixer())
 				.pipe(concat(`${orientation}.css`))
-				.pipe(sourcemaps.write())
 				.pipe(gulp.dest(`dist/separated-assets/${banner}/css`));
 		});
    });
@@ -82,5 +77,15 @@ module.exports = (gulp, banners) => {
 			`${SCSS_PATH}/*.scss`,
       ],
       ['styles-shared']);
+	});
+
+	// Watch Sass Files For Changes
+	gulp.task('watchSeparatedStyles', () => {
+	gulp.start('styles-separated');
+	gulp.watch([
+		`${SCSS_PATH}/**/*.scss`,
+		`${SCSS_PATH}/*.scss`,
+		],
+		['styles-separated']);
 	});
 };

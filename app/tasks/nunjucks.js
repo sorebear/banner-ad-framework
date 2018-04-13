@@ -61,14 +61,27 @@ module.exports = (gulp, banners) => {
 		});
 	});
 
+	gulp.task('transfer-index', () => {
+		return gulp.src(`${HTML_PATH}/index.html`).pipe(gulp.dest(`dist/separated-assets`));
+	});
+
 	// Watch Files For Changes
 	gulp.task('watchHtml', () => {
-		gulp.start('html-shared');
+		gulp.start(['html-shared', 'transfer-index']);
 		gulp.watch([
 			`${HTML_PATH}/**/*.html`,
 			`${HTML_PATH}/*.html`,
 		],
 		['html-shared']);
+	});
+
+	gulp.task('watchSeparatedHtml', () => {
+		gulp.start(['html-separated', 'transfer-index']);
+		gulp.watch([
+			`${HTML_PATH}/**/*.html`,
+			`${HTML_PATH}/*.html`,
+		],
+		['html-separated']);
 	});
 }
 

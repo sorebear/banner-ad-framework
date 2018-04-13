@@ -34,15 +34,21 @@ module.exports = (gulp, banners) => {
 	gulp.task('scaffold', () => {
 		checkThenMakeDir(RESOURCES_PATH);
 		const subFolders = ['html', 'scss', 'img'];
-		for (let i = 0; i < subFolders.length; i++) {
-			checkThenMakeDir(`${RESOURCES_PATH}/${subFolders[i]}`);
-			checkThenMakeDir(`${RESOURCES_PATH}/${subFolders[i]}/pages`);
-		}
+		subFolders.forEach(subFolder => {
+			checkThenMakeDir(`${RESOURCES_PATH}/${subFolder}`);
+			checkThenMakeDir(`${RESOURCES_PATH}/${subFolder}/pages`);
+		});
+		let tpl = '';
 		for (let banner in banners) {
+			let link = fs.readFileSync(`${TEMPLATE_PATH}/index.tpl`, 'utf8');
+			console.log(`link at ${banner}:`, link);
+			link = link.replace(/<%banner%>/g, banner);
+			tpl += link;
 			scaffoldHTML(banner);
 			scaffoldSCSS(banner);
 			scaffoldIMG(banner);
 		}
+		checkThenWriteFile(`${HTML_PATH}/index.html`, tpl);
 	});
 
 	const checkThenMakeDir = path => {
@@ -59,7 +65,10 @@ module.exports = (gulp, banners) => {
 
 	// Scaffold SCSS
 	const scaffoldSCSS = banner => {
-		checkThenWriteFile(`${SCSS_PATH}/pages/${banner}.scss`, '');
+		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/scss.tpl`, 'utf8');
+		tpl = tpl.replace('<%orientation%>', banners[banner]['orientation']);
+		tpl = tpl.replace('<%banner-title%>', banner);
+		checkThenWriteFile(`${SCSS_PATH}/pages/${banner}.scss`, tpl);
 	};
 
 	const Templater = function (filePath, banner) {
@@ -77,7 +86,9 @@ module.exports = (gulp, banners) => {
 
 	// Scaffold HTML
 	const scaffoldHTML = banner => {
-		template = new Templater(`${TEMPLATE_PATH}/htmlPage.tpl`, banner);
+		template = banner.includes('static') ? 
+			new Templater(`${TEMPLATE_PATH}/htmlStatic.tpl`, banner) : 
+			new Templater(`${TEMPLATE_PATH}/html.tpl`, banner);
 		checkThenWriteFile(
 			`${HTML_PATH}/pages/${banner}.html`,
 			template.get()
