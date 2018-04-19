@@ -41,14 +41,13 @@ module.exports = (gulp, banners) => {
 		let tpl = '';
 		for (let banner in banners) {
 			let link = fs.readFileSync(`${TEMPLATE_PATH}/index.tpl`, 'utf8');
-			console.log(`link at ${banner}:`, link);
 			link = link.replace(/<%banner%>/g, banner);
 			tpl += link;
 			scaffoldHTML(banner);
 			scaffoldSCSS(banner);
 			scaffoldIMG(banner);
 		}
-		checkThenWriteFile(`${HTML_PATH}/index.html`, tpl);
+		fs.writeFileSync(`${HTML_PATH}/index.html`, tpl);
 	});
 
 	const checkThenMakeDir = path => {

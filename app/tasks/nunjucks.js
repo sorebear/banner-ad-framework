@@ -17,6 +17,7 @@
 
 const gutil = require('gulp-util');
 const nunjucksRender = require('gulp-nunjucks-render');
+const htmlmin = require('gulp-htmlmin');
 const fs = require('fs');
 
 module.exports = (gulp, banners) => {
@@ -35,6 +36,7 @@ module.exports = (gulp, banners) => {
 						path: `${HTML_PATH}/components`
 					})
 				)
+				.pipe(htmlmin({collapseWhitespace: true}))
 				.pipe(gulp.dest(`dist/separated-assets/${banner}`));
 		});
 	});
@@ -57,6 +59,7 @@ module.exports = (gulp, banners) => {
 						path: `${HTML_PATH}/components`
 					})
 				)
+				.pipe(htmlmin({ collapsewhitepsace: true }))
 				.pipe(gulp.dest('dist/shared-assets'));
 		});
 	});
