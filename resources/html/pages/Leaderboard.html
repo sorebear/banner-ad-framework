@@ -22,6 +22,6 @@
 {% endblock %}
 
 {% block scripts %}
-   <script src="js/main.js"></script>
+   <script src="js/bundle.js"></script>
    {% if orientationScript %}<script src="{{ orientationScript }}"></script>{% endif %}
 {% endblock %}

@@ -1,35 +1,35 @@
 <!doctype html>
 <html>
-    <head>
-        <title>{{ banner }}</title>
-        <meta charset="utf-8">
-        <!-- disable IE11 phone number detection -->
-        <meta name="format-detection" content="telephone=no"/>
-        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body class="{% block bodyClass %}{% endblock %} static">
-        <div class="body-wrapper">
-            <div id="banner-wrapper" class="banner-wrapper {{ banner }}" style="{{ size }}">
-                <div id="main-content-wrapper" class="main-content-wrapper">
-                    
-                    {% block content %}{% endblock %}
+   <head>
+      <title>{{ banner }}</title>
+      <meta charset="utf-8">
+      <!-- disable IE11 phone number detection -->
+      <meta name="format-detection" content="telephone=no"/>
+      <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+      {% block stylesheets %}{% endblock %}
+   </head>
+   <body class="{% block bodyClass %}{% endblock %} static">
+      <div class="body-wrapper">
+         <div id="banner-wrapper" class="banner-wrapper {{ banner }}" style="{{ size }}">
+            <div id="main-content-wrapper" class="main-content-wrapper">
 
-                </div>
-                
-                <div id="isi-container-wrapper" class="isi-container-wrapper">
-                    <div id="isi-container" class="isi-container">
-                        <div id="isi" class="isi">
-                            
-                            {% block isi %}{% endblock %}
-                        
-                        </div>
-                    </div> 
-                </div>  
+               {% block content %}{% endblock %}
+
             </div>
-        </div>
-        <div id="error-wrapper">
-            <pre id="errors"></pre>
-        </div>
-    </body>
+
+            <div id="isi-container-wrapper" class="isi-container-wrapper">
+               <div id="isi-container" class="isi-container">
+                  <div id="isi" class="isi">
+
+                     {% block isi %}{% endblock %}
+
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div id="error-wrapper">
+         <pre id="errors"></pre>
+      </div>
+   </body>
 </html>

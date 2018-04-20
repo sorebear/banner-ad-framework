@@ -3,6 +3,7 @@ const source = require('vinyl-source-stream');
 const browserify = require('browserify');
 const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
+const buffer = require('vinyl-buffer');
 
 // File Paths to Watch
 const JS_PATH = 'resources/js';
@@ -27,11 +28,11 @@ module.exports = (gulp, banners) => {
 			return browserify([
 				`${JS_PATH}/main.js`,
 				`${JS_PATH}/${orientation}.js`,
-				`${JS_PATH}/vendor/jquery-3.3.1.min.js`
 			])
 				.bundle()
-				// .pipe(uglify())
-				.pipe(source('main.js'))
+				.pipe(source('bundle.js'))
+				.pipe(buffer())
+				.pipe(uglify())
 				.pipe(gulp.dest(`dist/separated-assets/${banner}/js`));
 		});
    });
