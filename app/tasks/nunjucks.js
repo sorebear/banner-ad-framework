@@ -22,69 +22,75 @@ const fs = require('fs');
 
 module.exports = (gulp, banners) => {
 	const HTML_PATH = './resources/html';
+	const TEMPLATE_PATH = './app/templates';
 
-	gulp.task('html-separated', () => {
-		return Object.keys(banners).forEach(banner => {
-			const { orientation } = banners[banner];
+	gulp.task('html', () => {
+		return Object.keys(banners.banners).forEach(banner => {
+			const { orientation } = banners.banners[banner];
+			const dataObject = {
+				setDoubleclick: false,
+				orientationStyle: `css/${orientation}.css`
+			};
+			Object.keys(banners.links).forEach(link => {
+				dataObject[link] = banners.links[link].href
+			});
 			return gulp
 				.src(`${HTML_PATH}/pages/${banner}.html`)
 				.pipe(
 					nunjucksRender({
-						data: {
-							orientationStyle: `css/${orientation}.css`
-						},
-						path: `${HTML_PATH}/components`
+						data: dataObject,
+						path: [`${HTML_PATH}/components`, `${HTML_PATH}/macros/aLinks`]
 					})
 				)
-				.pipe(htmlmin({collapseWhitespace: true}))
-				.pipe(gulp.dest(`dist/separated-assets/${banner}`));
+				// .pipe(htmlmin({collapseWhitespace: true}))
+				.pipe(gulp.dest(`dist/${banner}`));
 		});
 	});
 
-	gulp.task('html-shared', () => {
-		return Object.keys(banners).forEach(banner => {
-			const { orientation } = banners[banner];
-			const pageStyle = fs.existsSync(`dist/shared-assets/css/${banner}.css`)
-				? `css/${banner}.css`
-				: null;
+	gulp.task('html-doubleclick', () => {
+		return Object.keys(banners.banners).forEach(banner => {
+			const { orientation } = banners.banners[banner];
+			const dataObject = {
+				setDoubleclick: true,
+				orientationStyle: `css/${orientation}.css`
+			};
+			Object.keys(banners.links).forEach(link => {
+				dataObject[link] = link
+			});
 			return gulp
 				.src(`${HTML_PATH}/pages/${banner}.html`)
 				.pipe(
 					nunjucksRender({
-						data: {
-							pageStyle: pageStyle,
-							orientationStyle: `css/${orientation}.css`,
-							orientationScript: `js/${orientation}.js`
-						},
-						path: `${HTML_PATH}/components`
+						data: dataObject,
+						path: [`${HTML_PATH}/components`, `${HTML_PATH}/macros/dcLinks`]
 					})
 				)
-				.pipe(htmlmin({ collapsewhitepsace: true }))
-				.pipe(gulp.dest('dist/shared-assets'));
+				// .pipe(htmlmin({collapseWhitespace: true}))
+				.pipe(gulp.dest(`dist/${banner}`));
 		});
 	});
 
 	gulp.task('transfer-index', () => {
-		return gulp.src(`${HTML_PATH}/index.html`).pipe(gulp.dest(`dist/separated-assets`));
+		return gulp.src(`${HTML_PATH}/index.html`).pipe(gulp.dest(`dist`));
 	});
 
 	// Watch Files For Changes
 	gulp.task('watchHtml', () => {
-		gulp.start(['html-shared', 'transfer-index']);
+		gulp.start(['html', 'transfer-index']);
 		gulp.watch([
 			`${HTML_PATH}/**/*.html`,
 			`${HTML_PATH}/*.html`,
 		],
-		['html-shared']);
+		['html']);
 	});
 
-	gulp.task('watchSeparatedHtml', () => {
-		gulp.start(['html-separated', 'transfer-index']);
+	gulp.task('watchDoubleclickHtml', () => {
+		gulp.start(['html-doubleclick', 'transfer-index']);
 		gulp.watch([
 			`${HTML_PATH}/**/*.html`,
 			`${HTML_PATH}/*.html`,
 		],
-		['html-separated']);
+		['html-doubleclick']);
 	});
 }
 

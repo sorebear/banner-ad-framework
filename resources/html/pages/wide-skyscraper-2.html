@@ -1,12 +1,8 @@
 {% set banner = "wide-skyscraper-2" %}
 {% set size = "width: 260px; height:800px;" %}
+{% from "./links.html" import link, closeLink %}
 
 {% extends "layout.html" %}
-
-{% block stylesheets %}
-   {% if orientationStyle %}<link rel="stylesheet" href="{{ orientationStyle }}">{% endif %}
-   {% if pageStyle %}<link rel="stylesheet" href="{{ pageStyle }}">{% endif %}
-{% endblock %}
 
 {% block bodyClass %}{% endblock %}
 

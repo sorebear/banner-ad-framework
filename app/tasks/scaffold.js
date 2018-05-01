@@ -39,7 +39,7 @@ module.exports = (gulp, banners) => {
 			checkThenMakeDir(`${RESOURCES_PATH}/${subFolder}/pages`);
 		});
 		let tpl = '';
-		for (let banner in banners) {
+		for (let banner in banners.banners) {
 			let link = fs.readFileSync(`${TEMPLATE_PATH}/index.tpl`, 'utf8');
 			link = link.replace(/<%banner%>/g, banner);
 			tpl += link;
@@ -47,8 +47,24 @@ module.exports = (gulp, banners) => {
 			scaffoldSCSS(banner);
 			scaffoldIMG(banner);
 		}
+		scaffoldExitJS(banners);
 		fs.writeFileSync(`${HTML_PATH}/index.html`, tpl);
 	});
+
+	
+	// Scaffold Exit JS
+	const scaffoldExitJS = banners => {
+		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/enabler.tpl`, 'utf8');
+		let exitLinks = '';
+		for (link in banners.links) {
+			let exitLink = fs.readFileSync(`${TEMPLATE_PATH}/exitLink.tpl`, 'utf8');
+			exitLink = exitLink.replace(/<%exit%>/g, link);
+			exitLink = exitLink.replace(/<%exitFormatted%>/g, banners.links[link].displayName)
+			exitLinks += exitLink
+		}
+		tpl = tpl.replace('<%exitLinks%>', exitLinks);
+		fs.writeFileSync(`${JS_PATH}/components/enabler.js`, tpl);
+	}
 
 	const checkThenMakeDir = path => {
 		if (!fs.existsSync(path)) {
@@ -65,7 +81,7 @@ module.exports = (gulp, banners) => {
 	// Scaffold SCSS
 	const scaffoldSCSS = banner => {
 		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/scss.tpl`, 'utf8');
-		tpl = tpl.replace('<%orientation%>', banners[banner]['orientation']);
+		tpl = tpl.replace('<%orientation%>', banners.banners[banner]['orientation']);
 		tpl = tpl.replace('<%banner-title%>', banner);
 		checkThenWriteFile(`${SCSS_PATH}/pages/${banner}.scss`, tpl);
 	};
@@ -76,8 +92,8 @@ module.exports = (gulp, banners) => {
 		const heightTag = '<%height%>';
 		let tpl = fs.readFileSync(filePath, 'utf8');
 		tpl = tpl.replace(nameTag, banner);
-		tpl = tpl.replace(heightTag, banners[banner]['height']);
-		tpl = tpl.replace(widthTag, banners[banner]['width']);
+		tpl = tpl.replace(heightTag, banners.banners[banner]['height']);
+		tpl = tpl.replace(widthTag, banners.banners[banner]['width']);
 		this.get = () => {
 			return tpl;
 		}

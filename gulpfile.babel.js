@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const runSequence = require('run-sequence');
 const del = require('del');
 const banners = require('./banners.json');
 
@@ -10,35 +11,46 @@ require('./app/getTasks.js')(gulp, banners);
 /**
  * Build Project WITH Shared Assets (This is default)
  */
-gulp.task('default', ['build:separated']);
-
-gulp.task('build:shared', [
-	'clean-dist-shared',
-	'watchHtml',
-	'watchStyles',
-	'watchScripts',
-	'watchImages',
-	'watchTransfer',
-]);
+gulp.task('default', ['build']);
 
 /**
  * Build Project WITH separated Assets
  */
-gulp.task('build:separated', [
-	'clean-dist-separated',
-	'watchSeparatedImages',
-	'watchSeparatedStyles',
-	'watchSeparatedScripts',
-	'watchSeparatedHtml',
-	'watchSeparatedTransfer',
+gulp.task('build', [
+	'clean-dist',
+	'watchImages',
+	'watchStyles',
+	'watchScripts',
+	'watchHtml',
+	'watchTransfer',
 ]);
+
+gulp.task('build:doubleclick', [
+	'clean-dist',
+	'watchImages',
+	'watchStyles',
+	'watchScripts',
+	'watchDoubleclickHtml',
+	'watchTransfer',
+]);
+
+gulp.task('deploy', () => {
+	runSequence(
+		'clean-dist',
+		[
+			'images',
+			'styles',
+			'scripts',
+			'html',
+			'transfer'
+		]);
+});
+
+// gulp.task('deploy', ['zip']);
 
 /**
  * Clean dist folders
  */
-gulp.task('clean-dist-shared', () => {
-	return del.sync('dist/shared-assets');
-});
-gulp.task('clean-dist-separated', () => {
-	return del.sync('dist/separated-assets');
+gulp.task('clean-dist', () => {
+	return del.sync('dist');
 });

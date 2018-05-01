@@ -1,27 +1,39 @@
 {
-  "medium-rectangle": {
-    "width": 320,
-    "height": 250,
-    "orientation": "vertical" 
+  "links": {
+    "testLink": {
+      "displayName": "Test Link",
+      "href": "http://google.com"
+    },
+    "secondTestLink": {
+      "displayName": "Second Test Link",
+      "href": "http://w3schools.com"
+    }
   },
-  "large-rectangle": {
-    "width": 336,
-    "height": 280,
-    "orientation": "vertical"
-  },
-  "leaderboard": {
-    "width": 728,
-    "height": 90,
-    "orientation": "horizontal"
-  },
-  "wide-skyscraper": {
-    "width": 160,
-    "height": 600,
-    "orientation": "vertical"
-  },
-  "wide-skyscraper-2": {
-    "width": 260,
-    "height": 800,
-    "orientation": "vertical"
+  "banners": {
+    "medium-rectangle": {
+      "width": 320,
+      "height": 250,
+      "orientation": "vertical" 
+    },
+    "large-rectangle": {
+      "width": 336,
+      "height": 280,
+      "orientation": "vertical"
+    },
+    "leaderboard": {
+      "width": 728,
+      "height": 90,
+      "orientation": "horizontal"
+    },
+    "wide-skyscraper": {
+      "width": 160,
+      "height": 600,
+      "orientation": "vertical"
+    },
+    "wide-skyscraper-2": {
+      "width": 260,
+      "height": 800,
+      "orientation": "vertical"
+    }
   }
 }

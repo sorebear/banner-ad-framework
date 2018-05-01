@@ -1,5 +1,6 @@
 {% set banner = "<%fileName%>" %}
 {% set size = "width: <%width%>px; height:<%height%>px;" %}
+{% from "./links.html" import link, closeLink %}
 
 {% extends "layout-static.html" %}
 
