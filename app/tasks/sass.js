@@ -9,7 +9,17 @@ const fs = require('fs');
 const SCSS_PATH = 'resources/scss';
 
 module.exports = (gulp, banners) => {
-	gulp.task('styles', () => {
+	gulp.task('styles-develop', () => {
+		return Object.keys(banners.banners).forEach(banner => {
+			return gulp
+				.src(`${SCSS_PATH}/pages/${banner}.scss`)
+				.pipe(sass())
+				.pipe(concat('main.css'))
+				.pipe(gulp.dest(`dist/${banner}/css`));
+		});
+	});
+
+	gulp.task('styles-production', () => {
 		return Object.keys(banners.banners).forEach(banner => {
 			return gulp
 				.src(`${SCSS_PATH}/pages/${banner}.scss`)
@@ -22,15 +32,11 @@ module.exports = (gulp, banners) => {
 				.pipe(concat('main.css'))
 				.pipe(gulp.dest(`dist/${banner}/css`));
 		});
-   });
+	});
 
 	// Watch Sass Files For Changes
 	gulp.task('watchStyles', () => {
-	gulp.start('styles');
-	gulp.watch([
-		`${SCSS_PATH}/**/*.scss`,
-		`${SCSS_PATH}/*.scss`,
-		],
-		['styles']);
+		gulp.start('styles-develop');
+		gulp.watch([`${SCSS_PATH}/**/*.scss`, `${SCSS_PATH}/*.scss`], ['styles-develop']);
 	});
 };

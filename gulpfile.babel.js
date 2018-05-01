@@ -16,37 +16,72 @@ gulp.task('default', ['build']);
 /**
  * Build Project WITH separated Assets
  */
-gulp.task('build', [
-	'clean-dist',
-	'watchImages',
-	'watchStyles',
-	'watchScripts',
-	'watchHtml',
-	'watchTransfer',
-]);
-
-gulp.task('build:doubleclick', [
-	'clean-dist',
-	'watchImages',
-	'watchStyles',
-	'watchScripts',
-	'watchDoubleclickHtml',
-	'watchTransfer',
-]);
-
-gulp.task('deploy', () => {
+gulp.task('develop', () => {
 	runSequence(
-		'clean-dist',
 		[
-			'images',
-			'styles',
-			'scripts',
-			'html',
-			'transfer'
-		]);
+			'clean-dist',
+			'scripts-not-for-doubleclick'
+		],
+		[
+			'watchImages',
+			'watchStyles',
+			'watchScripts',
+			'watchHtml',
+			'watchTransfer',
+		]
+	);
 });
 
-// gulp.task('deploy', ['zip']);
+gulp.task('develop:doubleclick', () => {
+	runSequence(
+		[
+			'clean-dist',
+			'scripts-for-doubleclick'
+		],
+		[
+			'clean-dist',
+			'watchImages',
+			'watchStyles',
+			'watchScripts',
+			'watchDoubleclickHtml',
+			'watchTransfer',
+		]
+	);
+});
+
+gulp.task('build', () => {
+	runSequence(
+		[
+			'clean-dist',
+			'scripts-not-for-doubleclick'
+		],
+		[
+			'images',
+			'styles-production',
+			'scripts-production',
+			'html',
+			'transfer',
+			'transfer-index'
+		]
+	);
+});
+
+gulp.task('build:doubleclick', () => {
+	runSequence(
+		[
+			'clean-dist',
+			'scripts-for-doubleclick'
+		],
+		[
+			'images',
+			'styles-production',
+			'scripts-production',
+			'html-doubleclick',
+			'transfer',
+			'transfer-index'
+		]
+	);
+});
 
 /**
  * Clean dist folders

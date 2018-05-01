@@ -1,40 +1,29 @@
 .isi-container-wrapper {
-   height: $isi-height;
-   width: $isi-width;
-   position: relative;
+	height: $isi-height;
+	width: $isi-width;
+	position: relative;
 }
 
 .isi-container {
-   overflow-y: hidden;
-   overflow-x: hidden;
-   background-color: $isi-background-color;
-   display: block;
-   position: relative;
-   height: 100%;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	background-color: $isi-background-color;
+	display: block;
+	position: relative;
+	transition: height 0.3s;
+	height: 100%;
+	backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 
 .isi {
-   position: absolute;
-   padding: $content-outer-padding;
-   padding-right: $content-outer-padding + $scrollbar-width;
-   width: 100%;
-   top: 0;
-   left: 0;
-   color: $isi-text-color;
-   font-size: 9px;
-
-   &__content {
-      p {
-         margin: 1rem 0;
-         color: white;
-         
-         &:first-child {
-           margin-top: 0;
-         }
-
-         &:last-child {
-           margin-bottom: 0;
-         }
-      }
-   }
+	position: absolute;
+	padding: $content-outer-padding;
+	padding-right: $content-outer-padding + $scrollbar-width;
+	padding-bottom: $content-outer-padding;
+	width: 100%;
+	top: 0;
+	left: 0;
+	color: $isi-text-color;
+	font-size: 9px;
 }
