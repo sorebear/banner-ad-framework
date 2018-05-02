@@ -2,7 +2,12 @@
 {% set size = "width: <%width%>px; height:<%height%>px;" %}
 {% from "./links.html" import link, closeLink, enabler %}
 
-{% extends "layout.html" %}
+{% extends "layout-static.html" %}
+
+{% block stylesheets %}
+   {% if orientationStyle %}<link rel="stylesheet" href="{{ orientationStyle }}">{% endif %}
+   {% if pageStyle %}<link rel="stylesheet" href="{{ pageStyle }}">{% endif %}
+{% endblock %}
 
 {% block bodyClass %}{% endblock %}
 

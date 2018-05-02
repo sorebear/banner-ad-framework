@@ -7,9 +7,11 @@
       <meta name="format-detection" content="telephone=no"/>
       <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
       <link rel="stylesheet" href="css/main.css">
-      <script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>
+      {{ enabler() }}
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+      <script type="text/javascript" src="js/bundle.js"></script>
    </head>
-   <body class="{% block bodyClass %}{% endblock %} static">
+   <body class="{% block bodyClass %}{% endblock %}">
       <div class="body-wrapper">
          <div id="banner-wrapper" class="banner-wrapper {{ banner }}" style="{{ size }}">
             <div id="main-content-wrapper" class="main-content-wrapper">
@@ -22,7 +24,7 @@
                <div id="isi-container" class="isi-container">
                   <div id="isi" class="isi">
 
-                     {% block isi %}{% endblock %}
+                     
 
                   </div>
                </div>

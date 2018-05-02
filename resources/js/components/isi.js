@@ -1,8 +1,9 @@
 module.exports = function(IScroll) {
+	/* Change these standard variables to customize the ISI functionality */
 	this.scrollSpeedMultiplier = -100;
-	this.isiBottomPadding = 10;
+	this.isiBottomPadding = 5;
 	this.expandIsiOnHover = true;
-
+	/* End of Standard Variables */
 	this.initialized = false;
 	this.mouseOverIsi = false;
 	this.isi = document.getElementById('isi');

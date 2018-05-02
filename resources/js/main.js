@@ -3,6 +3,11 @@ var enabler = require('./components/enabler.js');
 var IScroll = require('./vendor/iscroll-probe.js');
 
 var politeInit = function() {
+	var isi = new Isi(IScroll);
+	// If you dont want an auto-scrolling Isi
+	// Remove this init function 
+	isi.init();
+
 	var animationLoader = (function() {
 		var animator = {};
 		var animationSpeed = 1500;
@@ -24,8 +29,6 @@ var politeInit = function() {
 }
 
 window.addEventListener('load', function() {
-	politeInit();
-	
-	var isi = new Isi(IScroll);
-	// isi.init();
+	// This function call is dynamically changed by different build processes
+	enabler(politeInit);
 });

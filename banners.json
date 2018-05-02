@@ -5,7 +5,7 @@
       "href": "http://google.com"
     },
     "secondTestLink": {
-      "displayName": "Second Test Link",
+      "displayName": "Test Link 2",
       "href": "http://w3schools.com"
     }
   },
@@ -13,27 +13,38 @@
     "medium-rectangle": {
       "width": 320,
       "height": 250,
-      "orientation": "vertical" 
+      "orientation": "vertical",
+      "static": false
     },
     "large-rectangle": {
       "width": 336,
       "height": 280,
-      "orientation": "vertical"
+      "orientation": "vertical",
+      "static": false
     },
     "leaderboard": {
       "width": 728,
       "height": 90,
-      "orientation": "horizontal"
+      "orientation": "horizontal",
+      "static": false
     },
     "wide-skyscraper": {
       "width": 160,
       "height": 600,
-      "orientation": "vertical"
+      "orientation": "vertical",
+      "static": false
     },
     "wide-skyscraper-2": {
       "width": 260,
       "height": 800,
-      "orientation": "vertical"
+      "orientation": "vertical",
+      "static": false
+    },
+    "large-rectangle_static": {
+      "width": 336,
+      "height": 280,
+      "orientation": "vertical",
+      "static": true
     }
   }
 }

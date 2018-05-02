@@ -1,19 +1,18 @@
-module.exports = function enablerr(callback) {
+module.exports = function enabler(callback) {
   function enablerInitHandler(callback) {
     if ($('.testLink').length) {
-      $('.testLink').on('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        Enabler.exit('Test Link');
-      });
-    }
-    if ($('.secondTestLink').length) {
-      $('.secondTestLink').on('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        Enabler.exit('Second Test Link');
-      });
-    }
+  $('.testLink').on('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    Enabler.exit('Test Link');
+  });
+}if ($('.secondTestLink').length) {
+  $('.secondTestLink').on('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    Enabler.exit('Test Link 2');
+  });
+}
     if (Enabler.isPageLoaded()) {
       callback()
     } else {
@@ -21,11 +20,11 @@ module.exports = function enablerr(callback) {
     }
   }
 
-  if (Enabler.isInitialized()) {
-		enablerInitHandler(callback);
-	} else {
-		Enabler.addEventListener(studio.events.StudioEvent.INIT, function() { 
-			enablerInitHandler(callback); 
-		});
-	}
+  if (Enabler.isPageLoaded()) {
+    enablerInitHandler(callback);
+  } else {
+    Enabler.addEventListener(studio.events.StudioEvent.INIT, function() {
+      enablerInitHandler(callback);
+    });
+  }
 }

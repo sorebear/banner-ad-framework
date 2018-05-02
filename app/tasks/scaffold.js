@@ -101,7 +101,8 @@ module.exports = (gulp, banners) => {
 
 	// Scaffold HTML
 	const scaffoldHTML = banner => {
-		template = banner.includes('static') ? 
+		console.log(banners.banners[banner].static);
+		template = banners.banners[banner].static ? 
 			new Templater(`${TEMPLATE_PATH}/htmlStatic.tpl`, banner) : 
 			new Templater(`${TEMPLATE_PATH}/html.tpl`, banner);
 		checkThenWriteFile(
