@@ -2,7 +2,7 @@ var Isi = require('./components/isi.js');
 var enabler = require('./components/enabler.js');
 var IScroll = require('./vendor/iscroll-probe.js');
 
-var politeInit = function() {
+module.exports = function() {
 	var isi = new Isi(IScroll);
 	// If you dont want an auto-scrolling Isi
 	// Remove this init function 
@@ -27,8 +27,3 @@ var politeInit = function() {
 
 	animationLoader.init();
 }
-
-window.addEventListener('load', function() {
-	// This function call is dynamically changed by different build processes
-	enabler(politeInit);
-});

@@ -8,8 +8,24 @@
 
 @import "../partials/all";
 
-.<%banner-title%> {
-/* Declare banner specific styles here */
+#main-panel.<%banner-title%> {
+  /* Declare banner specific styles here */
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: <%collapsedWidth%>px;
+  height: <%collapsedHeight%>px;
 
+  #collapsed-panel {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: <%collapsedWidth%>px;
+    height: <%collapsedHeight%>px;
+  }
+
+  #expanded-panel {
+    display: none;
+  }
 
 }

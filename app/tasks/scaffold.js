@@ -43,9 +43,22 @@ module.exports = (gulp, banners) => {
 			let link = fs.readFileSync(`${TEMPLATE_PATH}/index.tpl`, 'utf8');
 			link = link.replace(/<%banner%>/g, banner);
 			tpl += link;
-			scaffoldHTML(banner);
-			scaffoldSCSS(banner);
-			scaffoldIMG(banner);
+			const isExpanding = banners.banners[banner].expanded ? true : false;
+			const dims = {
+				orientation: banners.banners[banner].orientation,
+				collapsedWidth: banners.banners[banner].width,
+				collapsedHeight: banners.banners[banner].height,
+				expanding: isExpanding,
+				expandedWidth: isExpanding ? banners.banners[banner].expanded.width : null,
+				expandedHeight: isExpanding ? banners.banners[banner].expanded.height : null,
+				expandDirection: isExpanding ? banners.banners[banner].expanded.expandDirection : null
+			}
+			dims.topOffset = !dims.expanding || dims.expandDirection.includes('right') ? 0 : dims.expandedHeight - dims.collapsedHeight ;
+			dims.leftOffset = !dims.expanding || dims.expandDirection.includes('down') ? 0 : dims.expandedWidth - dims.collapsedWidth
+			scaffoldHTML(banner, dims);
+			scaffoldSCSS(banner, dims);
+			scaffoldJS(banner, dims);
+			scaffoldIMG(banner, dims);
 		}
 		scaffoldExitJS(banners);
 		fs.writeFileSync(`${HTML_PATH}/index.html`, tpl);
@@ -78,11 +91,40 @@ module.exports = (gulp, banners) => {
 		}
 	};
 
+	const scaffoldJS = (banner, dims) => {
+		let tpl = dims.expanding ? 
+			fs.readFileSync(`${TEMPLATE_PATH}/jsExpanding.tpl`, 'utf8') :
+			fs.readFileSync(`${TEMPLATE_PATH}/js.tpl`, 'utf8');
+		let exitLinks = '';
+		for (link in banners.links) {
+			let exitLink = fs.readFileSync(`${TEMPLATE_PATH}/exitLink.tpl`, 'utf8');
+			exitLink = exitLink.replace(/<%exit%>/g, link);
+			exitLink = exitLink.replace(/<%exitFormatted%>/g, banners.links[link].displayName)
+			exitLinks += exitLink
+		}
+		tpl = tpl.replace('<%exitLinks%>', exitLinks);
+		tpl = tpl.replace(/<%leftOffset%>/g, dims.leftOffset);
+		tpl = tpl.replace(/<%topOffset%>/g, dims.topOffset);
+		tpl = tpl.replace(/<%expandedWidth%>/g, dims.expandedWidth);
+		tpl = tpl.replace(/<%expandedHeight%>/g, dims.expandedHeight);
+		fs.writeFileSync(`${JS_PATH}/pages/${banner}.js`, tpl);
+	}
+
 	// Scaffold SCSS
-	const scaffoldSCSS = banner => {
-		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/scss.tpl`, 'utf8');
-		tpl = tpl.replace('<%orientation%>', banners.banners[banner]['orientation']);
-		tpl = tpl.replace('<%banner-title%>', banner);
+	const scaffoldSCSS = (banner, dims) => {
+		let tpl = dims.expanding ? 
+			fs.readFileSync(`${TEMPLATE_PATH}/scssExpanding.tpl`, 'utf8') :
+			fs.readFileSync(`${TEMPLATE_PATH}/scss.tpl`, 'utf8');
+		tpl = tpl.replace(/<%orientation%>/g, dims.orientation);
+		tpl = tpl.replace(/<%banner-title%>/g, banner);
+		tpl = tpl.replace(/<%collapsedWidth%>/g, dims.collapsedWidth);
+		tpl = tpl.replace(/<%collapsedHeight%>/g, dims.collapsedHeight);
+		if (dims.expanding) {
+			tpl = tpl.replace(/<%expandedWidth%>/g, dims.expandedWidth);
+			tpl = tpl.replace(/<%expandedHeight%>/g, dims.expandedHeight);
+			tpl = tpl.replace(/<%leftPosition%>/g, dims.leftOffset);
+			tpl = tpl.replace(/<%topPosition%>/g, dims.topOffset);
+		}
 		checkThenWriteFile(`${SCSS_PATH}/pages/${banner}.scss`, tpl);
 	};
 
@@ -92,16 +134,14 @@ module.exports = (gulp, banners) => {
 		const heightTag = '<%height%>';
 		let tpl = fs.readFileSync(filePath, 'utf8');
 		tpl = tpl.replace(nameTag, banner);
-		tpl = tpl.replace(heightTag, banners.banners[banner]['height']);
-		tpl = tpl.replace(widthTag, banners.banners[banner]['width']);
+		tpl = tpl.replace(heightTag, banners.banners[banner].height);
+		tpl = tpl.replace(widthTag, banners.banners[banner].width);
 		this.get = () => {
 			return tpl;
 		}
 	}
 
-	// Scaffold HTML
 	const scaffoldHTML = banner => {
-		console.log(banners.banners[banner].static);
 		template = banners.banners[banner].static ? 
 			new Templater(`${TEMPLATE_PATH}/htmlStatic.tpl`, banner) : 
 			new Templater(`${TEMPLATE_PATH}/html.tpl`, banner);
@@ -111,7 +151,6 @@ module.exports = (gulp, banners) => {
 		);
 	};
 
-	// Scaffold IMG
 	const scaffoldIMG = banner => {
 		checkThenMakeDir(`${IMG_PATH}/pages/${banner}`);
 	};

@@ -28,7 +28,7 @@ module.exports = (gulp, banners) => {
 		return Object.keys(banners.banners).forEach(banner => {
 			const { orientation } = banners.banners[banner];
 			const dataObject = {
-				setDoubleclick: false,
+				doubleclick: '',
 				orientationStyle: `css/${orientation}.css`
 			};
 			Object.keys(banners.links).forEach(link => {
@@ -51,7 +51,7 @@ module.exports = (gulp, banners) => {
 		return Object.keys(banners.banners).forEach(banner => {
 			const { orientation } = banners.banners[banner];
 			const dataObject = {
-				setDoubleclick: true,
+				doubleclick: 'doubleclick',
 				orientationStyle: `css/${orientation}.css`
 			};
 			Object.keys(banners.links).forEach(link => {

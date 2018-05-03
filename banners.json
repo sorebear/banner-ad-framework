@@ -14,7 +14,14 @@
       "width": 320,
       "height": 250,
       "orientation": "vertical",
-      "static": false
+      "static": false,
+      "expanded": {
+        "width": 500,
+        "height": 250,
+        "expandDirection": [
+          "left"
+        ]
+      }
     },
     "large-rectangle": {
       "width": 336,

@@ -5,6 +5,7 @@
       <meta charset="utf-8">
       <!-- disable IE11 phone number detection -->
       <meta name="format-detection" content="telephone=no"/>
+      <meta name="ad.size" content="width={{ width }}, height={{ height }}">
       <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
       <link rel="stylesheet" href="css/main.css">
       {{ enabler() }}
@@ -13,7 +14,7 @@
    </head>
    <body class="{% block bodyClass %}{% endblock %}">
       <div class="body-wrapper">
-         <div id="banner-wrapper" class="banner-wrapper {{ banner }}" style="{{ size }}">
+         <div id="banner-wrapper" class="banner-wrapper {{ banner }} {{ doubleclick }}">
             <div id="main-content-wrapper" class="main-content-wrapper">
 
                {% block content %}{% endblock %}

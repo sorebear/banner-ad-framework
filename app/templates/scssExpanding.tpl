@@ -1,34 +1,34 @@
 /* Place SCSS for horizontal banners here */
 @import "../modules/all";
 @import "../vendor/normalize";
-@import "../orientation/vertical";
+@import "../orientation/<%orientation%>";
 
 /* Alter variables for one specific banner by redefining them here */
 
 
 @import "../partials/all";
 
-#main-panel.medium-rectangle {
+#main-panel.<%banner-title%> {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 500px;
-  height: 250px;
+  width: <%expandedWidth%>px;
+  height: <%expandedHeight%>px;
 
   #collapsed-panel {
     position: absolute;
-    top: 0px;
-    left: 180px;
-    width: 320px;
-    height: 250px;
+    top: <%topPosition%>px;
+    left: <%leftPosition%>px;
+    width: <%collapsedWidth%>px;
+    height: <%collapsedHeight%>px;
   }
 
   #expanded-panel {
     position: absolute;
     top: 0px;
     left: 0px;
-    width: 500px;
-    height: 250px;
+    width: <%expandedWidth%>px;
+    height: <%expandedHeight%>px;
   }
 
   /* Declare banner specific styles here */

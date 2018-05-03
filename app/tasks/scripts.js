@@ -13,13 +13,7 @@ module.exports = (gulp, banners) => {
 	gulp.task('scripts-develop', () => {
 		return Object.keys(banners.banners).forEach(banner => {
 			const { orientation } = banners.banners[banner];
-			if (banners.banners[banner].static) {
-				return browserify(`${JS_PATH}/main-static.js`)
-				.bundle()
-				.pipe(source('bundle.js'))
-				.pipe(gulp.dest(`dist/${banner}/js`));
-			}
-			return browserify([`${JS_PATH}/main.js`, `${JS_PATH}/orientation/${orientation}.js`])
+			return browserify([`${JS_PATH}/pages/${banner}.js`, `${JS_PATH}/orientation/${orientation}.js`])
 				.bundle()
 				.pipe(source('bundle.js'))
 				.pipe(gulp.dest(`dist/${banner}/js`));

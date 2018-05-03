@@ -1,38 +1,57 @@
 <!doctype html>
 <html>
-   <head>
-      <title>{{ banner }}</title>
-      <meta charset="utf-8">
-      <!-- disable IE11 phone number detection -->
-      <meta name="format-detection" content="telephone=no"/>
-      <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-      <link rel="stylesheet" href="css/main.css">
-      {{ enabler() }}
-      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-      <script type="text/javascript" src="js/bundle.js"></script>
-   </head>
-   <body class="{% block bodyClass %}{% endblock %} static">
-      <div class="body-wrapper">
-         <div id="banner-wrapper" class="banner-wrapper {{ banner }}" style="{{ size }}">
-            <div id="main-content-wrapper" class="main-content-wrapper">
+  <head>
+    <title>{{ banner }}</title>
+    <meta charset="utf-8">
+    <!-- disable IE11 phone number detection -->
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="ad.size" content="width={{ width }}, height={{ height }}">
+    <link rel="stylesheet" href="css/main.css">
+    {{ enabler() }}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/bundle.js"></script>
+  </head>
+  <body class="{% block bodyClass %}{% endblock %}">
+    <div id="main-panel" class="main-panel {{ banner }} {{ doubleclick }}">
 
-               {% block content %}{% endblock %}
-
+      <div id="collapsed-panel">
+        <div id="main-content-wrapper" class="main-content-wrapper">
+          
+          {% block content %}{% endblock %}
+          
+          
+        </div>
+        <div id="isi-container-wrapper" class="isi-container-wrapper">
+          <div id="isi-container" class="isi-container">
+            <div id="isi" class="isi">
+              
+              {% block isi %}{% endblock %}
+              
             </div>
+          </div>
+        </div>
+        <div id="expand-button"></div>
+      </div>
 
-            <div id="isi-container-wrapper" class="isi-container-wrapper">
-               <div id="isi-container" class="isi-container">
-                  <div id="isi" class="isi">
-
-                     {% block isi %}{% endblock %}
-
-                  </div>
-               </div>
+      <div id="expanded-panel">
+        <div id="main-content-wrapper" class="main-content-wrapper">
+          
+        </div>
+        <div id="isi-container-wrapper" class="isi-container-wrapper">
+          <div id="isi-container" class="isi-container">
+            <div id="isi" class="isi">
+              
+          
+              
             </div>
-         </div>
+          </div>
+        </div>
       </div>
-      <div id="error-wrapper">
-         <pre id="errors"></pre>
-      </div>
-   </body>
+
+    </div>
+    <div id="error-wrapper">
+      <pre id="errors"></pre>
+    </div>
+  </body>
 </html>
