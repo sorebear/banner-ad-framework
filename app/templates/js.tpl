@@ -3,7 +3,9 @@ var mainJs = require('../main.js');
 window.addEventListener('load', function() {
 	if ($('#main-panel').hasClass('doubleclick')) {
     function enablerInitHandler() {
+
       <%exitLinks%>
+
       if (Enabler.isPageLoaded()) {
         mainJs();
       } else {
@@ -11,7 +13,7 @@ window.addEventListener('load', function() {
       }
     }
 
-    if (Enabler.isPageLoaded()) {
+    if (Enabler.isInitialized()) {
       enablerInitHandler();
     } else {
       Enabler.addEventListener(studio.events.StudioEvent.INIT, function() {

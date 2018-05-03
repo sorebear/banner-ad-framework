@@ -9,7 +9,6 @@
 @import "../partials/all";
 
 #main-panel.<%banner-title%> {
-  /* Declare banner specific styles here */
   position: absolute;
   top: 0px;
   left: 0px;
@@ -27,5 +26,7 @@
   #expanded-panel {
     display: none;
   }
+
+  /* Declare banner specific styles here */
 
 }

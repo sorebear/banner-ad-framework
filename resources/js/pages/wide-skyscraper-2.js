@@ -3,6 +3,7 @@ var mainJs = require('../main.js');
 window.addEventListener('load', function() {
 	if ($('#main-panel').hasClass('doubleclick')) {
     function enablerInitHandler() {
+
       if ($('.testLink').length) {
   $('.testLink').on('click', function (e) {
     e.preventDefault();
@@ -16,6 +17,7 @@ window.addEventListener('load', function() {
     Enabler.exit('Test Link 2');
   });
 }
+
       if (Enabler.isPageLoaded()) {
         mainJs();
       } else {
@@ -23,7 +25,7 @@ window.addEventListener('load', function() {
       }
     }
 
-    if (Enabler.isPageLoaded()) {
+    if (Enabler.isInitialized()) {
       enablerInitHandler();
     } else {
       Enabler.addEventListener(studio.events.StudioEvent.INIT, function() {

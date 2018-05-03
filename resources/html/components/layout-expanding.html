@@ -14,20 +14,41 @@
   </head>
   <body class="{% block bodyClass %}{% endblock %}">
     <div id="main-panel" class="{{ banner }} {{ doubleclick }}">
-      <div id="main-content-wrapper" class="main-content-wrapper">
-          
-        {% block content %}{% endblock %}
-              
-      </div>
-      <div id="isi-container-wrapper" class="isi-container-wrapper">
-        <div id="isi-container" class="isi-container">
-          <div id="isi" class="isi">        
 
-            {% block isi %}{% endblock %}
+      <div id="collapsed-panel">
+        <div id="main-content-wrapper" class="main-content-wrapper">
+          
+          {% block content %}{% endblock %}
+          
+          
+        </div>
+        <div id="isi-container-wrapper" class="isi-container-wrapper">
+          <div id="isi-container" class="isi-container">
+            <div id="isi" class="isi">
               
+              {% block isi %}{% endblock %}
+              
+            </div>
+          </div>
+        </div>
+        <div id="expand-button"></div>
+      </div>
+
+      <div id="expanded-panel">
+        <div id="main-content-wrapper" class="main-content-wrapper">
+          
+        </div>
+        <div id="isi-container-wrapper" class="isi-container-wrapper">
+          <div id="isi-container" class="isi-container">
+            <div id="isi" class="isi">
+              
+          
+              
+            </div>
           </div>
         </div>
       </div>
+
     </div>
     <div id="error-wrapper">
       <pre id="errors"></pre>

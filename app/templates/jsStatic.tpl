@@ -2,19 +2,7 @@ window.addEventListener('load', function() {
 	if ($('#main-panel').hasClass('doubleclick')) {
 		function enablerInitHandler() {
 			
-      if ($('.testLink').length) {
-  $('.testLink').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    Enabler.exit('Test Link');
-  });
-}if ($('.secondTestLink').length) {
-  $('.secondTestLink').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    Enabler.exit('Test Link 2');
-  });
-}
+      <%exitLinks%>
 
 			if (Enabler.isPageLoaded()) {
 				// Do Something When Page Loads

@@ -1,31 +1,26 @@
-var mainJs = require('../main.js');
-var Expanding = require('../components/expanding.js');
+var MainExpandingJs = require('../main-expanding.js');
 
 window.addEventListener('load', function() {
 	if ($('#main-panel').hasClass('doubleclick')) {
-		function enablerInitHandler() {
-      var expanding = new Expanding;
+    function enablerInitHandler() {
+      var mainExpandingJs = new MainExpandingJs;
       var isExpanded = false;
     
       function expandStartHandler() {
-        console.log('I\'ve Started Expanding');
-        expanding.expandStartAnimation(function() { Enabler.finishExpand() });
+        mainExpandingJs.expandStartAnimation(function() { Enabler.finishExpand() });
       }
     
       function expandFinishHandler() {
-        console.log('I\'ve Finished Expanding');
-        expanding.expandFinishAnimation();
+        mainExpandingJs.expandFinishAnimation();
         isExpanded = true;
       }
     
       function collapseStartHandler() {
-        console.log('I\'ve Started Collapsing');
-        expanding.collapseStartAnimation(function() { Enabler.finishCollapse() });
+        mainExpandingJs.collapseStartAnimation(function() { Enabler.finishCollapse() });
       }
     
       function collapseFinishHandler() {
-        console.log('I\'ve Finished Collapsing');
-        expanding.collapseFinishAnimation()
+        mainExpandingJs.collapseFinishAnimation()
         isExpanded = false;
       }
   
@@ -38,59 +33,66 @@ window.addEventListener('load', function() {
       Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, expandFinishHandler);
       Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_START, collapseStartHandler);
       Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, collapseFinishHandler);
-      
-			if ($('.testLink').length) {
-				$('.testLink').on('click', function(e) {
-					e.preventDefault();
-					e.stopPropagation();
-					Enabler.exit('Test Link');
-				});
-			}
-			if ($('.secondTestLink').length) {
-				$('.secondTestLink').on('click', function(e) {
-					e.preventDefault();
-					e.stopPropagation();
-					Enabler.exit('Test Link 2');
-				});
-			}
-			if (Enabler.isPageLoaded()) {
-				mainJs();
-			} else {
-				Enabler.addEventListener(studio.events.StudioEvent.PAGE_LOADED, mainJs);
-			}
-		}
 
-		if (Enabler.isPageLoaded()) {
-			Enabler.setExpandingPixelOffsets(180, 0, 500, 250);
-			enablerInitHandler();
-		} else {
-			Enabler.addEventListener(studio.events.StudioEvent.INIT, function() {
-				enablerInitHandler();
-			});
-		}
-	} else {
-    var expanding = new Expanding;
+      if ($('.testLink').length) {
+  $('.testLink').on('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    Enabler.exit('Test Link');
+  });
+}if ($('.secondTestLink').length) {
+  $('.secondTestLink').on('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    Enabler.exit('Test Link 2');
+  });
+}
+
+			if (Enabler.isPageLoaded()) {
+				mainExpandingJs.init();
+			} else {
+				Enabler.addEventListener(studio.events.StudioEvent.PAGE_LOADED, mainExpandingJs.init);
+			}
+    }
+
+    if (Enabler.isInitialized()) {
+      Enabler.setExpandingPixelOffsets(
+        180,
+        0,
+        500,
+        250
+      );
+      enablerInitHandler();
+    } else {
+      Enabler.addEventListener(studio.events.StudioEvent.INIT, function() {
+        Enabler.setExpandingPixelOffsets(
+          180,
+          0,
+          500,
+          250
+        );
+        enablerInitHandler();
+      });
+    }
+  } else {
+    var mainExpandingJs = new MainExpandingJs;
     var isExpanded = false;
 
     function expandStartHandler() {
-      console.log('I\'ve Started Expanding');
-      expanding.expandStartAnimation(function() { expandFinishHandler() });
+      mainExpandingJs.expandStartAnimation(function() { expandFinishHandler() });
     }
   
     function expandFinishHandler() {
-      console.log('I\'ve Finished Expanding');
-      expanding.expandFinishAnimation();
+      mainExpandingJs.expandFinishAnimation();
       isExpanded = true;
     }
   
     function collapseStartHandler() {
-      console.log('I\'ve Started Collapsing');
-      expanding.collapseStartAnimation(function() { collapseFinishHandler() });
+      mainExpandingJs.collapseStartAnimation(function() { collapseFinishHandler() });
     }
   
     function collapseFinishHandler() {
-      console.log('I\'ve Finished Collapsing');
-      expanding.collapseFinishAnimation()
+      mainExpandingJs.collapseFinishAnimation()
       isExpanded = false;
     }
 
@@ -99,6 +101,6 @@ window.addEventListener('load', function() {
     }
 
     document.getElementById('expand-button').addEventListener('click', actionResizeHandler, false);
-		mainJs();
-	}
+		mainExpandingJs.init();
+  }
 });

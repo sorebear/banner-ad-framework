@@ -1,6 +1,6 @@
-{% set banner = "medium-rectangle" %}
-{% set width = 320 %} 
-{% set height = 250 %}
+{% set banner = "<%fileName%>" %}
+{% set width = <%width%> %} 
+{% set height = <%height%> %}
 {% from "./links.html" import link, closeLink, enabler %}
 
 {% extends "layout-expanding.html" %}

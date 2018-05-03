@@ -18,7 +18,3 @@
   <!--enter page specific content here-->
 
 {% endblock %}
-
-{% block isi %}
-  {% include './isi.html' %}
-{% endblock %}
