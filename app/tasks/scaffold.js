@@ -53,8 +53,8 @@ module.exports = (gulp, banners) => {
 				expandedHeight: isExpanding ? banners.banners[banner].expanded.height : null,
 				expandDirection: isExpanding ? banners.banners[banner].expanded.expandDirection : null
 			}
-			dims.topOffset = !dims.expanding || dims.expandDirection.includes('right') ? 0 : dims.expandedHeight - dims.collapsedHeight ;
-			dims.leftOffset = !dims.expanding || dims.expandDirection.includes('down') ? 0 : dims.expandedWidth - dims.collapsedWidth
+			dims.topOffset = !dims.expanding || dims.expandDirection.includes('right') ? 0 : dims.expandedHeight - dims.collapsedHeight;
+			dims.leftOffset = !dims.expanding || dims.expandDirection.includes('down') ? 0 : dims.expandedWidth - dims.collapsedWidth;
 			scaffoldHTML(banner, dims);
 			scaffoldSCSS(banner, dims);
 			scaffoldJS(banner, dims);
@@ -63,70 +63,6 @@ module.exports = (gulp, banners) => {
 		scaffoldExitJS(banners);
 		fs.writeFileSync(`${HTML_PATH}/index.html`, tpl);
 	});
-
-	
-	// Scaffold Exit JS
-	const scaffoldExitJS = banners => {
-		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/enabler.tpl`, 'utf8');
-		let exitLinks = '';
-		for (link in banners.links) {
-			let exitLink = fs.readFileSync(`${TEMPLATE_PATH}/exitLink.tpl`, 'utf8');
-			exitLink = exitLink.replace(/<%exit%>/g, link);
-			exitLink = exitLink.replace(/<%exitFormatted%>/g, banners.links[link].displayName)
-			exitLinks += exitLink
-		}
-		tpl = tpl.replace('<%exitLinks%>', exitLinks);
-		fs.writeFileSync(`${JS_PATH}/components/enabler.js`, tpl);
-	}
-
-	const checkThenMakeDir = path => {
-		if (!fs.existsSync(path)) {
-			fs.mkdirSync(path);
-		}
-	};
-
-	const checkThenWriteFile = (path, content) => {
-		if (!fs.existsSync(path)) {
-			fs.writeFileSync(path, content);
-		}
-	};
-
-	const scaffoldJS = (banner, dims) => {
-		let tpl = dims.expanding ? 
-			fs.readFileSync(`${TEMPLATE_PATH}/jsExpanding.tpl`, 'utf8') :
-			fs.readFileSync(`${TEMPLATE_PATH}/js.tpl`, 'utf8');
-		let exitLinks = '';
-		for (link in banners.links) {
-			let exitLink = fs.readFileSync(`${TEMPLATE_PATH}/exitLink.tpl`, 'utf8');
-			exitLink = exitLink.replace(/<%exit%>/g, link);
-			exitLink = exitLink.replace(/<%exitFormatted%>/g, banners.links[link].displayName)
-			exitLinks += exitLink
-		}
-		tpl = tpl.replace('<%exitLinks%>', exitLinks);
-		tpl = tpl.replace(/<%leftOffset%>/g, dims.leftOffset);
-		tpl = tpl.replace(/<%topOffset%>/g, dims.topOffset);
-		tpl = tpl.replace(/<%expandedWidth%>/g, dims.expandedWidth);
-		tpl = tpl.replace(/<%expandedHeight%>/g, dims.expandedHeight);
-		fs.writeFileSync(`${JS_PATH}/pages/${banner}.js`, tpl);
-	}
-
-	// Scaffold SCSS
-	const scaffoldSCSS = (banner, dims) => {
-		let tpl = dims.expanding ? 
-			fs.readFileSync(`${TEMPLATE_PATH}/scssExpanding.tpl`, 'utf8') :
-			fs.readFileSync(`${TEMPLATE_PATH}/scss.tpl`, 'utf8');
-		tpl = tpl.replace(/<%orientation%>/g, dims.orientation);
-		tpl = tpl.replace(/<%banner-title%>/g, banner);
-		tpl = tpl.replace(/<%collapsedWidth%>/g, dims.collapsedWidth);
-		tpl = tpl.replace(/<%collapsedHeight%>/g, dims.collapsedHeight);
-		if (dims.expanding) {
-			tpl = tpl.replace(/<%expandedWidth%>/g, dims.expandedWidth);
-			tpl = tpl.replace(/<%expandedHeight%>/g, dims.expandedHeight);
-			tpl = tpl.replace(/<%leftPosition%>/g, dims.leftOffset);
-			tpl = tpl.replace(/<%topPosition%>/g, dims.topOffset);
-		}
-		checkThenWriteFile(`${SCSS_PATH}/pages/${banner}.scss`, tpl);
-	};
 
 	const Templater = function (filePath, banner) {
 		const nameTag = '<%fileName%>';
@@ -151,8 +87,71 @@ module.exports = (gulp, banners) => {
 		);
 	};
 
+	// Scaffold Exit JS
+	const scaffoldExitJS = (banners, dims) => {
+		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/enabler.tpl`, 'utf8');
+		let exitLinks = '';
+		for (link in banners.links) {
+			let exitLink = fs.readFileSync(`${TEMPLATE_PATH}/exitLink.tpl`, 'utf8');
+			exitLink = exitLink.replace(/<%exit%>/g, link);
+			exitLink = exitLink.replace(/<%exitFormatted%>/g, banners.links[link].displayName)
+			exitLinks += exitLink
+		}
+		tpl = tpl.replace('<%exitLinks%>', exitLinks);
+		fs.writeFileSync(`${JS_PATH}/components/enabler.js`, tpl);
+	};
+
+	const scaffoldSCSS = (banner, dims) => {
+		let tpl = dims.expanding ? 
+			fs.readFileSync(`${TEMPLATE_PATH}/scssExpanding.tpl`, 'utf8') :
+			fs.readFileSync(`${TEMPLATE_PATH}/scss.tpl`, 'utf8');
+		tpl = tpl.replace(/<%orientation%>/g, dims.orientation);
+		tpl = tpl.replace(/<%banner-title%>/g, banner);
+		tpl = tpl.replace(/<%collapsedWidth%>/g, dims.collapsedWidth);
+		tpl = tpl.replace(/<%collapsedHeight%>/g, dims.collapsedHeight);
+		if (dims.expanding) {
+			tpl = tpl.replace(/<%expandedWidth%>/g, dims.expandedWidth);
+			tpl = tpl.replace(/<%expandedHeight%>/g, dims.expandedHeight);
+			tpl = tpl.replace(/<%leftPosition%>/g, dims.leftOffset);
+			tpl = tpl.replace(/<%topPosition%>/g, dims.topOffset);
+		}
+		checkThenWriteFile(`${SCSS_PATH}/pages/${banner}.scss`, tpl);
+	};
+
+	const scaffoldJS = (banner, dims) => {
+		let tpl = dims.expanding ? 
+			fs.readFileSync(`${TEMPLATE_PATH}/jsExpanding.tpl`, 'utf8') :
+			fs.readFileSync(`${TEMPLATE_PATH}/js.tpl`, 'utf8');
+		let exitLinks = '';
+		for (link in banners.links) {
+			let exitLink = fs.readFileSync(`${TEMPLATE_PATH}/exitLink.tpl`, 'utf8');
+			exitLink = exitLink.replace(/<%exit%>/g, link);
+			exitLink = exitLink.replace(/<%exitFormatted%>/g, banners.links[link].displayName)
+			exitLinks += exitLink
+		}
+		tpl = tpl.replace(/<%exitLinks%>/g, exitLinks);
+		tpl = tpl.replace(/<%leftOffset%>/g, dims.leftOffset);
+		tpl = tpl.replace(/<%topOffset%>/g, dims.topOffset);
+		tpl = tpl.replace(/<%expandedWidth%>/g, dims.expandedWidth);
+		tpl = tpl.replace(/<%expandedHeight%>/g, dims.expandedHeight);
+		fs.writeFileSync(`${JS_PATH}/pages/${banner}.js`, tpl);
+	}
+
 	const scaffoldIMG = banner => {
 		checkThenMakeDir(`${IMG_PATH}/pages/${banner}`);
+	};
+
+	// Helper Functions
+	const checkThenMakeDir = path => {
+		if (!fs.existsSync(path)) {
+			fs.mkdirSync(path);
+		}
+	};
+
+	const checkThenWriteFile = (path, content) => {
+		if (!fs.existsSync(path)) {
+			fs.writeFileSync(path, content);
+		}
 	};
 
 	// Clean Scaffold
