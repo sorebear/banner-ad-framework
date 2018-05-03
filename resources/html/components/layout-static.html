@@ -12,8 +12,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/bundle.js"></script>
   </head>
-  <body class="{% block bodyClass %}{% endblock %}">
-    <div id="main-panel" class="{{ banner }} {{ doubleclick }} static">
+  <body>
+    <div id="main-panel" class="{{ banner }} {{ doubleclick }} static {% block bannerClass %}{% endblock %}">
       <div id="main-content-wrapper" class="main-content-wrapper">
         
         {% block content %}{% endblock %}

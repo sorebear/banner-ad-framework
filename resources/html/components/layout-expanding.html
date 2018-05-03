@@ -12,21 +12,19 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/bundle.js"></script>
   </head>
-  <body class="{% block bodyClass %}{% endblock %}">
-    <div id="main-panel" class="{{ banner }} {{ doubleclick }}">
-
+  <body>
+    <div id="main-panel" class="{{ banner }} {{ doubleclick }} {% block bannerClass %}{% endblock %}">
       <div id="collapsed-panel">
         <div id="main-content-wrapper" class="main-content-wrapper">
           
-          {% block content %}{% endblock %}
-          
+          {% block mainContentCollapsed %}{% endblock %}
           
         </div>
         <div id="isi-container-wrapper" class="isi-container-wrapper">
           <div id="isi-container" class="isi-container">
             <div id="isi" class="isi">
               
-              {% block isi %}{% endblock %}
+              {% block isiCollapsed %}{% endblock %}
               
             </div>
           </div>
@@ -36,12 +34,14 @@
       <div id="expanded-panel">
         <div id="main-content-wrapper" class="main-content-wrapper">
           
+          {% block mainContentExpanded %}
+
         </div>
         <div id="isi-container-wrapper" class="isi-container-wrapper">
           <div id="isi-container" class="isi-container">
             <div id="isi" class="isi">
               
-          
+              {% block isiExpanded %}{% endblock %}
               
             </div>
           </div>
