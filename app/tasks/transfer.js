@@ -1,24 +1,6 @@
 module.exports = (gulp, banners) => {
-	// Images
-	gulp.task('transfer-shared', () => {
-		return gulp
-			.src([
-				'resources/**/*',
-				'!resources/html',
-				'!resources/html/**/*',
-				'!resources/img',
-				'!resources/img/**/*',
-				'!resources/js',
-				'!resources/js/**/*',
-				'!resources/scss',
-				'!resources/scss/**/*',
-			])
-			.pipe(gulp.dest('dist/shared-assets'));
-	});
-
-		// Scripts separated
-		gulp.task('transfer-separated', () => {
-			return Object.keys(banners).forEach(banner => {
+		gulp.task('transfer', () => {
+			return Object.keys(banners.banners).forEach(banner => {
 				return gulp
 				.src([
 					'resources/**/*',
@@ -31,18 +13,13 @@ module.exports = (gulp, banners) => {
 							'!resources/scss',
 							'!resources/scss/**/*',
 				])
-				.pipe(gulp.dest(`dist/separated-assets/${banner}/`));
+				.pipe(gulp.dest(`dist/${banner}/`));
 			});
 		});
 
 	// Watch Files For Changes
 	gulp.task('watchTransfer', () => {
-		gulp.start('transfer-shared');
-		gulp.watch([`resources/**/*`], ['transfer-shared']);
-	});
-
-	gulp.task('watchSeparatedTransfer', () => {
-		gulp.start('transfer-separated');
-		gulp.watch([`resources/**/*`], ['transfer-separated']);
+		gulp.start('transfer');
+		gulp.watch([`resources/**/*`], ['transfer']);
 	});
 };

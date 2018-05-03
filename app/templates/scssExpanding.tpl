@@ -12,21 +12,26 @@
   position: absolute;
   top: 0px;
   left: 0px;
-  width: <%collapsedWidth%>px;
-  height: <%collapsedHeight%>px;
+  width: <%expandedWidth%>px;
+  height: <%expandedHeight%>px;
 
   #collapsed-panel {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: <%topPosition%>px;
+    left: <%leftPosition%>px;
     width: <%collapsedWidth%>px;
     height: <%collapsedHeight%>px;
   }
 
   #expanded-panel {
-    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: <%expandedWidth%>px;
+    height: <%expandedHeight%>px;
   }
 
   /* Declare banner specific styles here */
+
 
 }

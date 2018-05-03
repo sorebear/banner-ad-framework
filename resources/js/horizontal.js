@@ -1,1 +1,0 @@
-// Place JS for horizontal banners here

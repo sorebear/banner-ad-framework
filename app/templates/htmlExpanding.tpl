@@ -3,7 +3,7 @@
 {% set height = <%height%> %}
 {% from "./links.html" import link, closeLink, enabler %}
 
-{% extends "layout.html" %}
+{% extends "layout-expanding.html" %}
 
 {% block bodyClass %}{% endblock %}
 
