@@ -24,11 +24,18 @@ window.addEventListener('load', function() {
         isExpanded = false;
       }
   
-      function actionResizeHandler() {
-        isExpanded ? Enabler.requestCollapse() : Enabler.requestExpand();
-      }
+      document.getElementById('collapsed-panel').addEventListener('click', function() {
+  if (!isExpanded) {
+    Enabler.requestExpand();
+  }
+});
 
-      document.getElementById('expand-button').addEventListener('click', actionResizeHandler, false);
+document.getElementById('main-panel').addEventListener('click', function() {
+  if (isExpanded) {
+    Enabler.requestCollapse();
+  }
+});
+
       Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, expandStartHandler);
       Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, expandFinishHandler);
       Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_START, collapseStartHandler);
@@ -39,12 +46,6 @@ window.addEventListener('load', function() {
     e.preventDefault();
     e.stopPropagation();
     Enabler.exit('Test Link');
-  });
-}if ($('.secondTestLink').length) {
-  $('.secondTestLink').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    Enabler.exit('Test Link 2');
   });
 }
 
@@ -58,18 +59,18 @@ window.addEventListener('load', function() {
     if (Enabler.isInitialized()) {
       Enabler.setExpandingPixelOffsets(
         180,
-        0,
+        250,
         500,
-        250
+        500
       );
       enablerInitHandler();
     } else {
       Enabler.addEventListener(studio.events.StudioEvent.INIT, function() {
         Enabler.setExpandingPixelOffsets(
           180,
-          0,
+          250,
           500,
-          250
+          500
         );
         enablerInitHandler();
       });

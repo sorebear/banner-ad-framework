@@ -1,5 +1,4 @@
 var Isi = require('./components/isi.js');
-var enabler = require('./components/enabler.js');
 var IScroll = require('./vendor/iscroll-probe.js');
 
 module.exports = function() {

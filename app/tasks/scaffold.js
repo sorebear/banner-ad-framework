@@ -33,7 +33,7 @@ const IMG_PATH = 'resources/img/';
 module.exports = (gulp, banners) => {
 	gulp.task('scaffold', () => {
 		checkThenMakeDir(RESOURCES_PATH);
-		const subFolders = ['html', 'scss', 'img'];
+		const subFolders = ['html', 'scss', 'js', 'img'];
 		subFolders.forEach(subFolder => {
 			checkThenMakeDir(`${RESOURCES_PATH}/${subFolder}`);
 			checkThenMakeDir(`${RESOURCES_PATH}/${subFolder}/pages`);
@@ -49,13 +49,16 @@ module.exports = (gulp, banners) => {
 				collapsedWidth: banner.width,
 				collapsedHeight: banner.height,
 				expanding: banner.expanded,
+				expandEventHandler: banner.expanded ? banner.expanded.expandEventHandler : null,
 				expandedWidth: banner.expanded ? banner.expanded.width : null,
 				expandedHeight: banner.expanded ? banner.expanded.height : null,
 				expandDirection: banner.expanded ? banner.expanded.expandDirection : null,
 				static: banner.static
 			}
-			dims.topOffset = !dims.expanding || dims.expandDirection.includes('right') ? 0 : dims.expandedHeight - dims.collapsedHeight;
-			dims.leftOffset = !dims.expanding || dims.expandDirection.includes('down') ? 0 : dims.expandedWidth - dims.collapsedWidth;
+			dims.topOffset = !dims.expanding ? 0 : 
+				dims.expandDirection.includes('left') ? dims.expandedHeight - dims.collapsedHeight : 0;
+			dims.leftOffset = !dims.expanding ? 0 :
+				dims.expandDirection.includes('up') ? dims.expandedWidth - dims.collapsedWidth : 0;
 			scaffoldHTML(bannerTitle, dims);
 			scaffoldSCSS(bannerTitle, dims);
 			scaffoldJS(bannerTitle, dims);
@@ -126,6 +129,12 @@ module.exports = (gulp, banners) => {
 		tpl = tpl.replace(/<%topOffset%>/g, dims.topOffset);
 		tpl = tpl.replace(/<%expandedWidth%>/g, dims.expandedWidth);
 		tpl = tpl.replace(/<%expandedHeight%>/g, dims.expandedHeight);
+		const expandEventHandler = dims.expandEventHandler === 'click' ?
+			fs.readFileSync(`${TEMPLATE_PATH}/expandingClickHandler.tpl`, 'utf8') :
+			dims.expandEventHandler === 'hover' ?
+				fs.readFileSync(`${TEMPLATE_PATH}/expandingHoverHandler.tpl`, 'utf8') :
+				''
+		tpl = tpl.replace(/<%expandEventHandler%>/g, expandEventHandler);
 		fs.writeFileSync(`${JS_PATH}/pages/${banner}.js`, tpl);
 	}
 
@@ -151,6 +160,7 @@ module.exports = (gulp, banners) => {
 		return del.sync([
 			`${RESOURCES_PATH}/html/pages`,
 			`${RESOURCES_PATH}/scss/pages`,
+			`${RESOURCES_PATH}/js/pages`,
 			`${RESOURCES_PATH}/img/pages`
 		]);
 	});

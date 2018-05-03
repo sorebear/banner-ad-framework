@@ -8,12 +8,6 @@ window.addEventListener('load', function() {
     e.stopPropagation();
     Enabler.exit('Test Link');
   });
-}if ($('.secondTestLink').length) {
-  $('.secondTestLink').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    Enabler.exit('Test Link 2');
-  });
 }
 
 			if (Enabler.isPageLoaded()) {

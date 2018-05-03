@@ -9,9 +9,9 @@ const banners = require('./banners.json');
 require('./app/getTasks.js')(gulp, banners);
 
 /**
- * Build Project WITH Shared Assets (This is default)
+ * Make Development Build of Process with Watch
  */
-gulp.task('default', ['build']);
+gulp.task('default', ['develop:doubleclick']);
 
 /**
  * Build Project WITH separated Assets
@@ -19,8 +19,7 @@ gulp.task('default', ['build']);
 gulp.task('develop', () => {
 	runSequence(
 		[
-			'clean-dist',
-			'scripts-not-for-doubleclick'
+			'clean-dist'
 		],
 		[
 			'watchImages',
@@ -35,8 +34,7 @@ gulp.task('develop', () => {
 gulp.task('develop:doubleclick', () => {
 	runSequence(
 		[
-			'clean-dist',
-			'scripts-for-doubleclick'
+			'clean-dist'
 		],
 		[
 			'clean-dist',
@@ -52,8 +50,7 @@ gulp.task('develop:doubleclick', () => {
 gulp.task('build', () => {
 	runSequence(
 		[
-			'clean-dist',
-			'scripts-not-for-doubleclick'
+			'clean-dist'
 		],
 		[
 			'images',
@@ -69,8 +66,7 @@ gulp.task('build', () => {
 gulp.task('build:doubleclick', () => {
 	runSequence(
 		[
-			'clean-dist',
-			'scripts-for-doubleclick'
+			'clean-dist'
 		],
 		[
 			'images',

@@ -1,31 +1,19 @@
 /* Place SCSS for horizontal banners here */
 @import "../modules/all";
 @import "../vendor/normalize";
-@import "../orientation/horizontal";
+@import "../orientation/vertical";
 
 /* Alter variables for one specific banner by redefining them here */
 
 
 @import "../partials/all";
 
-#main-panel.leaderboard {
+#main-panel.sample-static-banner {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 728px;
-  height: 90px;
-
-  #collapsed-panel {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 728px;
-    height: 90px;
-  }
-
-  #expanded-panel {
-    display: none;
-  }
+  width: 336px;
+  height: 280px;
 
   /* Declare banner specific styles here */
 

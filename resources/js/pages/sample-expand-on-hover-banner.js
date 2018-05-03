@@ -24,14 +24,30 @@ window.addEventListener('load', function() {
         isExpanded = false;
       }
   
-      <%expandEventHandler%>
+      document.getElementById('collapsed-panel').addEventListener('mouseenter', function() {
+  if (!isExpanded) {
+    Enabler.requestExpand();
+  }
+});
+
+document.getElementById('main-panel').addEventListener('mouseleave', function() {
+  if (isExpanded) {
+    Enabler.requestCollapse();
+  }
+});
 
       Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, expandStartHandler);
       Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, expandFinishHandler);
       Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_START, collapseStartHandler);
       Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, collapseFinishHandler);
 
-      <%exitLinks%>
+      if ($('.testLink').length) {
+  $('.testLink').on('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    Enabler.exit('Test Link');
+  });
+}
 
 			if (Enabler.isPageLoaded()) {
 				mainExpandingJs.init();
@@ -42,19 +58,19 @@ window.addEventListener('load', function() {
 
     if (Enabler.isInitialized()) {
       Enabler.setExpandingPixelOffsets(
-        <%leftOffset%>,
-        <%topOffset%>,
-        <%expandedWidth%>,
-        <%expandedHeight%>
+        0,
+        0,
+        640,
+        250
       );
       enablerInitHandler();
     } else {
       Enabler.addEventListener(studio.events.StudioEvent.INIT, function() {
         Enabler.setExpandingPixelOffsets(
-          <%leftOffset%>,
-          <%topOffset%>,
-          <%expandedWidth%>,
-          <%expandedHeight%>
+          0,
+          0,
+          640,
+          250
         );
         enablerInitHandler();
       });
