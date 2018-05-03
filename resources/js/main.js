@@ -1,9 +1,28 @@
-// Place universal JS here
-var $ = require('./vendor/jquery-3.3.1.min.js');
 var Isi = require('./components/isi.js');
 var IScroll = require('./vendor/iscroll-probe.js');
 
-document.addEventListener('DOMContentLoaded', function() {
+module.exports = function() {
 	var isi = new Isi(IScroll);
+	// If you dont want an auto-scrolling Isi
+	// Remove this init function 
 	isi.init();
-});
+
+	var animationLoader = (function() {
+		var animator = {};
+		var animationSpeed = 1500;
+	
+		function fadeInScreen1() {
+			$('.screen-1').fadeIn(animationSpeed, function() { 
+				// Do something after screen-1 fades in
+			});
+		}
+	
+		animator.init = function() {
+			fadeInScreen1();
+		}
+	
+		return animator;
+	}());
+
+	animationLoader.init();
+}

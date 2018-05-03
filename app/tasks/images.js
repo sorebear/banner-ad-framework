@@ -4,29 +4,12 @@ const imageminPngquant = require('imagemin-pngquant');
 
 // File Paths to Watch
 const IMG_PATH = 'resources/img';
-const IMG_EXTENSION = '*.{png,svg,gif}';
+const IMG_EXTENSION = '*.{png,svg,gif,jpg,jpeg}';
 
 module.exports = (gulp, banners) => {
-	// Images
-	gulp.task('images-shared', () => {
-		return gulp
-			.src(`${IMG_PATH}/**/${IMG_EXTENSION}`)
-			.pipe(
-				imagemin([
-					imagemin.gifsicle(),
-					imagemin.optipng(),
-					imagemin.svgo(),
-					imageminPngquant()
-				])
-			)
-			.pipe(flatten())
-			.pipe(gulp.dest('dist/shared-assets/img'));
-	});
-
-	// Images
-	gulp.task('images-separated', () => {
-		return Object.keys(banners).forEach(banner => {
-			const { orientation } = banners[banner];
+	gulp.task('images', () => {
+		return Object.keys(banners.banners).forEach(banner => {
+			const { orientation } = banners.banners[banner];
 			return gulp
 				.src([
 					`${IMG_PATH}/shared/${IMG_EXTENSION}`,
@@ -41,16 +24,16 @@ module.exports = (gulp, banners) => {
 						imageminPngquant()
 					])
 				)
-				.pipe(gulp.dest(`dist/separated-assets/${banner}/img`));
+				.pipe(gulp.dest(`dist/${banner}/img`));
 		});
 	});
 
-	// Watch Sass Files For Changes
+	// Watch Image Files For Changes
 	gulp.task('watchImages', () => {
-		gulp.start('images-shared');
+		gulp.start('images');
 		gulp.watch(
 			[`${IMG_PATH}/${IMG_EXTENSION}`, `${IMG_PATH}/**/${IMG_EXTENSION}`],
-			['images-shared']
+			['images']
 		);
 	});
 };

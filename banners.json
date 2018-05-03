@@ -1,22 +1,51 @@
 {
-  "Medium Rectangle": {
-    "width": 320,
-    "height": 250,
-    "orientation": "vertical" 
+  "links": {
+    "testLink": {
+      "displayName": "Test Link",
+      "href": "http://google.com"
+    }
   },
-  "Large Rectangle": {
-    "width": 336,
-    "height": 280,
-    "orientation": "vertical"
-  },
-  "Leaderboard": {
-    "width": 728,
-    "height": 90,
-    "orientation": "horizontal"
-  },
-  "Wide Skyscraper": {
-    "width": 160,
-    "height": 600,
-    "orientation": "vertical"
+  "banners": {
+    "sample-standard-banner": {
+      "width": 160,
+      "height": 600,
+      "orientation": "vertical",
+      "static": false
+    },
+    "sample-static-banner": {
+      "width": 336,
+      "height": 280,
+      "orientation": "vertical",
+      "static": true
+    },
+    "sample-expand-on-hover-banner": {
+      "width": 320,
+      "height": 250,
+      "orientation": "vertical",
+      "static": false,
+      "expanded": {
+        "width": 640,
+        "height": 250,
+        "expandEventHandler": "hover",
+        "expandDirection": [
+          "right"
+        ]
+      }
+    },
+    "sample-expand-on-click-banner": {
+      "width": 320,
+      "height": 250,
+      "orientation": "vertical",
+      "static": false,
+      "expanded": {
+        "width": 500,
+        "height": 500,
+        "expandEventHandler": "click",
+        "expandDirection": [
+          "up",
+          "left"
+        ]
+      }
+    }
   }
 }

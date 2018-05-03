@@ -1,7 +1,9 @@
-{% set banner = "Wide Skyscraper" %}
-{% set size = "width: 160px; height:600px;" %}
+{% set banner = "<%fileName%>" %}
+{% set width = <%width%> %} 
+{% set height = <%height%> %}
+{% from "./links.html" import link, closeLink, enabler %}
 
-{% extends "layout.html" %}
+{% extends "layout-static.html" %}
 
 {% block stylesheets %}
    {% if orientationStyle %}<link rel="stylesheet" href="{{ orientationStyle }}">{% endif %}
@@ -15,13 +17,4 @@
   {% include './main-content.html' %}
   <!--enter page specific content here-->
 
-{% endblock %}
-
-{% block isi %}
-  {% include './isi.html' %}
-{% endblock %}
-
-{% block scripts %}
-   <script src="js/main.js"></script>
-   {% if orientationScript %}<script src="{{ orientationScript }}"></script>{% endif %}
 {% endblock %}

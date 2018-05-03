@@ -1,9 +1,17 @@
 * {
-   box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-.banner-wrapper {
-   position: relative;
-   display: flex;
-   flex-direction: $flex-direction;
+#expand-button {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+#expanded-panel {
+  display: none;
 }

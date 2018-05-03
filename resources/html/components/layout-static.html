@@ -5,32 +5,22 @@
     <meta charset="utf-8">
     <!-- disable IE11 phone number detection -->
     <meta name="format-detection" content="telephone=no"/>
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="ad.size" content="width={{ width }}, height={{ height }}">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <link rel="stylesheet" href="css/main.css">
     {{ enabler() }}
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/bundle.js"></script>
   </head>
   <body class="{% block bodyClass %}{% endblock %}">
-    <div id="main-panel" class="{{ banner }} {{ doubleclick }}">
+    <div id="main-panel" class="{{ banner }} {{ doubleclick }} static">
       <div id="main-content-wrapper" class="main-content-wrapper">
-          
+        
         {% block content %}{% endblock %}
-              
+      
       </div>
-      <div id="isi-container-wrapper" class="isi-container-wrapper">
-        <div id="isi-container" class="isi-container">
-          <div id="isi" class="isi">        
-
-            {% block isi %}{% endblock %}
-              
-          </div>
-        </div>
+      <div id="error-wrapper">
+         <pre id="errors"></pre>
       </div>
-    </div>
-    <div id="error-wrapper">
-      <pre id="errors"></pre>
-    </div>
-  </body>
+   </body>
 </html>

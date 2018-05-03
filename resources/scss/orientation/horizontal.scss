@@ -1,0 +1,14 @@
+/* Declare Variables with Orientation-Specific Values Here */
+$main-content-height : 100%;
+$main-content-width: 71%;
+$isi-height : 100%;
+$isi-width: 29%;
+
+$gradient-direction: right;
+$flex-direction: row;
+
+/* Place SCSS for horizontal banners here */
+
+.v-only {
+  display: none;
+}

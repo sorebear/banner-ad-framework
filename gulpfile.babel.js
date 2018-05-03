@@ -1,7 +1,7 @@
 const gulp = require('gulp');
+const runSequence = require('run-sequence');
 const del = require('del');
 const banners = require('./banners.json');
-const project = require('./project.json');
 
 /**
  * getTasks automatically pulls all gulp tasks from directory ./app/tasks/
@@ -9,34 +9,79 @@ const project = require('./project.json');
 require('./app/getTasks.js')(gulp, banners);
 
 /**
- * Build Project WITH Shared Assets (This is default)
+ * Make Development Build of Process with Watch
  */
-gulp.task('default', ['build:shared']);
-gulp.task('build:shared', [
-	'clean-dist-shared',
-	'watchHtml',
-	'watchStyles',
-	'watchScripts',
-	'watchImages'
-]);
+gulp.task('default', ['develop:doubleclick']);
 
 /**
  * Build Project WITH separated Assets
  */
-gulp.task('build:separated', [
-	'clean-dist-separated',
-	'images-separated',
-	'styles-separated',
-	'scripts-separated',
-	'html-separated'
-]);
+gulp.task('develop', () => {
+	runSequence(
+		[
+			'clean-dist'
+		],
+		[
+			'watchImages',
+			'watchStyles',
+			'watchScripts',
+			'watchHtml',
+			'watchTransfer',
+		]
+	);
+});
+
+gulp.task('develop:doubleclick', () => {
+	runSequence(
+		[
+			'clean-dist'
+		],
+		[
+			'clean-dist',
+			'watchImages',
+			'watchStyles',
+			'watchScripts',
+			'watchDoubleclickHtml',
+			'watchTransfer',
+		]
+	);
+});
+
+gulp.task('build', () => {
+	runSequence(
+		[
+			'clean-dist'
+		],
+		[
+			'images',
+			'styles-production',
+			'scripts-production',
+			'html',
+			'transfer',
+			'transfer-index'
+		]
+	);
+});
+
+gulp.task('build:doubleclick', () => {
+	runSequence(
+		[
+			'clean-dist'
+		],
+		[
+			'images',
+			'styles-production',
+			'scripts-production',
+			'html-doubleclick',
+			'transfer',
+			'transfer-index'
+		]
+	);
+});
 
 /**
  * Clean dist folders
  */
-gulp.task('clean-dist-shared', () => {
-	return del.sync('dist/shared-assets');
-});
-gulp.task('clean-dist-separated', () => {
-	return del.sync('dist/separated-assets');
+gulp.task('clean-dist', () => {
+	return del.sync('dist');
 });
