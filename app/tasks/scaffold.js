@@ -129,12 +129,13 @@ module.exports = (gulp, banners) => {
 		tpl = tpl.replace(/<%topOffset%>/g, dims.topOffset);
 		tpl = tpl.replace(/<%expandedWidth%>/g, dims.expandedWidth);
 		tpl = tpl.replace(/<%expandedHeight%>/g, dims.expandedHeight);
-		const expandEventHandler = dims.expandEventHandler === 'click' ?
-			fs.readFileSync(`${TEMPLATE_PATH}/expandingClickHandler.tpl`, 'utf8') :
+		tpl = dims.expandEventHandler === 'click' ?
+			tpl.replace(/<%expandEventListener%>/g, 'click')
+			.replace(/<%expandCollapseListener%>/g, 'click') :
 			dims.expandEventHandler === 'hover' ?
-				fs.readFileSync(`${TEMPLATE_PATH}/expandingHoverHandler.tpl`, 'utf8') :
-				''
-		tpl = tpl.replace(/<%expandEventHandler%>/g, expandEventHandler);
+				tpl.replace(/<%collapseEventListener%>/g, 'mouseenter')
+				.replace(/<%collapseEventListener%>/g, 'mouseleave') :
+				tpl
 		fs.writeFileSync(`${JS_PATH}/pages/${banner}.js`, tpl);
 	}
 

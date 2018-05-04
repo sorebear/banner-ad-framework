@@ -5,12 +5,7 @@
 
 {% extends "layout-static.html" %}
 
-{% block stylesheets %}
-   {% if orientationStyle %}<link rel="stylesheet" href="{{ orientationStyle }}">{% endif %}
-   {% if pageStyle %}<link rel="stylesheet" href="{{ pageStyle }}">{% endif %}
-{% endblock %}
-
-{% block bodyClass %}{% endblock %}
+{% block bannerClass %}{% endblock %}
 
 {% block content %}
 

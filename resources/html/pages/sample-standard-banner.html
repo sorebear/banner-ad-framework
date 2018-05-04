@@ -5,7 +5,7 @@
 
 {% extends "layout.html" %}
 
-{% block bodyClass %}{% endblock %}
+{% block bannerClass %}{% endblock %}
 
 {% block content %}
 

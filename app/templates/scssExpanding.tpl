@@ -1,4 +1,3 @@
-/* Place SCSS for horizontal banners here */
 @import "../modules/all";
 @import "../vendor/normalize";
 @import "../orientation/<%orientation%>";
