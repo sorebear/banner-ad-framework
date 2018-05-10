@@ -1,0 +1,36 @@
+@import "../modules/all";
+@import "../vendor/normalize";
+@import "../orientation/vertical";
+
+/* Alter variables for one specific banner by redefining them here */
+
+
+@import "../partials/all";
+
+#main-panel.sample-expand-on-click-banner {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 500px;
+  height: 500px;
+
+  #collapsed-panel {
+    position: absolute;
+    top: 250px;
+    left: 180px;
+    width: 320px;
+    height: 250px;
+  }
+
+  #expanded-panel {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 500px;
+    height: 500px;
+  }
+
+  /* Declare banner specific styles here */
+
+
+}

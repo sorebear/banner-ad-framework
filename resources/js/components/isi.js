@@ -1,14 +1,13 @@
-module.exports = function(IScroll) {
+module.exports = function(IScroll, id) {
 	/* Change these standard variables to customize the ISI functionality */
 	this.scrollSpeedMultiplier = -100;
-	this.isiBottomPadding = 5;
-	this.expandIsiOnHover = true;
-	/* End of Standard Variables */
+	
+	this.id = id ? id : 'isi';
 	this.initialized = false;
 	this.mouseOverIsi = false;
-	this.isi = document.getElementById('isi');
-	this.isiContainer = document.getElementById('isi-container');
-	this.isiScroll = new IScroll('#isi-container', {
+	this.isi = document.getElementById(this.id);
+	this.isiContainer = document.getElementById(`${this.id}-container`);
+	this.isiScroll = new IScroll(`#${this.id}-container`, {
 		mouseWheel: true,
 		scrollbars: true,
 		probeType: 3
@@ -26,41 +25,13 @@ module.exports = function(IScroll) {
 		if (this.initialized) {
 			this.pauseScroll();
 		}
-		if (this.expandIsiOnHover) {
-			this.expandIsi();
-		}
 	}
 
 	this.handleMouseLeave = function() {
 		this.mouseOverIsi = false;
-		if (this.expandIsiOnHover) {
-			this.collapseIsi();
-			return;
-		}
 		if (this.initialized) {
 			this.resumeScroll();
 		}
-	}
-
-	this.expandIsi = function() {
-		this.isiContainer.style.height = '200%';
-		this.isi.style.paddingBottom = this.isiContainer.offsetHeight + this.isiBottomPadding + 'px';
-		var self = this;
-		setTimeout(function() {
-			self.isiScroll.refresh();
-		}, 300);
-	}
-
-	this.collapseIsi = function() {
-		this.isiContainer.style.height = '100%';
-		this.isi.style.paddingBottom = this.isiBottomPadding + 'px';
-		var self = this;
-		setTimeout(function() {
-			self.isiScroll.refresh();
-			if (self.initialized) {
-				self.resumeScroll();
-			}
-		}, 400);
 	}
 
 	this.startScrollFromBeginning = function() {

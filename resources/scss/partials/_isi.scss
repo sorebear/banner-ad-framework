@@ -10,20 +10,27 @@
 	background-color: $isi-background-color;
 	display: block;
 	position: relative;
-	transition: height 0.3s;
 	height: 100%;
-	backface-visibility: hidden;
-  transform-style: preserve-3d;
 }
 
 .isi {
 	position: absolute;
 	padding: $content-outer-padding;
-	padding-right: $content-outer-padding + $scrollbar-width;
+	padding-right: $content-outer-padding + $isi-scrollbar-width;
 	padding-bottom: $content-outer-padding;
 	width: 100%;
 	top: 0;
 	left: 0;
 	color: $isi-text-color;
-	font-size: 9px;
+}
+
+.iScrollVerticalScrollbar {
+	background-color: $isi-scrollbar-background-color !important;
+	width: $isi-scrollbar-width;
+}
+
+.iScrollIndicator {
+	background-color: $isi-indicator-color !important;
+	border: none !important;
+	border-radius: 0 !important;
 }

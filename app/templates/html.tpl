@@ -1,10 +1,12 @@
+{% set width = <%width%> %} 
+{% set height = <%height%> %}
+
 {% set banner = "<%fileName%>" %}
-{% set size = "width: <%width%>px; height:<%height%>px;" %}
+{% block bannerClass %}{% endblock %}
+
 {% from "./links.html" import link, closeLink, enabler %}
 
 {% extends "layout.html" %}
-
-{% block bodyClass %}{% endblock %}
 
 {% block content %}
 
