@@ -61,10 +61,6 @@ module.exports = (gulp, banners) => {
 					banner.expanded.expandDirection.includes('left') ?
 					banner.expanded.width - banner.width : 0
 			}
-			// dims.topOffset = !dims.expanding ? 0 : 
-			// 	dims.expandDirection.includes('left') ? dims.expandedHeight - dims.collapsedHeight : 0;
-			// dims.leftOffset = !dims.expanding ? 0 :
-			// 	dims.expandDirection.includes('up') ? dims.expandedWidth - dims.collapsedWidth : 0;
 			scaffoldHTML(bannerTitle, dims);
 			scaffoldSCSS(bannerTitle, dims);
 			scaffoldJS(bannerTitle, dims);
