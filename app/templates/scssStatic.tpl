@@ -1,5 +1,5 @@
-@import "../modules/all";
 @import "../vendor/normalize";
+@import "../modules/all";
 @import "../orientation/<%orientation%>";
 
 /* Alter variables for one specific banner by redefining them here */
