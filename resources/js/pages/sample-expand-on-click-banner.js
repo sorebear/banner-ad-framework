@@ -25,16 +25,16 @@ window.addEventListener('load', function() {
       }
   
       document.getElementById('collapsed-panel').addEventListener('click', function() {
-  if (!isExpanded) {
-    Enabler.requestExpand();
-  }
-});
+        if (!isExpanded) {
+          Enabler.requestExpand();
+        }
+      });
 
-document.getElementById('main-panel').addEventListener('click', function() {
-  if (isExpanded) {
-    Enabler.requestCollapse();
-  }
-});
+      document.getElementById('main-panel').addEventListener('<%collapseEventListener%>', function() {
+        if (isExpanded) {
+          Enabler.requestCollapse();
+        }
+      });
 
       Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, expandStartHandler);
       Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, expandFinishHandler);
@@ -101,7 +101,18 @@ document.getElementById('main-panel').addEventListener('click', function() {
       isExpanded ? collapseStartHandler() : expandStartHandler();
     }
 
-    document.getElementById('expand-button').addEventListener('click', actionResizeHandler, false);
+    document.getElementById('collapsed-panel').addEventListener('click', function() {
+      if (!isExpanded) {
+        expandStartHandler();
+      }
+    });
+
+    document.getElementById('main-panel').addEventListener('<%collapseEventListener%>', function() {
+      if (isExpanded) {
+        collapseStartHandler();
+      }
+    });
+
 		mainExpandingJs.init();
   }
 });

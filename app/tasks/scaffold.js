@@ -112,11 +112,28 @@ module.exports = (gulp, banners) => {
 	};
 
 	const scaffoldJS = (banner, dims) => {
+		scaffoldExitLinksJS(banners);
 		let tpl = dims.expanding ? 
 			fs.readFileSync(`${TEMPLATE_PATH}/jsExpanding.tpl`, 'utf8') : 
 			dims.static ?
 				fs.readFileSync(`${TEMPLATE_PATH}/jsStatic.tpl`, 'utf8') :
 				fs.readFileSync(`${TEMPLATE_PATH}/js.tpl`, 'utf8');
+		tpl = tpl.replace(/<%leftOffset%>/g, dims.leftOffset);
+		tpl = tpl.replace(/<%topOffset%>/g, dims.topOffset);
+		tpl = tpl.replace(/<%expandedWidth%>/g, dims.expandedWidth);
+		tpl = tpl.replace(/<%expandedHeight%>/g, dims.expandedHeight);
+		tpl = dims.expandEventHandler === 'click' ?
+			tpl.replace(/<%expandEventListener%>/g, 'click')
+			.replace(/<%collapseEventListener%>/g, 'click') :
+			dims.expandEventHandler === 'hover' ?
+				tpl.replace(/<%expandEventListener%>/g, 'mouseenter')
+				.replace(/<%collapseEventListener%>/g, 'mouseleave') :
+				tpl
+		checkThenWriteFile(`${JS_PATH}/pages/${banner}.js`, tpl);
+	}
+
+	const scaffoldExitLinksJS = banners => {
+		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/exitLinks.tpl`);
 		let exitLinks = '';
 		for (link in banners.links) {
 			let exitLink = fs.readFileSync(`${TEMPLATE_PATH}/exitLink.tpl`, 'utf8');
@@ -125,17 +142,7 @@ module.exports = (gulp, banners) => {
 			exitLinks += exitLink;
 		}
 		tpl = tpl.replace(/<%exitLinks%>/g, exitLinks);
-		tpl = tpl.replace(/<%leftOffset%>/g, dims.leftOffset);
-		tpl = tpl.replace(/<%topOffset%>/g, dims.topOffset);
-		tpl = tpl.replace(/<%expandedWidth%>/g, dims.expandedWidth);
-		tpl = tpl.replace(/<%expandedHeight%>/g, dims.expandedHeight);
-		const expandEventHandler = dims.expandEventHandler === 'click' ?
-			fs.readFileSync(`${TEMPLATE_PATH}/expandingClickHandler.tpl`, 'utf8') :
-			dims.expandEventHandler === 'hover' ?
-				fs.readFileSync(`${TEMPLATE_PATH}/expandingHoverHandler.tpl`, 'utf8') :
-				''
-		tpl = tpl.replace(/<%expandEventHandler%>/g, expandEventHandler);
-		fs.writeFileSync(`${JS_PATH}/pages/${banner}.js`, tpl);
+		fs.writeFileSync(`${JS_PATH}/components/exit-links.js`);
 	}
 
 	const scaffoldIMG = banner => {

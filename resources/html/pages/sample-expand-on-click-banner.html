@@ -5,15 +5,27 @@
 
 {% extends "layout-expanding.html" %}
 
-{% block bodyClass %}{% endblock %}
+{% block bannerClass %}{% endblock %}
 
-{% block content %}
+{% block mainContentCollapsed %}
 
-  {% include './main-content.html' %}
+  {% include './main-content-collapsed.html' %}
   <!--enter page specific content here-->
 
 {% endblock %}
 
-{% block isi %}
+{% block isiCollapsed %}
+  {% include './isi.html' %}
+{% endblock %}
+
+{% block mainContentExpanded %}
+
+  {% include './main-content-expanded.html' %}
+  <!--enter page specific content here-->
+
+{% endblock %}
+
+
+{% block isiExpanded %}
   {% include './isi.html' %}
 {% endblock %}

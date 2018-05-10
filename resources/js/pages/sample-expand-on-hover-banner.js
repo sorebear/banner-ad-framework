@@ -24,17 +24,17 @@ window.addEventListener('load', function() {
         isExpanded = false;
       }
   
-      document.getElementById('collapsed-panel').addEventListener('mouseenter', function() {
-  if (!isExpanded) {
-    Enabler.requestExpand();
-  }
-});
+      document.getElementById('collapsed-panel').addEventListener('<%expandEventListener%>', function() {
+        if (!isExpanded) {
+          Enabler.requestExpand();
+        }
+      });
 
-document.getElementById('main-panel').addEventListener('mouseleave', function() {
-  if (isExpanded) {
-    Enabler.requestCollapse();
-  }
-});
+      document.getElementById('main-panel').addEventListener('mouseenter', function() {
+        if (isExpanded) {
+          Enabler.requestCollapse();
+        }
+      });
 
       Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, expandStartHandler);
       Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, expandFinishHandler);
@@ -101,7 +101,18 @@ document.getElementById('main-panel').addEventListener('mouseleave', function() 
       isExpanded ? collapseStartHandler() : expandStartHandler();
     }
 
-    document.getElementById('expand-button').addEventListener('click', actionResizeHandler, false);
+    document.getElementById('collapsed-panel').addEventListener('<%expandEventListener%>', function() {
+      if (!isExpanded) {
+        expandStartHandler();
+      }
+    });
+
+    document.getElementById('main-panel').addEventListener('mouseenter', function() {
+      if (isExpanded) {
+        collapseStartHandler();
+      }
+    });
+
 		mainExpandingJs.init();
   }
 });
