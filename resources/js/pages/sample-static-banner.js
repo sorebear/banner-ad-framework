@@ -1,14 +1,10 @@
+var exitLinks = require('../components/exit-links.js')
+
 window.addEventListener('load', function() {
 	if ($('#main-panel').hasClass('doubleclick')) {
 		function enablerInitHandler() {
 			
-      if ($('.testLink').length) {
-  $('.testLink').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    Enabler.exit('Test Link');
-  });
-}
+      exitLinks();
 
 			if (Enabler.isPageLoaded()) {
 				// Do Something When Page Loads

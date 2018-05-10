@@ -1,4 +1,5 @@
 var MainExpandingJs = require('../main-expanding.js');
+var exitLinks = require('../components/exit-links.js');
 
 window.addEventListener('load', function() {
 	if ($('#main-panel').hasClass('doubleclick')) {
@@ -24,14 +25,24 @@ window.addEventListener('load', function() {
         isExpanded = false;
       }
   
-      <%expandEventHandler%>
+      document.getElementById('collapsed-panel').addEventListener('<%expandEventListener%>', function() {
+        if (!isExpanded) {
+          Enabler.requestExpand();
+        }
+      });
+
+      document.getElementById('main-panel').addEventListener('<%collapseEventListener%>', function() {
+        if (isExpanded) {
+          Enabler.requestCollapse();
+        }
+      });
 
       Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, expandStartHandler);
       Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, expandFinishHandler);
       Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_START, collapseStartHandler);
       Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, collapseFinishHandler);
 
-      <%exitLinks%>
+      exitLinks();
 
 			if (Enabler.isPageLoaded()) {
 				mainExpandingJs.init();
@@ -85,7 +96,18 @@ window.addEventListener('load', function() {
       isExpanded ? collapseStartHandler() : expandStartHandler();
     }
 
-    document.getElementById('expand-button').addEventListener('click', actionResizeHandler, false);
+    document.getElementById('collapsed-panel').addEventListener('<%expandEventListener%>', function() {
+      if (!isExpanded) {
+        expandStartHandler();
+      }
+    });
+
+    document.getElementById('main-panel').addEventListener('<%collapseEventListener%>', function() {
+      if (isExpanded) {
+        collapseStartHandler();
+      }
+    });
+
 		mainExpandingJs.init();
   }
 });
