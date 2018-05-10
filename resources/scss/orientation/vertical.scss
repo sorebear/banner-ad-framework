@@ -1,5 +1,3 @@
-/* Place SCSS for vertical banners here */
-
 /* Declare Variables with Orientation-Specific Values Here */
 $main-content-height : 50%;
 $main-content-width: 100%;
@@ -9,9 +7,13 @@ $isi-width: 100%;
 $gradient-direction: bottom;
 $flex-direction: column;
 
+/* Place SCSS for vertical banners here */
+
 .h-only {
-   display: none;
+  display: none;
 }
+
+
 
 
 

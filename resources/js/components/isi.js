@@ -1,37 +1,76 @@
-module.exports = function(IScroll) {
-	this.scrollSpeedMultiplier = -10;
-	this.isiScroll = new IScroll('#isi-container', {
+module.exports = function(IScroll, id) {
+	/* Change these standard variables to customize the ISI functionality */
+	this.scrollSpeedMultiplier = -100;
+	
+	this.id = id ? id : 'isi';
+	this.initialized = false;
+	this.mouseOverIsi = false;
+	this.isi = document.getElementById(this.id);
+	this.isiContainer = document.getElementById(`${this.id}-container`);
+	this.isiScroll = new IScroll(`#${this.id}-container`, {
 		mouseWheel: true,
 		scrollbars: true,
 		probeType: 3
 	});
-	this.isi = document.getElementById('isi');
+
 	this.init = function() {
-		this.isiScroll.scrollBy(
-			0,
-			this.isiScroll.maxScrollY,
-			this.isiScroll.maxScrollY * this.scrollSpeedMultiplier,
-			IScroll.utils.ease.quadratic
-		);
-		this.isi.addEventListener('mouseleave', this.resumeScroll.bind(this));
-		this.isi.addEventListener('mouseenter', this.pauseScroll.bind(this));
+		if (!this.initialized) {
+			this.initialized = true;
+			this.startScrollFromBeginning();
+		}
 	};
+
+	this.handleMouseEnter = function() {
+		this.mouseOverIsi = true;
+		if (this.initialized) {
+			this.pauseScroll();
+		}
+	}
+
+	this.handleMouseLeave = function() {
+		this.mouseOverIsi = false;
+		if (this.initialized) {
+			this.resumeScroll();
+		}
+	}
+
+	this.startScrollFromBeginning = function() {
+		if (!this.mouseOverIsi) {
+			this.isiScroll.scrollTo(
+				0,
+				this.isiScroll.maxScrollY,
+				this.isiScroll.maxScrollY * this.scrollSpeedMultiplier,
+				IScroll.utils.ease.quadratic
+			);
+		}
+	}
 
 	this.pauseScroll = function() {
 		this.isiScroll.scrollTo(
 			0,
-			this.isiScroll.y - 1,
-			this.scrollSpeedMultiplier * -1,
+			this.isiScroll.y,
+			-1,
 			IScroll.utils.ease.quadratic
 		);
 	};
 
 	this.resumeScroll = function() {
-		this.isiScroll.scrollBy(
-			0,
-			this.isiScroll.maxScrollY - this.isiScroll.y,
-			(this.isiScroll.maxScrollY - this.isiScroll.y) * this.scrollSpeedMultiplier,
-			IScroll.utils.ease.quadratic
-		);
+		if (!this.mouseOverIsi) {
+			var self = this;
+			setTimeout(function() {
+				if (!self.mouseOverIsi) {
+					self.isiScroll.scrollBy(
+						0,
+						self.isiScroll.maxScrollY - self.isiScroll.y,
+						(self.isiScroll.maxScrollY - self.isiScroll.y) * self.scrollSpeedMultiplier,
+						IScroll.utils.ease.quadratic
+					);
+				}
+			}, 75);
+		}
 	};
+
+	// Set event listeners
+	this.isiContainer.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
+	this.isiContainer.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
 };

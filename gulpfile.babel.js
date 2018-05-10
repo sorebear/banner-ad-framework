@@ -9,44 +9,75 @@ const banners = require('./banners.json');
 require('./app/getTasks.js')(gulp, banners);
 
 /**
- * Build Project WITH Shared Assets (This is default)
+ * Make Development Build of Process with Watch
  */
-gulp.task('default', ['build']);
+gulp.task('default', ['develop:doubleclick']);
 
 /**
  * Build Project WITH separated Assets
  */
-gulp.task('build', [
-	'clean-dist',
-	'watchImages',
-	'watchStyles',
-	'watchScripts',
-	'watchHtml',
-	'watchTransfer',
-]);
-
-gulp.task('build:doubleclick', [
-	'clean-dist',
-	'watchImages',
-	'watchStyles',
-	'watchScripts',
-	'watchDoubleclickHtml',
-	'watchTransfer',
-]);
-
-gulp.task('deploy', () => {
+gulp.task('develop', () => {
 	runSequence(
-		'clean-dist',
 		[
-			'images',
-			'styles',
-			'scripts',
-			'html',
-			'transfer'
-		]);
+			'clean-dist'
+		],
+		[
+			'watchImages',
+			'watchStyles',
+			'watchScripts',
+			'watchHtml',
+			'watchTransfer',
+		]
+	);
 });
 
-// gulp.task('deploy', ['zip']);
+gulp.task('develop:doubleclick', () => {
+	runSequence(
+		[
+			'clean-dist'
+		],
+		[
+			'clean-dist',
+			'watchImages',
+			'watchStyles',
+			'watchScripts',
+			'watchDoubleclickHtml',
+			'watchTransfer',
+		]
+	);
+});
+
+gulp.task('build', () => {
+	runSequence(
+		[
+			'clean-dist'
+		],
+		[
+			'images',
+			'styles-production',
+			'scripts-production',
+			'html',
+			'transfer',
+			'transfer-index'
+		]
+	);
+});
+
+gulp.task('build:doubleclick', () => {
+	runSequence(
+		[
+			'clean-dist'
+		],
+		[
+			'images',
+			'styles-production',
+			'scripts-production',
+			'html-doubleclick',
+			'transfer',
+			'transfer-index'
+		]
+	);
+});
 
 /**
  * Clean dist folders

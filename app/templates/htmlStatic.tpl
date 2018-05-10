@@ -6,15 +6,11 @@
 
 {% from "./links.html" import link, closeLink, enabler %}
 
-{% extends "layout.html" %}
+{% extends "layout-static.html" %}
 
 {% block content %}
 
-  {% include './main-content.html' %}
+  {% include './main-content-static.html' %}
   <!--enter page specific content here-->
 
-{% endblock %}
-
-{% block isi %}
-  {% include './isi.html' %}
 {% endblock %}

@@ -14,7 +14,7 @@ module.exports = function()
   tasks.map((file) =>
     {
       let path = './'+taskDir+'/'+file;
-
+      
       // pass through arguments passed to getTasks
       require(path).apply(this, args);
     }
