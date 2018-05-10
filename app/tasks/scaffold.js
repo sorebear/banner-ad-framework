@@ -133,7 +133,7 @@ module.exports = (gulp, banners) => {
 	}
 
 	const scaffoldExitLinksJS = banners => {
-		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/exitLinks.tpl`);
+		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/exitLinks.tpl`, 'utf8');
 		let exitLinks = '';
 		for (link in banners.links) {
 			let exitLink = fs.readFileSync(`${TEMPLATE_PATH}/exitLink.tpl`, 'utf8');
@@ -142,7 +142,7 @@ module.exports = (gulp, banners) => {
 			exitLinks += exitLink;
 		}
 		tpl = tpl.replace(/<%exitLinks%>/g, exitLinks);
-		fs.writeFileSync(`${JS_PATH}/components/exit-links.js`);
+		fs.writeFileSync(`${JS_PATH}/components/exit-links.js`, tpl);
 	}
 
 	const scaffoldIMG = banner => {

@@ -1,4 +1,5 @@
 var MainExpandingJs = require('../main-expanding.js');
+var exitLinks = require('../components/exit-links.js');
 
 window.addEventListener('load', function() {
 	if ($('#main-panel').hasClass('doubleclick')) {
@@ -41,7 +42,7 @@ window.addEventListener('load', function() {
       Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_START, collapseStartHandler);
       Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, collapseFinishHandler);
 
-      <%exitLinks%>
+      exitLinks();
 
 			if (Enabler.isPageLoaded()) {
 				mainExpandingJs.init();

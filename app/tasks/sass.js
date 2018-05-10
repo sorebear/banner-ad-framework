@@ -13,6 +13,11 @@ module.exports = (gulp, banners) => {
 		return Object.keys(banners.banners).forEach(banner => {
 			return gulp
 				.src(`${SCSS_PATH}/pages/${banner}.scss`)
+				.pipe(
+					plumber(err => {
+						console.log('STYLES TASK ERROR: ', err);
+					})
+				)
 				.pipe(sass())
 				.pipe(concat('main.css'))
 				.pipe(gulp.dest(`dist/${banner}/css`));
