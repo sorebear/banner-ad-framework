@@ -1,7 +1,5 @@
 # Banner Ad Framework
 
-[Getting Started](./getting-started.md)
-
 ## Table of Contents
 1. [Quick Start](#1-quick-start)
    1. [Getting Started](#11-getting-started)
