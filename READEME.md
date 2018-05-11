@@ -10,9 +10,9 @@
    1. [Banner Links](#14-banner-links)
 
 1. [File Structure](#2-file-structure)
-   1. [File Structure - HTML](#21-file-structure---html)
-   1. [File Structure - SCSS](#22-file-structure---scss)
-   1. [File Structure - Javascript](#23-file-structure---javascript)
+   1. [File Structure - HTML](#21-file-structure-html)
+   1. [File Structure - SCSS](#22-file-structure-scss)
+   1. [File Structure - Javascript](#23-file-structure-javascript)
       1. [banner.js - Standard Banners](#bannerjs-standard-banners)
       1. [banner.js - Static Banners](#bannerjs-static-banners)
       1. [banner.js - Expanding Banners](#bannerjs-expanding-banners)
@@ -447,17 +447,17 @@ When your project is not built for DoubleClick Studio, this file will simply run
 
 If you would like to better understand how the Enabler is initialized and loaded, you can visit DoubleClick's documentation [Here](https://support.google.com/richmedia/answer/2672545?hl=en&ref_topic=2672541&visit_id=1-636613313005899523-3765677550&rd=1)
 
-### BannerJS - Static Banners
+### banner.js - Static Banners
 Example: `resources/js/pages/my-static-banner.js`
 
 The code within static banners will look almost identical to that of standard banners. The only differences are that once Enabler.js is initialized and loaded in DoubleClick banners it loads nothing else, and in non-DoubleClick banners it verifies it doesn't have the class "doubleclick" and loads nothing else.
 
-### BannerJS - Expanding Banners
+### banner.js - Expanding Banners
 Example: `resources/js/pages/my-expand-on-hover-banner.js`
 
 This section will be added to the documenation soon. Please reach out to `sbaird@envivent.com` if you have questions about the file structure for expanding banners.
 
-### MainJS - Standard Banners
+### main.js - Standard Banners
 Path: `resources/js/main.js`
 
 By default, `main.js` is set up with base functionality that will be typical for most banner projects. 
@@ -496,7 +496,7 @@ First, we will create a new ISI (Important Safety Information) Component using i
 
 Next we will build an animationLoader object, return that object, and then call it's init() method. When the animationLoader component is initialized it will run the function fadeInScreen1(), which finds the DOM element with the class ".screen-1" and causes it to fade in. From here you can build out additional methods to be called in sequence.
 
-### MainJS - Expanding Banners
+### main-expanding.js - Expanding Banners
 Path: `resources/js/main-expanding.js`.
 
 The first 27 lines of this file are identical to `resources/js/main.js`. The unique features of expanding banners are the next four methods 
@@ -535,7 +535,7 @@ this.collapseFinishAnimation = function(callback) {
 
 If something needs to execute *after* the collapse animation is complete, add it here.
 
-### IsiJS
+### isi.js
 
 Navigate to `resources/js/components/isi.js`.
 
