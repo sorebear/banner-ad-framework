@@ -174,7 +174,7 @@ The link name that you pass in should match a <link-name> that you placed in `ba
 
 ### Links for Doubleclick Studio
 
-When you run `gulp develop:doubleclick` or `gulp build:doubleclick` the links will be rendered as "span" elements. Add the class "exit-link" to underline the next and make it inherit the parent element's color (this matches the appearance of an anchor tag). If you are adding the link to an image or container <div>, you typically would not add the "exit-link" class.
+When you run `gulp develop:doubleclick` or `gulp build:doubleclick` the links will be rendered as "span" elements. Add the class "exit-link" to underline the next and make it inherit the parent element's color (this matches the appearance of an anchor tag). If you are adding the link to an image or container &lt;div&gt;, you typically would not add the "exit-link" class.
 
 ```html
 <!-- The following link -->
@@ -199,8 +199,6 @@ When your run `gulp develop` or `gulp build` the links will be rendered as ancho
 ```
 
 # 2: File Structure
-
-### Overview
 
 #### Overview - HTML, SCSS, JS
 
@@ -269,7 +267,7 @@ These three layout files can all be found within `resources/html/components`. Yo
 ```nunjucks
 {% block bannerClass %}{% endblock %}
 ```
-As mentioned above, the name of the banner will be added as a class to the outer banner container. If you would like to add any more classes to this <div>, enter them in this block.
+As mentioned above, the name of the banner will be added as a class to the outer banner container. If you would like to add any more classes to this &lt;div&gt;, enter them in this block.
 
 ### Content Blocks
 
