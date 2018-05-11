@@ -548,7 +548,7 @@ this.isiScroll = new IScroll(`#${this.id}-container`, {
 });
 ```
 
-This initial code is what creates the new IScroll element. You can read more about the different configuration options in the <a href=http://iscrolljs.com/#configuring>iScroll Documentation</a>
+This initial code is what creates the new IScroll element. You can read more about the different configuration options in the <a href="http://iscrolljs.com/#configuring">iScroll Documentation</a>
 
 Every other variable and method in this file is for handling programmtic scrolling. If your project will not have programmatic scrolling, you can remove all of these functions. Additionally, `probType: 3` is what allows the ISI to pause and resume scrolling, so this can be removed if it's not needed.
 
