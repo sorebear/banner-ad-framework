@@ -45,7 +45,8 @@ Open up `banners.json` to customize your project. There are two objects you will
       "height": <expanded-banner-height>, // @int - Enter expanded banner height in px
       "expandEventHandler": <event>,      // @string - Either 'click' or 'hover'
       "expandDirection": [
-      
+        <expand-direction-1>,             // @string - Accepts 'left', 'right', 'up', or 'down'
+        <expand-direction-2>              // @string - Optionally add a second direction
       ]
     }
   }
