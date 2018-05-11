@@ -25,9 +25,19 @@ This quick start guide will give the basic overview of commands and file structu
 
 ## 1.1: Getting Started
 
-Start by cloning this project and running `npm install`.
+Start by cloning this project.
 
-Open up `banners.json` to customize your project. There are two objects you will need to update, banners and links.
+```
+git clone git@gitlab.envivent.com:sbaird/banner-ad-framework.git <name-of-your-project>
+```
+
+The install the necessary dependencies
+
+```
+npm install
+```
+
+Once everything is installed, open up `banners.json` in the root directory to customize your project. There are two objects you will need to update, banners and links.
 
 ### Banners
 
@@ -61,16 +71,16 @@ Open up `banners.json` to customize your project. There are two objects you will
 }
 ```
 
-Banners deployed to doubleclick studio do not use traditional anchor tags, but handle all linking through javascript. The necessary javascript functions will be built from the information that is provided here. Links are explained in further details in [Section 1.4](#14-banner-links).
+Banners deployed to doubleclick studio do not use traditional anchor tags, but handle all linking through javascript. The necessary javascript functions will be built from the information that is provided in this links object. Links are explained in further details in [Section 1.4](#14-banner-links).
 
 ## 1.2: Scaffolding
 
-After you have fillder out `banners.json` to your project's specifications, there are two scaffolding processes you can run. If you do not have Gulp globally installed, each task covered here can also be accessed by running `npm run <gulp-task>`.
+After filling out `banners.json`, there are two scaffolding processes you can run. If you do not have Gulp globally installed, each task covered here can also be accessed by running `npm run <gulp-task>`.
 
 ```
 gulp scaffold
 ```
-This task will build out the file-structure and generate a couple files for you based on the contents of `banner.json`. If you alter the banners object in `banner.json` file and re-run this command, it will build files for the new banners but will not remove any previous banners that were created.
+This task will build out the file-structure and generate a couple files for you based on the contents of `banner.json`. If you alter the banners object in `banner.json` file and re-run this command, it will build files for the new banners and will **not** remove any previous banners that were created.
 
 ```
 gulp re-scaffold
@@ -82,12 +92,13 @@ This task will clear out all the files from `resources/html/pages`, `resources/s
 To see the scaffolding script, open up `app/tasks/scaffold.js`. Here is a quick overview of what is happening:
 * The *banners* object from `banner.json` is passed as an argument to the scaffolding module. 
 * A For-In loop is run over the *banners* object.
-* Within the For-In loop a large object is created with several dimensions (*dims*) specific to that *banner*. 
-* The scaffoldHTML, scaffoldSCSS, scaffoldJS, and scaffoldIMG functions are called, passing in the specific iteration's banner and banner *dims* object.
-* Each of these scaffold functions selects and reads a template file from `app/templates` based on whether the banner is standard, static, or expanding. 
-* It then takes this template and replaces several placeholder tags in the template with information about the banner from the *dims* object. 
-* The newly written file is then placed in it's respective banner folder within the `resources` directory. 
-* An Exit Links module is built from all of the *links* object in `banner.json` and written to `resources/js/components/exit-links.js`. This module is required and run in all each page's javascript file. 
+* Within the For-In loop: 
+    * A large object is created with several dimensions (*dims*) specific to that *banner*. 
+    * The scaffoldHTML, scaffoldSCSS, scaffoldJS, and scaffoldIMG functions are called, passing in the name of each banner and each banner's *dims* object.
+    * Each of these scaffold functions selects and reads a template file from `app/templates`, a template is determined by whether the banner is standard, static, or expanding. 
+    * It then takes this template and replaces several placeholder tags in the template with information about the banner from the *dims* object. 
+    * The newly written file is then placed in it's respective banner folder within the `resources` directory. 
+* An Exit Links module is built from all of the *links* object in `banner.json` and written to `resources/js/components/exit-links.js`.
 * Lastly, a simple index page is created and written to `resources/html/index.html`. 
 
 #### Example
@@ -103,7 +114,7 @@ While `gulp scaffold` will not overwrite any HTML, SCSS, Javascript, or Image fi
 
 ## 1.3: Gulp Build Tasks Overview
 
-A quick guide to the various Gulp build tasks available in this framework. If you do not have Gulp globally installed, eacg task covered here can also be accessed by running `npm run <gulp-task>`.
+Here is a quick guide to the Gulp build tasks available in this framework. If you do not have Gulp globally installed, eacg task covered here can also be accessed by running `npm run <gulp-task>`.
 
 ### Build Overview
 
@@ -136,7 +147,7 @@ This task will build your project, place it in `dist`, and then watch for any up
 
 This build process is for *Non-Doubleclick Banners*, which means that:
 
-* All `{{ link(<link-name>, <class-name>) }} Sample Links {{ closeLink() }}` will be rendered as `<a href="<link-url>">Sample Links</a>`
+* All `{{ link(<link-name>, <class-name>) }}Sample Link{{ closeLink() }}` will be rendered as `<a href="<link-url>">Sample Link</a>`
 * The class "doubleclick" will not be added to the banners.
 * The Enabler script, `<script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>`, will not be included in your document <head>
 * All Enabler methods will be bypassed in your Javascript files.
@@ -149,7 +160,7 @@ This task will build your project, place it in `dist`, and then watch for any up
 
 This build process is for *Doubleclick Banners*, which means that:
 
-* All `{{ link(<link-name>, <class-name>) }} Sample Links {{ closeLink() }}` will be rendered as `<span class="<link-name> <class-name">Sample Links</span>`
+* All `{{ link(<link-name>, <class-name>) }}Sample Link{{ closeLink() }}` will be rendered as `<span class="<link-name> <class-name>">Sample Link</span>`
 * The class "doubleclick" will be added to the banners.
 * The Enabler script, `<script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>`, will be included in your document <head>
 * All Enabler methods will be executed in your Javascript files.
@@ -180,7 +191,7 @@ When inserting a link into your HTML, write it as follows:
 ```html
 <p>A sample paragraph with a {{ link(<link-name>, '<class-name>') }}Sample Link{{ closeLink() }}</p>
 ```
-The link name that you pass in should match a <link-name> that you placed in `banners.json`. The second paramater will be added as a class to the link when rendered. Some classes will be added automatically, but you can optionally add your own here.
+The link name that you pass in should match &lt;link-name&gt; that you placed in `banners.json`. The second paramater will be added as a class to the link when rendered. The class "exit" will be added automatically, but you can optionally add additional classes here.
 
 ### Links for Doubleclick Studio
 
@@ -189,7 +200,7 @@ When you run `gulp develop:doubleclick` or `gulp build:doubleclick` the links wi
 ```html
 <!-- The following link -->
 
-{{ link('myCoolLink', 'exit-link awesome-class') }}Click Here{{ closeLink() }}
+{{ link('myCoolLink', 'exit exit-link awesome-class') }}Click Here{{ closeLink() }}
 
 <!-- Will be rendered to -->
 <span class="exit-link awesome-class">Click Here</span>
@@ -274,11 +285,6 @@ This line imports Macros to build either standard links or doubleclick links dep
 
 These three layout files can all be found within `resources/html/components`. You can edit these files for changes you would like to see across all banners of one type.
 
-```nunjucks
-{% block bannerClass %}{% endblock %}
-```
-As mentioned above, the name of the banner will be added as a class to the outer banner container. If you would like to add any more classes to this &lt;div&gt;, enter them in this block.
-
 ### Content Blocks
 
 #### Main Content and ISI - Standard Banners
@@ -348,9 +354,9 @@ The entry point for each banner's styles is that banner's specific SCSS file wit
 ```
 First, we will import normalize.scss. This is a commonly used 3rd party stylesheet to help normalize some inconsistencies across browsers.
 
-Second, we will import all of our modules. This could include variables, animations, and other stylesheets that don't directly apply styles to the DOM. By default, several variables will be pulled in from `resources/scss/modules/_variables.scss`. It is good to open up this file to view, edit, and add variables in your project. 
+Second, we will import all of our modules. This could include variables, animations, and other stylesheets that don't directly apply styles to the DOM. By default, several variables will be pulled in from `resources/scss/modules/_variables.scss`. It is good to open up this file to view, edit, and add variables to your project. 
 
-Third, we will import either `resources/scss/orientation/vertical.scss` or `resources/scss/orientation/horizontal`, depending on the banner's orientation. If you open up these files, you will see some additional variables. This is a great place to add or overwrite global variables that are orientation specific. 
+Third, depending on the banner's orientation, we will import either `resources/scss/orientation/vertical.scss` or `resources/scss/orientation/horizontal`. If you open up these files, you will see some additional variables. This is a great place to add or overwrite global variables that are orientation specific. 
 
 ### Declare or Re-Declare Banner- Specific Variables
 
@@ -450,16 +456,16 @@ window.addEventListener('load', function() {
 });
 
 ```
-The majority of this code is simply importing `resources/js/main.js` and initializing the HTML5 "Enabler".
+The majority of this code is simply conditionally initializing the HTML5 "Enabler" and importing `resources/js/main.js`.
 
-When your project is not built for DoubleClick Studio, this file will simply run `resources/js/main.js`. When your project is built for DoubleClick Studio, it will properly initalize the Enabler script, import your configured exit links, and then run `resources/js/main.js`.
+When your project is built for DoubleClick Studio, it will properly initalize the Enabler script, import your configured exit links, and then run `resources/js/main.js`. When your project is not built for DoubleClick Studio, this file will simply import and run `resources/js/main.js`. 
 
-If you would like to better understand how the Enabler is initialized and loaded, you can visit DoubleClick's documentation [Here](https://support.google.com/richmedia/answer/2672545?hl=en&ref_topic=2672541&visit_id=1-636613313005899523-3765677550&rd=1)
+If you would like to better understand how the Enabler is initialized and loaded, you can visit <a href="https://support.google.com/richmedia/answer/2672545?hl=en&ref_topic=2672541&visit_id=1-636613313005899523-3765677550&rd=1">DoubleClick's documentation</a>
 
 ### banner.js - Static Banners
 Example: `resources/js/pages/my-static-banner.js`
 
-The code within static banners will look almost identical to that of standard banners. The only differences are that once Enabler.js is initialized and loaded in DoubleClick banners it loads nothing else, and in non-DoubleClick banners it verifies it doesn't have the class "doubleclick" and loads nothing else.
+The code within static banners will look almost identical to that of standard banners. The only difference is that once Enabler.js is initialized and loaded in DoubleClick banners it loads nothing else, and in non-DoubleClick banners it verifies it doesn't have the class "doubleclick" and loads nothing.
 
 ### banner.js - Expanding Banners
 Example: `resources/js/pages/my-expand-on-hover-banner.js`
@@ -501,14 +507,14 @@ module.exports = function() {
 }
 ```
 
-First, we will create a new ISI (Important Safety Information) Component using iScroll. 
+First, we will create a new ISI (Important Safety Information) Component using iScroll. This component is explained in further detail [below](#isijs). If you are not going to have automatic (programattic) scrolling, remote `isi.init()`. 
 
-Next we will build an animationLoader object, return that object, and then call it's init() method. When the animationLoader component is initialized it will run the function fadeInScreen1(), which finds the DOM element with the class ".screen-1" and causes it to fade in. From here you can build out additional methods to be called in sequence.
+Next we will build an animationLoader object, return that object, and then call it's `init()` method. When the animationLoader component is initialized it will run the function `fadeInScreen1()`, which finds the DOM element with the class ".screen-1" and causes it to fade in. From here you can build out additional methods to be called in sequence.
 
 ### main-expanding.js - Expanding Banners
 Path: `resources/js/main-expanding.js`.
 
-The first 27 lines of this file are identical to `resources/js/main.js`. The unique features of expanding banners are the next four methods 
+The first 27 lines of this file are almost identical to `resources/js/main.js`. The unique features of expanding banners are the next four methods 
 
 ```javascript
 this.expandStartAnimation = function(callback) {
@@ -516,7 +522,8 @@ this.expandStartAnimation = function(callback) {
   if (callback) { callback(); };
 }
 ```
-This method will be called whenever the request to expand the banner is called. This is where you will add your own code to animate the expanding of your banner. After your animation is complete, you will need to run `if (callback) { callback(); };`. This callback is what notifies Enabler.js the banner is now expanded.
+This method will be called whenever the request to expand the banner is made. This is where you will add your own code to animate the expanding of your banner. After your animation is complete, you will need to run `if (callback) { callback(); };`. When this banner is built for DoubleClick Studio, this callback is what notifies Enabler.js the banner is now expanded.
+
 **NOTE:** It's important to set up your code in such a way that the callback is not executed until your animation has completed. 
 
 ```javascript
@@ -533,7 +540,8 @@ this.collapseStartAnimation = function(callback) {
     if (callback) { callback() ; };
 }
 ```
-Similiar to this.expandStartAnimation, this method will be called whenever the request to collapse the banner is called. This is where code is added to animate the expanding of the banner. After the animation is complete, you will need to run `if (callback) { callback(); };`. This callback is what notifies Enabler.js the banner is now collapsed.
+Similiar to this.expandStartAnimation, this method will be called whenever the request to collapse the banner is called. This is where code is added to animate the expanding of the banner. After the animation is complete, you will need to run `if (callback) { callback(); };`. When this banner is built for DoubleClick Studio, this callback is what notifies Enabler.js the banner is now collapsed.
+
 **NOTE:** It's important to set up your code in such a way that the callback is not executed until your animation has completed. 
 
 ```javascript
@@ -559,18 +567,86 @@ this.isiScroll = new IScroll(`#${this.id}-container`, {
 });
 ```
 
-This initial code is what creates the new IScroll element. You can read more about the different configuration options in the <a href="http://iscrolljs.com/#configuring">iScroll Documentation</a>
+This initial code is what creates the new IScroll element. Notice we are adding some custom configurations to this instantiation. You can read more about the different configuration options in the <a href="http://iscrolljs.com/#configuring">iScroll Documentation</a>
 
-Every other variable and method in this file is for handling programmtic scrolling. If your project will not have programmatic scrolling, you can remove all of these functions. Additionally, `probType: 3` is what allows the ISI to pause and resume scrolling, so this can be removed if it's not needed.
+Every other variable and method in this file is for handling programmtic scrolling. If your project will not have programmatic scrolling, you can remove all of these functions. If you do this, make sure you also remove `isi.init()` from `main.js` and `main-expanding.js`. Additionally, `probType: 3` is what allows the ISI to pause and resume scrolling, so this can be removed if it's not needed.
 
 #### Programmatic Scrolling
+
+```javascript
+this.initialized = false;
+this.mouseOverIsi = false;
+this.scrollSpeedMultiplier = -100;
+
+this.init = function() {
+  if (!this.initialized) {
+    this.initialized = true;
+    this.startScrollFromBeginning();
+  }
+};
+
+this.handleMouseEnter = function() {
+  this.mouseOverIsi = true;
+  if (this.initialized) {
+    this.pauseScroll();
+  }
+}
+
+this.handleMouseLeave = function() {
+  this.mouseOverIsi = false;
+  if (this.initialized) {
+    this.resumeScroll();
+  }
+}
+
+this.startScrollFromBeginning = function() {
+  if (!this.mouseOverIsi) {
+    this.isiScroll.scrollTo(
+      0,
+      this.isiScroll.maxScrollY,
+      this.isiScroll.maxScrollY * this.scrollSpeedMultiplier,
+      IScroll.utils.ease.quadratic
+    );
+  }
+}
+
+this.pauseScroll = function() {
+  this.isiScroll.scrollTo(
+    0,
+    this.isiScroll.y,
+    -1,
+    IScroll.utils.ease.quadratic
+  );
+};
+
+this.resumeScroll = function() {
+  if (!this.mouseOverIsi) {
+    var self = this;
+    setTimeout(function() {
+      if (!self.mouseOverIsi) {
+        self.isiScroll.scrollBy(
+          0,
+          self.isiScroll.maxScrollY - self.isiScroll.y,
+          (self.isiScroll.maxScrollY - self.isiScroll.y) * self.scrollSpeedMultiplier,
+          IScroll.utils.ease.quadratic
+        );
+      }
+    }, 75);
+  }
+};
+
+// Set event listeners
+this.isiContainer.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
+this.isiContainer.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+
+```
 
 If you are using programmatic scrolling in your project, here is a quick overview of what is happening: 
 
 * Two flag variables, `this.initialized` and `this.mouseOverIsi`, are initialized to false.
 * `this.scrollSpeedMultiplier` is set to `-100`. You can adjust this number to make it scroll faster or slower. Make sure the number is negative. 
-* The method `this.init` is declared. This can be called whenever you want the programmatic scroll to start. The method checks to make sure the component has not already been initialized, it will then flip `this.initialized` to `true` and call `this.startScrollFromBeginning()`.
-* Two event listeners are added to the ISI Container, one to listen for 'mouseenter' and the other for 'mouseleave'. 
+* The method `this.init` is declared. This can be called whenever you want the programmatic scroll to start. The method checks to make sure the component has not already been initialized, then flips `this.initialized` to `true`, and calls `this.startScrollFromBeginning()`.
+* At the bottom, two event listeners are added to the ISI Container, one to listen for 'mouseenter' and the other for 'mouseleave'. 
 * When the mouse enters the ISI container, `this.mouseOverIsi` is flipped to `true`. Then, if the component has been initialized, it will pause the scroll.
 * When the mouse leaves the ISI container, `this.mouseOverIsi` is flipped to `false`. Then, if the component has been initialized, it will resume the scroll.
 
