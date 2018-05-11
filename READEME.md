@@ -31,22 +31,32 @@ Open up `banners.json` to customize your project. There are two objects you will
 
 ### Banners
 
-```
+```javascript
 "banners": {
-  "<banner-name>": {                      // @string - Enter banner title
-    "width": <banner-width>,              // @int - Enter banner width in pixels
-    "height": <banner-height>,            // @int - Enter banner height in pixels
-    "orientation": "<banner-orientation>" // @string Enter either 'horizontal' or 'vertical'
-    "static": <is-banner-static>          // @bool - Enter either true or false
+  "<banner-name>": {                     // @string - Enter banner title
+    "width": <banner-width>,             // @int - Enter banner width in px
+    "height": <banner-height>,           // @int - Enter banner height in px
+    "orientation": <banner-orientation>, // @string Enter either 'horizontal' or 'vertical'
+    "static": <is-banner-static>         // @bool - Enter either true or false
+    
+    /* If it is an expanding banner you will also add the following */
+    "expanded": {
+      "width": <expanded-banner-width>,   // @int - Enter expanded banner height in px
+      "height": <expanded-banner-height>, // @int - Enter expanded banner height in px
+      "expandEventHandler": <event>,      // @string - Either 'click' or 'hover'
+      "expandDirection": [
+      
+      ]
+    }
   }
 }
 ```
 
 ### Links
-```
-"<link-name>": {                      // @string - Reference name for link. Should be camelCase
-  "displayName": "<displayed-name>",  // @string - Name that will show in DoubleClick studio analytics
-  "href": "<url-of-link>"             // @string - Link URL. This will only be used in non-doubleclick banners
+```javascript
+"<link-name>": {                   // @string - Reference name for link. Should be camelCase
+  "displayName": <displayed-name>, // @string - Name that will show in DoubleClick studio analytics
+  "href": <url-of-link>            // @string - Link URL. This will only be used in non-doubleclick banners
 }
 ```
 
