@@ -13,11 +13,12 @@
    1. [File Structure - HTML](#21-file-structure---html)
    1. [File Structure - SCSS](#22-file-structure---scss)
    1. [File Structure - Javascript](#23-file-structure---javascript)
-      1. [Standard Banners](#standard-banners)
-      1. Static Banners
-      1. Expanding Banners
-      1. [main.js](#mainjs)
-      1. [isi.js](#javascript-isi)
+      1. [banner.js - Standard Banners](#bannerjs-standard-banners)
+      1. [banner.js - Static Banners](#bannerjs-static-banners)
+      1. [banner.js - Expanding Banners](#bannerjs-expanding-banners)
+      1. [main-js - Standard Banners](#mainjs-standard-banners)
+      1. [main.js - Expanding Banners](#mainjs-expanding-banners)
+      1. [isi.js](#javascript-isijs)
 
 
 # 1: Quick Start
@@ -534,7 +535,7 @@ this.collapseFinishAnimation = function(callback) {
 
 If something needs to execute *after* the collapse animation is complete, add it here.
 
-### ISI
+### IsiJS
 
 Navigate to `resources/js/components/isi.js`.
 
