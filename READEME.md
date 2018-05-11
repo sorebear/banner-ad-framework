@@ -6,7 +6,7 @@
 1. [Quick Start](#1-quick-start)
    1. [Getting Started](#11-getting-started)
    1. [Scaffolding](#12-scaffolding)
-   1. [Gulp Tasks](#13-gulp-tasks-overview)
+   1. [Gulp Tasks](#13-gulp-build-tasks-overview)
    1. [Banner Links](#14-banner-links)
 
 1. [File Structure](#2-file-structure)
@@ -51,24 +51,72 @@ Open up `banners.json` to customize your project. There are two objects you will
 }
 ```
 
-Banners deployed to doubleclick studio do not use traditional anchor tags, but handle all linking through javascript. The necessary javascript functions will be built from the information that is provided here.
+Banners deployed to doubleclick studio do not use traditional anchor tags, but handle all linking through javascript. The necessary javascript functions will be built from the information that is provided here. Links are explained in further details in [Section 1.4](#14-banner-links).
 
+## 1.2: Scaffolding
 
-## 1.3: Gulp Tasks Overview
+After you have fillder out `banners.json` to your project's specifications, there are two scaffolding processes you can run. If you do not have Gulp globally installed, each task covered here can also be accessed by running `npm run <gulp-task>`.
 
-A quick guide to the various Gulp taks in this framework. If you do not have Gulp globally installed, every task covered here can also be accessed by running `npm run <gulp-task>`.
-
-### scaffold
 ```
 gulp scaffold
 ```
 This task will build out the file-structure and generate a couple files for you based on the contents of `banner.json`. If you alter the banners object in `banner.json` file and re-run this command, it will build files for the new banners but will not remove any previous banners that were created.
 
-### re-scaffold
 ```
 gulp re-scaffold
 ```
 This task will clear out all the files from `resources/html/pages`, `resources/scss/pages`, `resources/js/pages`, and `resources/img/pages`, and then re-scaffold your project from `banners.json`. Be careful before running this command and double-check you aren't overwriting something you need.
+
+### Understanding and Customizing Scaffolding
+
+To see the scaffolding script, open up `app/tasks/scaffold.js`. Here is a quick overview of what is happening:
+* The *banners* object from `banner.json` is passed as an argument to the scaffolding module. 
+* A For-In loop is run over the *banners* object.
+* Within the For-In loop a large object is created with several dimensions (*dims*) specific to that *banner*. 
+* The scaffoldHTML, scaffoldSCSS, scaffoldJS, and scaffoldIMG functions are called, passing in the specific iteration's banner and banner *dims* object.
+* Each of these scaffold functions selects and reads a template file from `app/templates` based on whether the banner is standard, static, or expanding. 
+* It then takes this template and replaces several placeholder tags in the template with information about the banner from the *dims* object. 
+* The newly written file is then placed in it's respective banner folder within the `resources` directory. 
+* An Exit Links module is built from all of the *links* object in `banner.json` and written to `resources/js/components/exit-links.js`. This module is required and run in all each page's javascript file. 
+* Lastly, a simple index page is created and written to `resources/html/index.html`. 
+
+#### Example
+A banner titled 'banner-banter' would:
+* Create the HTML file `resources/html/pages/banner-banter.html`
+* Create the SCSS file `resources/scss/pages/banner-banter.scss`
+* Create the JS file `resources/js/pages/banner-banter.js`
+* Create the IMG folder `resources/img/pages/banner-banter`
+
+### Note on Scaffolding and Re-Scaffolding
+
+While `gulp scaffold` will not overwrite any HTML, SCSS, Javascript, or Image files within the pages subfolder, it will **always** rewrite `resources/html/index.html` and `resources/js/components/exit-links.js`. This is because it is common to add in additional banners or links when you are half way through a project and always want to ensure the exit links and index file are up to date. 
+
+## 1.3: Gulp Build Tasks Overview
+
+A quick guide to the various Gulp build tasks available in this framework. If you do not have Gulp globally installed, eacg task covered here can also be accessed by running `npm run <gulp-task>`.
+
+### Build Overview
+
+All of the build processes will create a seperate folder for each banner in the `dist` directory with self-contained assets for that banner. 
+
+*For Example:* If you have two banners in your project, "first-banner" and "second-banner", the build processes will create the following file structure:
+```
+-dist
+  -first-banner
+    -css
+      -main.css
+    -js
+      -bundle.js
+    -img
+    -first-banner.html
+  -second-banner
+    -css
+      -main.css
+    -js
+      -bundle.js
+    -img
+    -second-banner.html
+```
 
 ### develop
 ```
@@ -434,6 +482,35 @@ module.exports = function() {
 
 By default, `resources/js/main.js` is set up with functionality that will be typical on most banner projects. 
 
-First, we will create a new Isi (Important Safety Information) Component using iScroll. 
+First, we will create a new ISI (Important Safety Information) Component using iScroll. 
 
-Next we will build an animationLoader object, return that object, and then fun it's init method. When the animationLoader component is initialized it will run the function fadeInScreen1(), which finds the DOM element with the class ".screen-1" and causes it to fade in. From here you can build out additional methods to be called in sequence. 
+Next we will build an animationLoader object, return that object, and then call it's init() method. When the animationLoader component is initialized it will run the function fadeInScreen1(), which finds the DOM element with the class ".screen-1" and causes it to fade in. From here you can build out additional methods to be called in sequence. 
+
+### ISI
+
+Navigate to `resources/js/components/isi.js`.
+
+```javascript
+this.id = id ? id : 'isi';
+this.isi = document.getElementById(this.id);
+this.isiContainer = document.getElementById(`${this.id}-container`);
+this.isiScroll = new IScroll(`#${this.id}-container`, {
+	mouseWheel: true,
+	scrollbars: true,
+	probeType: 3
+});
+```
+
+This initial code is what creates the new IScroll element. You can read more about the different configuration options in the [iScroll Documentation](http://iscrolljs.com/#configuring)
+
+Every other variable and method in this file is for handling programmtic scrolling. If your project will not have programmatic scrolling, you can remove all of these functions. Additionally, `probType: 3` is what allows the ISI to pause and resume scrolling, so this can be removed if it's not needed.
+
+#### Programmatic Scrolling Overview
+
+* Two flag variables, `this.initialized` and `this.mouseOverIsi`, are initialized to false.
+* `this.scrollSpeedMultiplier` is set to `-100`. You can adjust this number to make it scroll faster or slower. Make sure the number is negative. 
+* The method `this.init` is declared. This can be called whenever you want the programmatic scroll to start. The method checks to make sure the component has not already been initialized, it will then flip `this.initialized` to `true` and call `this.startScrollFromBeginning()`.
+* Two event listeners are added to the ISI Container, one to listen for 'mouseenter' and the other for 'mouseleave'. 
+* When the mouse enters the ISI container, `this.mouseOverIsi` is flipped to `true`. Then, if the component has been initialized, it will pause the scroll.
+* When the mouse leaves the ISI container, `this.mouseOverIsi` is flipped to `false`. Then, if the component has been initialized, it will resume the scroll.
+
