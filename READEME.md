@@ -17,8 +17,8 @@
       1. [banner.js - Static Banners](#bannerjs-static-banners)
       1. [banner.js - Expanding Banners](#bannerjs-expanding-banners)
       1. [main-js - Standard Banners](#mainjs-standard-banners)
-      1. [main.js - Expanding Banners](#mainjs-expanding-banners)
-      1. [isi.js](#javascript-isijs)
+      1. [main-expanded.js - Expanding Banners](#main-expandingjs-expanding-banners)
+      1. [isi.js](#isijs)
 
 
 # 1: Quick Start
