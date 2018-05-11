@@ -410,7 +410,7 @@ If you are making an expanding banner, there will be some additional sizing styl
 
 The entry point for each banner's javascript is that banner's specific JS file within `resources/js/pages`. Let's quickly look at this entry point for each type of banner.
 
-### BannerJS - Standard Banners
+### banner.jS - Standard Banners
 Example: `resources/js/pages/my-standard-banner.js`
 
 ```javascript
