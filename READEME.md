@@ -242,7 +242,7 @@ Some meta data is added with the <head> component regarding the banner size.
 {% block bannerClass %}{% endblock %}
 ```
 
-The banner file name will set the title and set the class of outermost banner div. IF you would like to add any additional classes to your banner, you can add them within the 'bannerClass' block. 
+The banner file name will set the title and set the class of outermost banner div. If you would like to add any additional classes to your banner, you can add them within the 'bannerClass' block. 
 
 ### Importing Macros
 ```nunjucks
@@ -411,8 +411,8 @@ If you are making an expanding banner, there will be some additional sizing styl
 
 The entry point for each banner's javascript is that banner's specific JS file within `resources/js/pages`. Let's quickly look at this entry point for each type of banner.
 
-### Standard Banners
-ex: my-standard-banner.js
+### BannerJS - Standard Banners
+Example: `resources/js/pages/my-standard-banner.js`
 
 ```javascript
 var mainJs = require('../main.js');
@@ -448,7 +448,20 @@ When your project is not built for DoubleClick Studio, this file will simply run
 
 If you would like to better understand how the Enabler is initialized and loaded, you can visit DoubleClick's documentation [Here](https://support.google.com/richmedia/answer/2672545?hl=en&ref_topic=2672541&visit_id=1-636613313005899523-3765677550&rd=1)
 
-### MainJS
+### BannerJS - Static Banners
+Example: `resources/js/pages/my-static-banner.js`
+
+The code within static banners will look almost identical to that of standard banners. The only differences are that once Enabler.js is initialized and loaded in DoubleClick banners it loads nothing else, and in non-DoubleClick banners it verifies it doesn't have the class "doubleclick" and loads nothing else.
+
+### BannerJS - Expanding Banners
+Example: `resources/js/pages/my-expand-on-hover-banner.js`
+
+This section will be added to the documenation soon. Please reach out to `sbaird@envivent.com` if you have questions about the file structure for expanding banners.
+
+### MainJS - Standard Banners
+Path: `resources/js/main.js`
+
+By default, `main.js` is set up with base functionality that will be typical for most banner projects. 
 
 ```javascript
 var Isi = require('./components/isi.js');
@@ -480,11 +493,48 @@ module.exports = function() {
 }
 ```
 
-By default, `resources/js/main.js` is set up with functionality that will be typical on most banner projects. 
-
 First, we will create a new ISI (Important Safety Information) Component using iScroll. 
 
-Next we will build an animationLoader object, return that object, and then call it's init() method. When the animationLoader component is initialized it will run the function fadeInScreen1(), which finds the DOM element with the class ".screen-1" and causes it to fade in. From here you can build out additional methods to be called in sequence. 
+Next we will build an animationLoader object, return that object, and then call it's init() method. When the animationLoader component is initialized it will run the function fadeInScreen1(), which finds the DOM element with the class ".screen-1" and causes it to fade in. From here you can build out additional methods to be called in sequence.
+
+### MainJS - Expanding Banners
+Path: `resources/js/main-expanding.js`.
+
+The first 27 lines of this file are identical to `resources/js/main.js`. The unique features of expanding banners are the next four methods 
+
+```javascript
+this.expandStartAnimation = function(callback) {
+
+  if (callback) { callback(); };
+}
+```
+This method will be called whenever the request to expand the banner is called. This is where you will add your own code to animate the expanding of your banner. After your animation is complete, you will need to run `if (callback) { callback(); };`. This callback is what notifies Enabler.js the banner is now expanded.
+**NOTE:** It's important to set up your code in such a way that the callback is not executed until your animation has completed. 
+
+```javascript
+this.expandFinishAnimation = function(callback) {
+    
+}
+```
+
+If something needs to execute *after* the expand animation is complete, add it here. 
+
+```javascript
+this.collapseStartAnimation = function(callback) {
+    
+    if (callback) { callback() ; };
+}
+```
+Similiar to this.expandStartAnimation, this method will be called whenever the request to collapse the banner is called. This is where code is added to animate the expanding of the banner. After the animation is complete, you will need to run `if (callback) { callback(); };`. This callback is what notifies Enabler.js the banner is now collapsed.
+**NOTE:** It's important to set up your code in such a way that the callback is not executed until your animation has completed. 
+
+```javascript
+this.collapseFinishAnimation = function(callback) {
+    
+}
+```
+
+If something needs to execute *after* the collapse animation is complete, add it here.
 
 ### ISI
 
@@ -505,7 +555,9 @@ This initial code is what creates the new IScroll element. You can read more abo
 
 Every other variable and method in this file is for handling programmtic scrolling. If your project will not have programmatic scrolling, you can remove all of these functions. Additionally, `probType: 3` is what allows the ISI to pause and resume scrolling, so this can be removed if it's not needed.
 
-#### Programmatic Scrolling Overview
+#### Programmatic Scrolling
+
+If you are using programmatic scrolling in your project, here is a quick overview of what is happening: 
 
 * Two flag variables, `this.initialized` and `this.mouseOverIsi`, are initialized to false.
 * `this.scrollSpeedMultiplier` is set to `-100`. You can adjust this number to make it scroll faster or slower. Make sure the number is negative. 
@@ -513,4 +565,5 @@ Every other variable and method in this file is for handling programmtic scrolli
 * Two event listeners are added to the ISI Container, one to listen for 'mouseenter' and the other for 'mouseleave'. 
 * When the mouse enters the ISI container, `this.mouseOverIsi` is flipped to `true`. Then, if the component has been initialized, it will pause the scroll.
 * When the mouse leaves the ISI container, `this.mouseOverIsi` is flipped to `false`. Then, if the component has been initialized, it will resume the scroll.
+
 
