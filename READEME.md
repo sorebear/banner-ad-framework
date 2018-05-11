@@ -281,7 +281,7 @@ As mentioned above, the name of the banner will be added as a class to the outer
 
 ### Content Blocks
 
-#### For Standard Banners - Main Content and ISI
+#### Main Content and ISI - Standard Banners
 
 ```nunjucks
 {% block content %}
@@ -297,7 +297,7 @@ All standard banners will include the content located in `resources/html/compone
 
 All standard banners will also include the "Important Safety Information" content located in `resources/html/components/isi.html`. 
 
-#### For Static Banners - Main Content
+#### Main Content - Static Banners
 
 ```nunjucks
 {% block content %}
@@ -310,7 +310,7 @@ All static banners will include the content located in `resources/html/component
 
 Static banners typically do not include the Important Safety Information, which is why the "isi" block is excluded by default.
 
-#### For Expanding Banners - Main Content and ISI Collapsed, Main Content and ISI Expanded
+#### Main Content and ISI - Expanded Banners
 
 ```nunjucks
 {% block mainContentCollapsed %}
