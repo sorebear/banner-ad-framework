@@ -1,8 +1,6 @@
-# Bernese Mountain Banners
+<img src="https://res.cloudinary.com/sorebear/image/upload/v1526145174/envivent/bolognese-banners.png">
 
-<img src="http://www.octoberbernese.com/images/pluggenjr_littter.jpg">
-
-## Table of Contents
+## Bolognese Banners - Table of Contents
 1. [Quick Start](#1-quick-start)
    1. [Getting Started](#11-getting-started)
    1. [Scaffolding](#12-scaffolding)
