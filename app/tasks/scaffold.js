@@ -66,6 +66,7 @@ module.exports = (gulp, banners) => {
 			scaffoldJS(bannerTitle, dims);
 			scaffoldIMG(bannerTitle, dims);
 		}
+		scaffoldExitLinksJS(banners);
 		fs.writeFileSync(`${HTML_PATH}/index.html`, tpl);
 	});
 
@@ -101,7 +102,6 @@ module.exports = (gulp, banners) => {
 	};
 
 	const scaffoldJS = (banner, dims) => {
-		scaffoldExitLinksJS(banners);
 		let tpl = dims.expanding ? 
 			fs.readFileSync(`${TEMPLATE_PATH}/jsExpanding.tpl`, 'utf8') : 
 			dims.static ?

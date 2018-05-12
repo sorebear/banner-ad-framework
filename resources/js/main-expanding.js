@@ -32,10 +32,9 @@ module.exports = function Expanding() {
     if (callback) { callback(); };
   }
 
-  this.expandFinishAnimation = function(callback) {
+  this.expandFinishAnimation = function() {
 
 
-    if (callback) { callback(); };
   }
 
   this.collapseStartAnimation = function(callback) {
@@ -44,9 +43,8 @@ module.exports = function Expanding() {
     if (callback) { callback(); };
   }
 
-  this.collapseFinishAnimation = function(callback) {
+  this.collapseFinishAnimation = function() {
 
     
-    if (callback) { callback(); };
   }
 }
