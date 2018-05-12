@@ -1,4 +1,6 @@
-# Banner Ad Framework
+# Bernese Mountain Banners
+
+<img src="http://www.octoberbernese.com/images/pluggenjr_littter.jpg">
 
 ## Table of Contents
 1. [Quick Start](#1-quick-start)
