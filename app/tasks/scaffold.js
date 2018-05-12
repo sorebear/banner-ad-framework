@@ -66,7 +66,8 @@ module.exports = (gulp, banners) => {
 			scaffoldJS(bannerTitle, dims);
 			scaffoldIMG(bannerTitle, dims);
 		}
-		scaffoldExitLinksJS(banners);
+    scaffoldExitLinksJS(banners);
+    scaffoldClickTags(banners);
 		fs.writeFileSync(`${HTML_PATH}/index.html`, tpl);
 	});
 
@@ -132,7 +133,17 @@ module.exports = (gulp, banners) => {
 		}
 		tpl = tpl.replace(/<%exitLinks%>/g, exitLinks);
 		fs.writeFileSync(`${JS_PATH}/components/exit-links.js`, tpl);
-	}
+  }
+  
+  const scaffoldClickTags = banners => {
+    let tpl = fs.readFileSync(`${TEMPLATE_PATH}/aLinks.tpl`, 'utf8');
+    let clickTags = '';
+    for (link in banners.links) {
+      clickTags = clickTags + `var ${link} = "${banners.links[link].href}"; `;
+    }
+    tpl = tpl.replace(/<%clickTags%>/g, clickTags);
+    fs.writeFileSync(`${HTML_PATH}/macros/aLinks/links.html`, tpl);
+  }
 
 	const scaffoldIMG = banner => {
 		checkThenMakeDir(`${IMG_PATH}/pages/${banner}`);

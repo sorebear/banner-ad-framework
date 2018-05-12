@@ -98,7 +98,8 @@ To see the scaffolding script, open up `app/tasks/scaffold.js`. Here is a quick 
     * Each of these scaffold functions selects and reads a template file from `app/templates`, a template is determined by whether the banner is standard, static, or expanding. 
     * It then takes this template and replaces several placeholder tags in the template with information about the banner from the *dims* object. 
     * The newly written file is then placed in its respective banner folder within the `resources` directory. 
-* An Exit Links module is built from all of the *links* object in `banner.json` and written to `resources/js/components/exit-links.js`.
+* An Exit Links module is built from the *links* object in `banner.json` and written to `resources/js/components/exit-links.js`.
+* An Anchor Links module is built, forming Click Tags from the *links* object and written to `resources/js/macros/aLinks/links.html`.
 * Lastly, a simple index page is created and written to `resources/html/index.html`. 
 
 #### Example
@@ -110,7 +111,7 @@ A banner titled 'banner-banter' would:
 
 ### Note on Scaffolding and Re-Scaffolding
 
-While `gulp scaffold` will not overwrite any HTML, SCSS, Javascript, or Image files within the pages subfolder, it will **always** rewrite `resources/html/index.html` and `resources/js/components/exit-links.js`. This is because it is common to add in additional banners or links when you are halfway through a project and always want to ensure the exit links and index file are up to date. 
+While `gulp scaffold` will not overwrite any HTML, SCSS, Javascript, or Image files within the pages subfolder, it will **always** rewrite `resources/html/index.html`, `resources/html/macros/aLinks/links.html` and `resources/js/components/exit-links.js`. This is because it is common to add in additional banners or links when you are halfway through a project and always want to ensure the exit links and index file are up to date. 
 
 ## 1.3: Gulp Build Tasks Overview
 
@@ -150,6 +151,7 @@ This build process is for *Non-Doubleclick Banners*, which means that:
 * All `{{ link(<link-name>, <class-name>) }}Sample Link{{ closeLink() }}` will be rendered as `<a href="<link-url>">Sample Link</a>`
 * The class "doubleclick" will not be added to the banners.
 * The Enabler script, `<script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>`, will not be included in your document <head>
+* A script containing Click Tags will be included in the document &lt;head&gt;.
 * All Enabler methods will be bypassed in your Javascript files.
 
 ### develop:doubleclick
@@ -163,6 +165,7 @@ This build process is for *Doubleclick Banners*, which means that:
 * All `{{ link(<link-name>, <class-name>) }}Sample Link{{ closeLink() }}` will be rendered as `<span class="<link-name> <class-name>">Sample Link</span>`
 * The class "doubleclick" will be added to the banners.
 * The Enabler script, `<script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>`, will be included in your document <head>
+* A script containing Click Tags will not be included in the document &lt;head&gt;
 * All Enabler methods will be executed in your Javascript files.
 
 ### build
@@ -189,13 +192,13 @@ If a banner is going to be deployed on Doubleclick Studio, it does not use ancho
 
 When inserting a link into your HTML, write it as follows:
 ```html
-<p>A sample paragraph with a {{ link(<link-name>, '<class-name>') }}Sample Link{{ closeLink() }}</p>
+<p>A sample paragraph with a {{ link('<link-name>', '<class-name>') }}Sample Link{{ closeLink() }}</p>
 ```
-The link name that you pass in should match &lt;link-name&gt; that you placed in `banners.json`. The second parameter will be added as a class to the link when rendered. The class "exit" will be added automatically, but you can optionally add additional classes here.
+The link name that you pass in should be a string and match link-name that you placed in `banners.json`. The second parameter is optional and will be added as a class to the link when rendered.
 
 ### Links for Doubleclick Studio
 
-When you run `gulp develop:doubleclick` or `gulp build:doubleclick` the links will be rendered as "span" elements. Add the class "exit-link" to underline the next and make it inherit the parent element's color (this matches the appearance of an anchor tag). If you are adding the link to an image or container &lt;div&gt;, you typically would not add the "exit-link" class.
+When you run `gulp develop:doubleclick` or `gulp build:doubleclick` the links will be rendered as "span" elements. The link name and "exit" will be automatically be added as classes. Add the class "exit-link" as the second argument to underline the text and make it inherit the parent element's color (this matches the appearance of an anchor tag). If you are adding the link to an image or container &lt;div&gt;, you typically would not add the "exit-link" class.
 
 ```html
 <!-- The following link -->
@@ -203,12 +206,12 @@ When you run `gulp develop:doubleclick` or `gulp build:doubleclick` the links wi
 {{ link('myCoolLink', 'exit exit-link awesome-class') }}Click Here{{ closeLink() }}
 
 <!-- Will be rendered to -->
-<span class="exit-link awesome-class">Click Here</span>
+<span class="myCoolLink exit-link awesome-class">Click Here</span>
 ```
 
 ### Links for Other Platforms
 
-When your run `gulp develop` or `gulp build` the links will be rendered as anchor tags. Remember that the "src" url will be pulled from the matching link name in `banners.json`.
+When your run `gulp develop` or `gulp build` the links will be rendered as anchor tags, making reference to click tags which are declared in a script within the document &lt;head&gt;. Remember that the "href" url will be pulled from the matching link name in `banners.json`.
 
 ```html
 <!-- The following link -->
@@ -216,7 +219,7 @@ When your run `gulp develop` or `gulp build` the links will be rendered as ancho
 {{ link('myCoolLink', 'exit-link awesome-class') }}Click Here{{ closeLink() }}
 
 <!-- Will be rendered to -->
-<a src="http://awesome-url.com" target="_blank" class="exit-link awesome-class">Click Here</a>
+<a src="javascript:window.open(window.myCoolLink)" class="exit-link awesome-class">Click Here</a>
 ```
 
 # 2: File Structure
