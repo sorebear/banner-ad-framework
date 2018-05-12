@@ -1,4 +1,4 @@
-<img src="https://res.cloudinary.com/sorebear/image/upload/v1526145174/envivent/bolognese-banners.png">
+<img width="1212px" src="https://res.cloudinary.com/sorebear/image/upload/v1526145174/envivent/bolognese-banners.png">
 
 ## Bolognese Banners - Table of Contents
 1. [Quick Start](#1-quick-start)
