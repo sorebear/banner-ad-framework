@@ -4,6 +4,6 @@
 
 {% macro enabler() %}
 <script>
-  var testLink = "http://google.com"; var gitHub = "http://github.com"; 
+  <%clickTags%>
 </script>
 {% endmacro %}

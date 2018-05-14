@@ -45,6 +45,7 @@ module.exports = (gulp, banners) => {
 			tpl += link;
 			const banner = banners.banners[bannerTitle];
 			const dims = {
+				static: banner.static,
 				orientation: banner.orientation,
 				collapsedWidth: banner.width,
 				collapsedHeight: banner.height,
@@ -53,43 +54,33 @@ module.exports = (gulp, banners) => {
 				expandedWidth: banner.expanded ? banner.expanded.width : null,
 				expandedHeight: banner.expanded ? banner.expanded.height : null,
 				expandDirection: banner.expanded ? banner.expanded.expandDirection : null,
-				static: banner.static
+				topOffset: !banner.expanded ? 0 : 
+					banner.expanded.expandDirection.includes('up') ?
+					banner.expanded.height - banner.height : 0,
+				leftOffset: !banner.expanded ? 0 :
+					banner.expanded.expandDirection.includes('left') ?
+					banner.expanded.width - banner.width : 0
 			}
-			dims.topOffset = !dims.expanding ? 0 : 
-				dims.expandDirection.includes('left') ? dims.expandedHeight - dims.collapsedHeight : 0;
-			dims.leftOffset = !dims.expanding ? 0 :
-				dims.expandDirection.includes('up') ? dims.expandedWidth - dims.collapsedWidth : 0;
 			scaffoldHTML(bannerTitle, dims);
 			scaffoldSCSS(bannerTitle, dims);
 			scaffoldJS(bannerTitle, dims);
 			scaffoldIMG(bannerTitle, dims);
 		}
+    scaffoldExitLinksJS(banners);
+    scaffoldClickTags(banners);
 		fs.writeFileSync(`${HTML_PATH}/index.html`, tpl);
 	});
 
-	const Templater = function (filePath, banner) {
-		const nameTag = '<%fileName%>';
-		const widthTag = '<%width%>';
-		const heightTag = '<%height%>';
-		let tpl = fs.readFileSync(filePath, 'utf8');
-		tpl = tpl.replace(nameTag, banner);
-		tpl = tpl.replace(heightTag, banners.banners[banner].height);
-		tpl = tpl.replace(widthTag, banners.banners[banner].width);
-		this.get = () => {
-			return tpl;
-		}
-	}
-
 	const scaffoldHTML = (banner, dims) => {
-		tpl = dims.expanding ? 
-			new Templater(`${TEMPLATE_PATH}/htmlExpanding.tpl`, banner) :
+		let tpl = dims.expanding ? 
+		fs.readFileSync(`${TEMPLATE_PATH}/htmlExpanding.tpl`, 'utf8') :
 			dims.static ?
-				new Templater(`${TEMPLATE_PATH}/htmlStatic.tpl`, banner) : 
-				new Templater(`${TEMPLATE_PATH}/html.tpl`, banner);
-		checkThenWriteFile(
-			`${HTML_PATH}/pages/${banner}.html`,
-			tpl.get()
-		);
+				fs.readFileSync(`${TEMPLATE_PATH}/htmlStatic.tpl`, 'utf8') :
+				fs.readFileSync(`${TEMPLATE_PATH}/html.tpl`, 'utf8');
+		tpl = tpl.replace(/<%fileName%>/g, banner);
+		tpl = tpl.replace(/<%width%>/g, dims.collapsedWidth);
+		tpl = tpl.replace(/<%height%>/g, dims.collapsedHeight);
+		checkThenWriteFile(`${HTML_PATH}/pages/${banner}.html`, tpl);
 	};
 
 	const scaffoldSCSS = (banner, dims) => {
@@ -112,7 +103,6 @@ module.exports = (gulp, banners) => {
 	};
 
 	const scaffoldJS = (banner, dims) => {
-		scaffoldExitLinksJS(banners);
 		let tpl = dims.expanding ? 
 			fs.readFileSync(`${TEMPLATE_PATH}/jsExpanding.tpl`, 'utf8') : 
 			dims.static ?
@@ -133,7 +123,7 @@ module.exports = (gulp, banners) => {
 	}
 
 	const scaffoldExitLinksJS = banners => {
-		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/exitLinks.tpl`);
+		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/exitLinks.tpl`, 'utf8');
 		let exitLinks = '';
 		for (link in banners.links) {
 			let exitLink = fs.readFileSync(`${TEMPLATE_PATH}/exitLink.tpl`, 'utf8');
@@ -142,8 +132,18 @@ module.exports = (gulp, banners) => {
 			exitLinks += exitLink;
 		}
 		tpl = tpl.replace(/<%exitLinks%>/g, exitLinks);
-		fs.writeFileSync(`${JS_PATH}/components/exit-links.js`);
-	}
+		fs.writeFileSync(`${JS_PATH}/components/exit-links.js`, tpl);
+  }
+  
+  const scaffoldClickTags = banners => {
+    let tpl = fs.readFileSync(`${TEMPLATE_PATH}/aLinks.tpl`, 'utf8');
+    let clickTags = '';
+    for (link in banners.links) {
+      clickTags = clickTags + `var ${link} = "${banners.links[link].href}"; `;
+    }
+    tpl = tpl.replace(/<%clickTags%>/g, clickTags);
+    fs.writeFileSync(`${HTML_PATH}/macros/aLinks/links.html`, tpl);
+  }
 
 	const scaffoldIMG = banner => {
 		checkThenMakeDir(`${IMG_PATH}/pages/${banner}`);

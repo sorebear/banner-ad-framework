@@ -1,10 +1,11 @@
 var mainJs = require('../main.js');
+var exitLinks = require('../components/exit-links.js');
 
 window.addEventListener('load', function() {
 	if ($('#main-panel').hasClass('doubleclick')) {
     function enablerInitHandler() {
 
-      <%exitLinks%>
+      exitLinks();
 
       if (Enabler.isPageLoaded()) {
         mainJs();

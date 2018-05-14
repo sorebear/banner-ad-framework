@@ -1,10 +1,5 @@
 module.exports = function(IScroll, id) {
-	/* Change these standard variables to customize the ISI functionality */
-	this.scrollSpeedMultiplier = -100;
-	
 	this.id = id ? id : 'isi';
-	this.initialized = false;
-	this.mouseOverIsi = false;
 	this.isi = document.getElementById(this.id);
 	this.isiContainer = document.getElementById(`${this.id}-container`);
 	this.isiScroll = new IScroll(`#${this.id}-container`, {
@@ -12,6 +7,10 @@ module.exports = function(IScroll, id) {
 		scrollbars: true,
 		probeType: 3
 	});
+	
+	this.initialized = false;
+	this.mouseOverIsi = false;
+	this.scrollSpeedMultiplier = -100;
 
 	this.init = function() {
 		if (!this.initialized) {

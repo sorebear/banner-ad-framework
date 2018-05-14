@@ -1,11 +1,13 @@
-{% set banner = "sample-expand-on-hover-banner" %}
 {% set width = 320 %} 
 {% set height = 250 %}
+
+{% set banner = "sample-expand-on-hover-banner" %}
+{% block bannerClass %}{% endblock %}
+
 {% from "./links.html" import link, closeLink, enabler %}
 
 {% extends "layout-expanding.html" %}
 
-{% block bannerClass %}{% endblock %}
 
 {% block mainContentCollapsed %}
 
