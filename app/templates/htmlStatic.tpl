@@ -1,20 +1,16 @@
-{% set banner = "<%fileName%>" %}
 {% set width = <%width%> %} 
 {% set height = <%height%> %}
+
+{% set banner = "<%fileName%>" %}
+{% block bannerClass %}{% endblock %}
+
 {% from "./links.html" import link, closeLink, enabler %}
 
 {% extends "layout-static.html" %}
 
-{% block stylesheets %}
-   {% if orientationStyle %}<link rel="stylesheet" href="{{ orientationStyle }}">{% endif %}
-   {% if pageStyle %}<link rel="stylesheet" href="{{ pageStyle }}">{% endif %}
-{% endblock %}
-
-{% block bodyClass %}{% endblock %}
-
 {% block content %}
 
-  {% include './main-content.html' %}
+  {% include './main-content-static.html' %}
   <!--enter page specific content here-->
 
 {% endblock %}
