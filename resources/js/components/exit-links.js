@@ -5,11 +5,5 @@ module.exports = function() {
     e.stopPropagation();
     Enabler.exit('Test Link');
   });
-}if ($('.gitHub').length) {
-  $('.gitHub').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    Enabler.exit('GitHub');
-  });
 }
 }
