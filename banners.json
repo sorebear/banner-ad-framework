@@ -12,7 +12,7 @@
       "orientation": "vertical",
       "static": false
     },
-    "sample-static-banner": {
+    "static-testing": {
       "width": 336,
       "height": 280,
       "orientation": "vertical",
