@@ -32,8 +32,8 @@ module.exports = (gulp, banners) => {
       checkThenRename(`${IMG_PATH}/${currentName}`, `${IMG_PATH}/${newName}`);
       const bannerJson = JSON.stringify(banners).replace(currentName, newName);
       fs.writeFileSync('banners.json', beautify(bannerJson, { indent_size: 2 }), 'utf8');
+
+      console.log(`RENAME COMPLETE: ${currentName} was renamed to ${newName}`);
     }
-    
-    console.log(`RENAME COMPLETE: ${currentName} was renamed to ${newName}`);
   });
 }
