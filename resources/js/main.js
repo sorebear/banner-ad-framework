@@ -19,10 +19,10 @@ module.exports = function() {
 	
 		animator.init = function() {
 			fadeInScreen1();
-		}
+		};
 	
 		return animator;
 	}());
 
 	animationLoader.init();
-}
+};

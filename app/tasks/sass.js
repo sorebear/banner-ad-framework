@@ -1,9 +1,7 @@
 const autoPrefixer = require('gulp-autoprefixer');
-const sourcemaps = require('gulp-sourcemaps');
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const plumber = require('gulp-plumber');
-const fs = require('fs');
 
 // File Paths to Watch
 const SCSS_PATH = 'resources/scss';

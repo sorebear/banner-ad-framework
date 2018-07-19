@@ -1,4 +1,3 @@
-const flatten = require('gulp-flatten');
 const imagemin = require('gulp-imagemin');
 const imageminPngquant = require('imagemin-pngquant');
 

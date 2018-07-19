@@ -1,9 +1,7 @@
-const fs = require('fs');
 const source = require('vinyl-source-stream');
 const browserify = require('browserify');
-const babelify = require('babelify');
+// const babelify = require('babelify');
 const uglify = require('gulp-uglify');
-const rename = require('gulp-rename');
 const buffer = require('vinyl-buffer');
 
 // File Paths to Watch
@@ -14,7 +12,7 @@ module.exports = (gulp, banners) => {
 		return Object.keys(banners.banners).forEach(banner => {
 			const { orientation } = banners.banners[banner];
 			return browserify([`${JS_PATH}/pages/${banner}.js`, `${JS_PATH}/orientation/${orientation}.js`])
-				.transform("babelify", { presets: ["es2015"] })
+				.transform('babelify', { presets: ['es2015'] })
 				.bundle()
 				.pipe(source('bundle.js'))
 				.pipe(gulp.dest(`dist/${banner}/js`));
@@ -25,7 +23,7 @@ module.exports = (gulp, banners) => {
 		return Object.keys(banners.banners).forEach(banner => {
 			const { orientation } = banners.banners[banner];
 			return browserify([`${JS_PATH}/pages/${banner}.js`, `${JS_PATH}/orientation/${orientation}.js`])
-				.transform("babelify", { presets: ["es2015"] })
+				.transform('babelify', { presets: ['es2015'] })
 				.bundle()				
 				.pipe(source('bundle.js'))
 				.pipe(buffer())

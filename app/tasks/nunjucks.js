@@ -15,14 +15,11 @@
  * The style should be familar to those who've used jinja2.
  */
 
-const gutil = require('gulp-util');
 const nunjucksRender = require('gulp-nunjucks-render');
 const htmlmin = require('gulp-htmlmin');
-const fs = require('fs');
 
 module.exports = (gulp, banners) => {
 	const HTML_PATH = './resources/html';
-	const TEMPLATE_PATH = './app/templates';
 
 	gulp.task('html', () => {
 		return Object.keys(banners.banners).forEach(banner => {
@@ -32,7 +29,7 @@ module.exports = (gulp, banners) => {
 				orientationStyle: `css/${orientation}.css`
 			};
 			Object.keys(banners.links).forEach(link => {
-				dataObject[link] = banners.links[link].href
+				dataObject[link] = banners.links[link].href;
 			});
 			return gulp
 				.src(`${HTML_PATH}/pages/${banner}.html`)
@@ -42,7 +39,7 @@ module.exports = (gulp, banners) => {
 						path: [`${HTML_PATH}/components`, `${HTML_PATH}/macros/aLinks`]
 					})
 				)
-				// .pipe(htmlmin({collapseWhitespace: true}))
+				.pipe(htmlmin({collapseWhitespace: true}))
 				.pipe(gulp.dest(`dist/${banner}`));
 		});
 	});
@@ -55,7 +52,7 @@ module.exports = (gulp, banners) => {
 				orientationStyle: `css/${orientation}.css`
 			};
 			Object.keys(banners.links).forEach(link => {
-				dataObject[link] = link
+				dataObject[link] = link;
 			});
 			return gulp
 				.src(`${HTML_PATH}/pages/${banner}.html`)
@@ -65,13 +62,13 @@ module.exports = (gulp, banners) => {
 						path: [`${HTML_PATH}/components`, `${HTML_PATH}/macros/dcLinks`]
 					})
 				)
-				// .pipe(htmlmin({collapseWhitespace: true}))
+				.pipe(htmlmin({collapseWhitespace: true}))
 				.pipe(gulp.dest(`dist/${banner}`));
 		});
 	});
 
 	gulp.task('transfer-index', () => {
-		return gulp.src(`${HTML_PATH}/index.html`).pipe(gulp.dest(`dist`));
+		return gulp.src(`${HTML_PATH}/index.html`).pipe(gulp.dest('dist'));
 	});
 
 	// Watch Files For Changes
@@ -92,6 +89,4 @@ module.exports = (gulp, banners) => {
 		],
 		['html-doubleclick']);
 	});
-}
-
-
+};
