@@ -3,6 +3,10 @@
     "testLink": {
       "displayName": "Test Link",
       "href": "http://google.com"
+    },
+    "testBrokenLink": {
+      "displayName": "Test Broken Link",
+      "href": "http://slwkejof.com"
     }
   },
   "banners": {

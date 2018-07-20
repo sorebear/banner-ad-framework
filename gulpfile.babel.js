@@ -56,7 +56,7 @@ gulp.task('build', () => {
 			'images',
 			'styles-production',
 			'scripts-production',
-			'html',
+			'html-production',
 			'transfer',
 			'transfer-index'
 		]
@@ -72,7 +72,7 @@ gulp.task('build:doubleclick', () => {
 			'images',
 			'styles-production',
 			'scripts-production',
-			'html-doubleclick',
+			'html-doubleclick-production',
 			'transfer',
 			'transfer-index'
 		]

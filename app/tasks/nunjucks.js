@@ -21,7 +21,7 @@ const htmlmin = require('gulp-htmlmin');
 module.exports = (gulp, banners) => {
 	const HTML_PATH = './resources/html';
 
-	gulp.task('html', () => {
+	function htmlTask(production) {
 		return Object.keys(banners.banners).forEach(banner => {
 			const { orientation } = banners.banners[banner];
 			const dataObject = {
@@ -39,12 +39,12 @@ module.exports = (gulp, banners) => {
 						path: [`${HTML_PATH}/components`, `${HTML_PATH}/macros/aLinks`]
 					})
 				)
-				.pipe(htmlmin({collapseWhitespace: true}))
+				.pipe(htmlmin({collapseWhitespace: production}))
 				.pipe(gulp.dest(`dist/${banner}`));
 		});
-	});
+	}
 
-	gulp.task('html-doubleclick', () => {
+	function htmlDoubleclickTask() {
 		return Object.keys(banners.banners).forEach(banner => {
 			const { orientation } = banners.banners[banner];
 			const dataObject = {
@@ -65,6 +65,22 @@ module.exports = (gulp, banners) => {
 				.pipe(htmlmin({collapseWhitespace: true}))
 				.pipe(gulp.dest(`dist/${banner}`));
 		});
+	}
+
+	gulp.task('html-develop', () => {
+		htmlTask(false);
+	});
+
+	gulp.task('html-production', () => {
+		htmlTask(true);
+	});
+
+	gulp.task('html-doubleclick-develop', () => {
+		htmlDoubleclickTask(false);
+	});
+
+	gulp.task('html-doubleclick-production', () => {
+		htmlDoubleclickTask(true);
 	});
 
 	gulp.task('transfer-index', () => {
@@ -73,20 +89,20 @@ module.exports = (gulp, banners) => {
 
 	// Watch Files For Changes
 	gulp.task('watchHtml', () => {
-		gulp.start(['html', 'transfer-index']);
+		gulp.start(['html-develop', 'transfer-index']);
 		gulp.watch([
 			`${HTML_PATH}/**/*.html`,
 			`${HTML_PATH}/*.html`,
 		],
-		['html']);
+		['html-develop']);
 	});
 
 	gulp.task('watchDoubleclickHtml', () => {
-		gulp.start(['html-doubleclick', 'transfer-index']);
+		gulp.start(['html-doubleclick-develop', 'transfer-index']);
 		gulp.watch([
 			`${HTML_PATH}/**/*.html`,
 			`${HTML_PATH}/*.html`,
 		],
-		['html-doubleclick']);
+		['html-doubleclick-develop']);
 	});
 };
