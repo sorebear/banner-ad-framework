@@ -22,7 +22,7 @@
       "orientation": "vertical",
       "static": true
     },
-    "sample-expand-on-hover-banner": {
+    "sample-expanding-banner": {
       "width": 320,
       "height": 250,
       "orientation": "vertical",
@@ -30,20 +30,19 @@
       "expanded": {
         "width": 640,
         "height": 250,
-        "expandEventHandler": "hover",
         "expandDirection": ["right"]
       }
     },
-    "sample-expand-on-click-banner": {
-      "width": 320,
-      "height": 250,
+    "sample-multi-drection-expanding-banner": {
+      "width": 160,
+      "height": 600,
       "orientation": "vertical",
       "static": false,
       "expanded": {
-        "width": 500,
-        "height": 500,
+        "width": 600,
+        "height": 600,
         "expandEventHandler": "click",
-        "expandDirection": ["up", "left"]
+        "expandDirection": ["left", "right"]
       }
     }
   }

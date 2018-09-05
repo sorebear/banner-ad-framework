@@ -44,21 +44,31 @@ module.exports = (gulp, banners) => {
 			link = link.replace(/<%banner%>/g, bannerTitle);
 			tpl += link;
 			const banner = banners.banners[bannerTitle];
+			const isExpanding = banner.expanded;
+			const isMultiDir = !isExpanding ? null :
+				banner.expanded.expandDirection.includes('up') && banner.expanded.expandDirection.includes('down') ||
+				banner.expanded.expandDirection.includes('left') && banner.expanded.expandDirection.includes('right') ?
+					true : false;
 			const dims = {
 				static: banner.static,
 				orientation: banner.orientation,
 				collapsedWidth: banner.width,
 				collapsedHeight: banner.height,
-				expanding: banner.expanded,
-				expandEventHandler: banner.expanded ? banner.expanded.expandEventHandler : null,
-				expandedWidth: banner.expanded ? banner.expanded.width : null,
-				expandedHeight: banner.expanded ? banner.expanded.height : null,
-				expandDirection: banner.expanded ? banner.expanded.expandDirection : null,
+				expanding: isExpanding,
+				expandEventHandler: isExpanding ? banner.expanded.expandEventHandler : null,
+				expandedWidth: !isExpanding ? null : 
+					!isMultiDir ? banner.expanded.width : 
+						banner.expanded.width + banner.expanded.width - banner.width,
+				expandedHeight: !isExpanding ? null : 
+					!isMultiDir ? banner.expanded.height :
+						banner.expanded.height + banner.expanded.height - banner.height,
+				expandDirection: isExpanding ? banner.expanded.expandDirection : null,
+				expandMultiDirection: isMultiDir,
 				topOffset: !banner.expanded ? 0 : 
-					banner.expanded.expandDirection.includes('up') ? 
-						banner.expanded.height - banner.height : 0,
+					banner.expanded.expandDirection.includes('up') || isExpanding ?
+					banner.expanded.height - banner.height : 0,
 				leftOffset: !banner.expanded ? 0 :
-					banner.expanded.expandDirection.includes('left') ?
+					banner.expanded.expandDirection.includes('left') || isExpanding ?
 						banner.expanded.width - banner.width : 0
 			};
 			scaffoldHTML(bannerTitle, dims);
@@ -103,11 +113,13 @@ module.exports = (gulp, banners) => {
 	};
 
 	const scaffoldJS = (banner, dims) => {
-		let tpl = dims.expanding ? 
-			fs.readFileSync(`${TEMPLATE_PATH}/jsExpanding.tpl`, 'utf8') : 
-			dims.static ?
-				fs.readFileSync(`${TEMPLATE_PATH}/jsStatic.tpl`, 'utf8') :
-				fs.readFileSync(`${TEMPLATE_PATH}/js.tpl`, 'utf8');
+		let tpl = dims.static ?
+			fs.readFileSync(`${TEMPLATE_PATH}/jsStatic.tpl`, 'utf8') :
+			!dims.expanding ?
+				fs.readFileSync(`${TEMPLATE_PATH}/js.tpl`, 'utf8') :
+				dims.expandMultiDirection ?
+					fs.readFileSync(`${TEMPLATE_PATH}/jsMultiDirectionExpanding.tpl`, 'utf8') :
+					fs.readFileSync(`${TEMPLATE_PATH}/jsExpanding.tpl`, 'utf8');
 		tpl = tpl.replace(/<%leftOffset%>/g, dims.leftOffset);
 		tpl = tpl.replace(/<%topOffset%>/g, dims.topOffset);
 		tpl = tpl.replace(/<%expandedWidth%>/g, dims.expandedWidth);

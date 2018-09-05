@@ -7,17 +7,17 @@
 
 @import "../partials/all";
 
-#main-panel.sample-expand-on-click-banner {
+#main-panel.sample-expanding-banner {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 500px;
-  height: 500px;
+  width: 640px;
+  height: 250px;
 
   #collapsed-panel {
     position: absolute;
-    top: 250px;
-    left: 180px;
+    top: 0px;
+    left: 320px;
     width: 320px;
     height: 250px;
   }
@@ -26,8 +26,8 @@
     position: absolute;
     top: 0px;
     left: 0px;
-    width: 500px;
-    height: 500px;
+    width: 640px;
+    height: 250px;
   }
 
   /* Declare banner specific styles here */

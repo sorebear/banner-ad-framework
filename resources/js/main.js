@@ -1,28 +1,33 @@
 var Isi = require('./components/isi.js');
 var IScroll = require('./vendor/iscroll-probe.js');
 
-module.exports = function() {
-	var isi = new Isi(IScroll);
-	// If you dont want an auto-scrolling Isi
-	// Remove this init function 
-	isi.init();
+module.exports = class MainJs {
+	constructor() {
+		this.isi = new Isi(IScroll);
+		this.animator =  this.animationLoader();
+		this.init = this.init.bind(this);
+	}
 
-	var animationLoader = (function() {
-		var animator = {};
-		var animationSpeed = 1500;
-	
+	animationLoader() {
+		const animator = {};
+		const animationSpeed = 1500;
+
 		function fadeInScreen1() {
-			$('.screen-1').fadeIn(animationSpeed, function() { 
-				// Do something after screen-1 fades in
+			$('.screen-1').fadeIn(animationSpeed, () => {
+				// Do something after screen 1 fades in
+
 			});
 		}
-	
+
 		animator.init = function() {
 			fadeInScreen1();
-		};
-	
-		return animator;
-	}());
+		}
 
-	animationLoader.init();
-};
+		return animator;
+	}
+
+	init() {
+		this.isi.init();
+		this.animator.init();
+	}
+}

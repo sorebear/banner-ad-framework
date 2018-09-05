@@ -7,27 +7,27 @@
 
 @import "../partials/all";
 
-#main-panel.sample-expand-on-hover-banner {
+#main-panel.sample-multi-drection-expanding-banner {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 640px;
-  height: 250px;
+  width: 1040px;
+  height: 600px;
 
   #collapsed-panel {
     position: absolute;
     top: 0px;
-    left: 0px;
-    width: 320px;
-    height: 250px;
+    left: 440px;
+    width: 160px;
+    height: 600px;
   }
 
   #expanded-panel {
     position: absolute;
     top: 0px;
     left: 0px;
-    width: 640px;
-    height: 250px;
+    width: 1040px;
+    height: 600px;
   }
 
   /* Declare banner specific styles here */
