@@ -13,7 +13,7 @@ module.exports = class MainJs {
 		const animationSpeed = 1500;
 
 		function fadeInScreen1() {
-			$('.screen-1').fadeIn(animationSpeed, () => {
+			document.querySelector('.screen-1').fadeIn(animationSpeed, () => {
 				// Do something after screen 1 fades in
 
 			});

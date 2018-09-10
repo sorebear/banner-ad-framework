@@ -1,15 +1,19 @@
 module.exports = function() {
-  if ($('.testLink').length) {
-  $('.testLink').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    Enabler.exit('Test Link');
+  if (document.getElementsByClassName('testLink').length) {
+  document.querySelectorAll('.testLink').forEach(exitLink => {
+    exitLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      Enabler.exit('Test Link');
+    });
   });
-}if ($('.testBrokenLink').length) {
-  $('.testBrokenLink').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    Enabler.exit('Test Broken Link');
+}if (document.getElementsByClassName('testBrokenLink').length) {
+  document.querySelectorAll('.testBrokenLink').forEach(exitLink => {
+    exitLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      Enabler.exit('Test Broken Link');
+    });
   });
 }
 }

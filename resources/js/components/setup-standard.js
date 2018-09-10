@@ -18,7 +18,7 @@ module.exports = class SetupStandardBanner {
   }
 
   init() {
-    if ($('#main-panel').hasClass('doubleclick')) {
+    if (document.getElementById('main-panel').classList.contains('doubleclick')) {
       if (Enabler.isInitialized()) {
         this.enablerInitHandler();
       } else {

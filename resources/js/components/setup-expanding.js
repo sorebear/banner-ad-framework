@@ -5,7 +5,7 @@ module.exports = class ExpandingBanner {
 	constructor(setExpandingPixelOffsets) {
 		this.mainExpandingJs = new MainExpandingJs();
 		this.isExpanded = false;
-    this.doubleclick = $('#main-panel').hasClass('doubleclick');
+    this.doubleclick = document.getElementById('main-panel').classList.contains('doubleclick');
     this.setExpandingPixelOffsets = setExpandingPixelOffsets;
 	}
 
