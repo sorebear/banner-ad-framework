@@ -147,13 +147,13 @@ module.exports = (gulp, banners) => {
 	};
   
 	const scaffoldClickTags = banners => {
-		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/aLinks.tpl`, 'utf8');
+		let tpl = fs.readFileSync(`${TEMPLATE_PATH}/clickTags.tpl`, 'utf8');
 		let clickTags = '';
 		for (const link in banners.links) {
 			clickTags = clickTags + `var ${link} = "${banners.links[link].href}"; `;
 		}
 		tpl = tpl.replace(/<%clickTags%>/g, clickTags);
-		fs.writeFileSync(`${HTML_PATH}/macros/aLinks/links.html`, tpl);
+		fs.writeFileSync(`${HTML_PATH}/macros/clickTags/links.html`, tpl);
 	};
 
 	const scaffoldIMG = banner => {

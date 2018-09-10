@@ -1,7 +1,9 @@
-.exit {
+.exit,
+.clickTag {
   cursor: pointer;
 }
 
+.link,
 .exit-link {
   color: inherit;
   text-decoration: underline;

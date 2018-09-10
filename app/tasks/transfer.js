@@ -1,5 +1,5 @@
 module.exports = (gulp, banners) => {
-	gulp.task('transfer', () => {
+	gulp.task('transfer-production', () => {
 		return Object.keys(banners.banners).forEach(banner => {
 			return gulp
 				.src([
@@ -18,8 +18,8 @@ module.exports = (gulp, banners) => {
 	});
 
 	// Watch Files For Changes
-	gulp.task('watchTransfer', () => {
-		gulp.start('transfer');
-		gulp.watch(['resources/**/*'], ['transfer']);
+	gulp.task('transfer-watch', () => {
+		gulp.start('transfer-production');
+		gulp.watch(['resources/**/*'], ['transfer-production']);
 	});
 };

@@ -38,7 +38,7 @@ module.exports = (gulp, banners) => {
 	});
 
 	// Watch Sass Files For Changes
-	gulp.task('watchStyles', () => {
+	gulp.task('styles-watch', () => {
 		gulp.start('styles-develop');
 		gulp.watch([`${SCSS_PATH}/**/*.scss`, `${SCSS_PATH}/*.scss`], ['styles-develop']);
 	});

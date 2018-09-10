@@ -36,7 +36,7 @@ module.exports = (gulp, banners) => {
 				.pipe(
 					nunjucksRender({
 						data: dataObject,
-						path: [`${HTML_PATH}/components`, `${HTML_PATH}/macros/aLinks`]
+						path: [`${HTML_PATH}/components`, `${HTML_PATH}/macros/clickTags`]
 					})
 				)
 				.pipe(htmlmin({collapseWhitespace: production}))
@@ -59,7 +59,7 @@ module.exports = (gulp, banners) => {
 				.pipe(
 					nunjucksRender({
 						data: dataObject,
-						path: [`${HTML_PATH}/components`, `${HTML_PATH}/macros/dcLinks`]
+						path: [`${HTML_PATH}/components`, `${HTML_PATH}/macros/exitLinks`]
 					})
 				)
 				.pipe(htmlmin({collapseWhitespace: true}))
@@ -67,19 +67,19 @@ module.exports = (gulp, banners) => {
 		});
 	}
 
-	gulp.task('html-develop', () => {
+	gulp.task('html-campaign-develop', () => {
 		htmlTask(false);
 	});
 
-	gulp.task('html-production', () => {
+	gulp.task('html-campaign-production', () => {
 		htmlTask(true);
 	});
 
-	gulp.task('html-doubleclick-develop', () => {
+	gulp.task('html-studio-develop', () => {
 		htmlDoubleclickTask(false);
 	});
 
-	gulp.task('html-doubleclick-production', () => {
+	gulp.task('html-studio-production', () => {
 		htmlDoubleclickTask(true);
 	});
 
@@ -88,21 +88,21 @@ module.exports = (gulp, banners) => {
 	});
 
 	// Watch Files For Changes
-	gulp.task('watchHtml', () => {
-		gulp.start(['html-develop', 'transfer-index']);
+	gulp.task('html-campaign-watch', () => {
+		gulp.start(['html-campaign-develop', 'transfer-index']);
 		gulp.watch([
 			`${HTML_PATH}/**/*.html`,
 			`${HTML_PATH}/*.html`,
 		],
-		['html-develop']);
+		['html-campaign-develop']);
 	});
 
-	gulp.task('watchDoubleclickHtml', () => {
-		gulp.start(['html-doubleclick-develop', 'transfer-index']);
+	gulp.task('html-studio-watch', () => {
+		gulp.start(['html-studio-develop', 'transfer-index']);
 		gulp.watch([
 			`${HTML_PATH}/**/*.html`,
 			`${HTML_PATH}/*.html`,
 		],
-		['html-doubleclick-develop']);
+		['html-studio-develop']);
 	});
 };

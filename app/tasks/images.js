@@ -6,7 +6,7 @@ const IMG_PATH = 'resources/img';
 const IMG_EXTENSION = '*.{png,svg,gif,jpg,jpeg}';
 
 module.exports = (gulp, banners) => {
-	gulp.task('images', () => {
+	gulp.task('images-production', () => {
 		return Object.keys(banners.banners).forEach(banner => {
 			const { orientation } = banners.banners[banner];
 			return gulp
@@ -28,11 +28,11 @@ module.exports = (gulp, banners) => {
 	});
 
 	// Watch Image Files For Changes
-	gulp.task('watchImages', () => {
-		gulp.start('images');
+	gulp.task('images-watch', () => {
+		gulp.start('images-production');
 		gulp.watch(
 			[`${IMG_PATH}/${IMG_EXTENSION}`, `${IMG_PATH}/**/${IMG_EXTENSION}`],
-			['images']
+			['images-production']
 		);
 	});
 };

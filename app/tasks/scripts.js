@@ -1,6 +1,5 @@
 const source = require('vinyl-source-stream');
 const browserify = require('browserify');
-// const babelify = require('babelify');
 const uglify = require('gulp-uglify');
 const buffer = require('vinyl-buffer');
 
@@ -33,7 +32,7 @@ module.exports = (gulp, banners) => {
 	});
 
 	// Watch JS Files For Changes
-	gulp.task('watchScripts', () => {
+	gulp.task('scripts-watch', () => {
 		gulp.start('scripts-develop');
 		gulp.watch([`${JS_PATH}/**/*.js`, `${JS_PATH}/*.js`], ['scripts-develop']);
 	});

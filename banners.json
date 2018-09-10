@@ -33,7 +33,7 @@
         "expandDirection": ["right"]
       }
     },
-    "sample-multi-drection-expanding-banner": {
+    "sample-multi-direction-expanding-banner": {
       "width": 160,
       "height": 600,
       "orientation": "vertical",
