@@ -19,11 +19,11 @@ module.exports = class ExpandingBanner {
 				});
 			}
 		} else {	
-			document.getElementById('collapsed-panel').addEventListener('<%expandEventListener%>', () => {
+			document.getElementById('expand-handler').addEventListener('click', () => {
 				if (!this.isExpanded) { this.expandStartHandler(); }
 			});
 	
-			document.getElementById('main-panel').addEventListener('<%collapseEventListener%>', () => {
+			document.getElementById('main-panel').addEventListener('click', () => {
 				if (this.isExpanded) { this.collapseStartHandler(); }
 			});
 	
@@ -34,11 +34,11 @@ module.exports = class ExpandingBanner {
 	enablerInitHandler() {
     this.setExpandingPixelOffsets();
 
-		document.getElementById('collapsed-panel').addEventListener('<%expandEventListener%>', () => {
+		document.getElementById('collapsed-panel').addEventListener('click', () => {
 			if (!this.isExpanded) { Enabler.requestExpand(); }
 		});
 
-		document.getElementById('main-panel').addEventListener('<%collapseEventListener%>', () => {
+		document.getElementById('main-panel').addEventListener('click', () => {
 			if (this.isExpanded) { Enabler.requestCollapse(); }
 		});
 

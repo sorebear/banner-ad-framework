@@ -23,6 +23,8 @@
 
 const del = require('del');
 const fs = require('fs');
+const beautify = require('js-beautify');
+
 const RESOURCES_PATH = 'resources';
 const TEMPLATE_PATH = 'app/templates';
 const HTML_PATH = 'resources/html/';
@@ -143,6 +145,7 @@ module.exports = (gulp, banners) => {
 			exitLinks += exitLink;
 		}
 		tpl = tpl.replace(/<%exitLinks%>/g, exitLinks);
+		tpl = beautify(tpl, { indent_size: 2 });
 		fs.writeFileSync(`${JS_PATH}/components/exit-links.js`, tpl);
 	};
   

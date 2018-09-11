@@ -1,5 +1,6 @@
-var Isi = require('./components/isi.js');
-var IScroll = require('./vendor/iscroll-probe.js');
+const Isi = require('./components/isi.js');
+const IScroll = require('./vendor/iscroll-probe.js');
+import * as helperFunctions from './util/helper-functions';
 
 module.exports = class MainJs {
 	constructor() {
@@ -10,13 +11,15 @@ module.exports = class MainJs {
 
 	animationLoader() {
 		const animator = {};
-		const animationSpeed = 1500;
+		const animationSpeed = 2000;
 
 		function fadeInScreen1() {
-			document.querySelector('.screen-1').fadeIn(animationSpeed, () => {
-				// Do something after screen 1 fades in
-
+			const screen1 = document.querySelector('.screen-1');
+			helperFunctions.fadeIn(screen1, animationSpeed, () => {
+				helperFunctions.fadeOut(screen1, animationSpeed);
 			});
+				// Do something after screen 1 fades in
+			
 		}
 
 		animator.init = function() {
@@ -29,5 +32,7 @@ module.exports = class MainJs {
 	init() {
 		this.isi.init();
 		this.animator.init();
+
+		helperFunctions.isiScroll(.5, this.isi);
 	}
 }

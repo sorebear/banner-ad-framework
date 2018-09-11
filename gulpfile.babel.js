@@ -41,7 +41,7 @@ gulp.task('develop', () => {
 				case '2':
 					return runTasks('watch', 'studio');
 				default:
-					return util.log(util.colors.red('Please select a valid development type.'));
+					return util.log(util.colors.red('ERROR: Please select a valid development type.'));
 			}
 		}));
 });
@@ -60,7 +60,7 @@ gulp.task('build', () => {
 			case '2':
 				return runTasks('production', 'studio');
 			default:
-				return util.log(util.colors.red('Please select a valid build type.'));
+				return util.log(util.colors.red('ERROR: Please select a valid build type.'));
 		}
 	}));
 });
