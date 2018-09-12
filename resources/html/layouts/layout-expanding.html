@@ -14,29 +14,11 @@
   </head>
   <body>
     <div id="main-panel" class="{{ banner }} {{ doubleclick }} {% block bannerClass %}{% endblock %}">
-      <div id="collapsed-panel">
-        <div id="collapsed-panel-content-wrapper" class="collapsed-panel-content-wrapper">
-          <button id="expand-handler">Expand</button>
-          <div id="main-content-wrapper" class="main-content-wrapper">
-            
-            {% block mainContentCollapsed %}{% endblock %}
-            
-          </div>
-          <div id="isi-container-wrapper" class="isi-container-wrapper">
-            <div id="isi-container" class="isi-container">
-              <div id="isi" class="isi">
-                
-                {% block isiCollapsed %}{% endblock %}
-                
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div id="expanded-panel">
-        <div id="expanded-panel-content-wrapper">
-          <div id="main-content-wrapper" class="main-content-wrapper">
+        <div id="expanded-content-wrapper">
+          <button id="collapse-handler">Collapse</button>
+          <div id="expanded-main-content" class="expanded-main-content main-content-wrapper">
             
             {% block mainContentExpanded %}{% endblock %}
   
@@ -50,6 +32,26 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div id="collapsed-panel">
+        <div id="collapsed-content-wrapper" class="collapsed-content-wrapper">
+          <button id="expand-handler">Expand</button>
+          <div id="collapsed-main-content" class="collapsed-main-content main-content-wrapper">
+            
+            {% block mainContentCollapsed %}{% endblock %}
+            
+          </div>
+          {# <div id="isi-container-wrapper" class="isi-container-wrapper">
+            <div id="isi-container" class="isi-container">
+              <div id="isi" class="isi">
+                
+                {% block isiCollapsed %}{% endblock %}
+                
+              </div>
+            </div>
+          </div> #}
         </div>
       </div>
 

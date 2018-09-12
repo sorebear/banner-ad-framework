@@ -9,8 +9,7 @@ const JS_PATH = 'resources/js';
 module.exports = (gulp, banners) => {
 	gulp.task('scripts-develop', () => {
 		return Object.keys(banners.banners).forEach(banner => {
-			const { orientation } = banners.banners[banner];
-			return browserify([`${JS_PATH}/pages/${banner}.js`, `${JS_PATH}/orientation/${orientation}.js`])
+			return browserify(`${JS_PATH}/pages/${banner}.js`)
 				.transform('babelify', { presets: ['es2015'] })
 				.bundle()
 				.pipe(source('bundle.js'))
@@ -20,8 +19,7 @@ module.exports = (gulp, banners) => {
 
 	gulp.task('scripts-production', () => {
 		return Object.keys(banners.banners).forEach(banner => {
-			const { orientation } = banners.banners[banner];
-			return browserify([`${JS_PATH}/pages/${banner}.js`, `${JS_PATH}/orientation/${orientation}.js`])
+			return browserify(`${JS_PATH}/pages/${banner}.js`)
 				.transform('babelify', { presets: ['es2015'] })
 				.bundle()				
 				.pipe(source('bundle.js'))

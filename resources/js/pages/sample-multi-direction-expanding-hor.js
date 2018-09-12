@@ -2,10 +2,10 @@ import SetupMultiExpandingDirection from '../components/setup-multi-direction-ex
 
 window.addEventListener('load', () => {
 	const setPixelOffsets = () => Enabler.setExpandingPixelOffsets(
-    440,
-    200,
-    600,
-    800
+    0,
+    225,
+    728,
+    315
   );
 	const expandingBanner = new SetupMultiExpandingDirection(setPixelOffsets);
 	expandingBanner.init();

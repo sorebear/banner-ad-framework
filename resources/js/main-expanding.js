@@ -1,11 +1,14 @@
 
 const Isi = require('./components/isi.js');
 const Iscroll = require('./vendor/iscroll-probe.js');
-import * as helperFunctions from './util/helper-functions';
 
 module.exports = class Expanding {
 	constructor() {
 		this.isi = new Isi(Iscroll);
+		this.mainPanel = document.getElementById('main-panel');
+		this.expandedPanel = document.getElementById('expanded-panel');
+		this.collapsedPanel = document.getElementById('collapsed-panel');
+		
 		this.init = this.init.bind(this);
 		this.expandStartAnimation = this.expandStartAnimation.bind(this);
 		this.expandFinishAnimation = this.expandFinishAnimation.bind(this);
@@ -19,20 +22,25 @@ module.exports = class Expanding {
 
 	expandStartAnimation(callback) {
 		// Do stuff, then call callback after it is complete
-		helperFunctions.expandPanel(document.querySelector('#collapsed-panel-content-wrapper'), 2000, () => {
-			if (callback) {
-				this.isi.refresh();
-				callback();
-			}
-		})
+		this.expandedPanel.classList.add('expand');
+		this.collapsedPanel.style.display = 'none';
+		
+		if (callback) {
+			callback();
+		}
 	}
 
 	expandFinishAnimation() {
 		// Do stuff when the expansion starts
+		this.isi.refresh();
+
 	}
 
 	collapseStartAnimation(callback) {
 		// Do stuff, then call callback after it is complete
+		this.expandedPanel.classList.remove('expand');
+		this.collapsedPanel.style.display = 'block';
+		this.isi.refresh();
 
 		if (callback) {
 			callback();
@@ -41,5 +49,7 @@ module.exports = class Expanding {
 
 	collapseFinishAnimation() {
 		// Do stuff when the collapse finishes
+		this.isi.refresh();
+
 	}
 }

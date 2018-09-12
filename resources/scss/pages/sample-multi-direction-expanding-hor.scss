@@ -1,50 +1,50 @@
 @import "../vendor/normalize";
 @import "../modules/all";
-@import "../orientation/vertical";
+@import "../orientation/horizontal";
 
 /* Alter variables for one specific banner by redefining them here */
 
 
 @import "../partials/all";
 
-#main-panel.sample-multi-direction-expanding-banner {
+#main-panel.sample-multi-direction-expanding-hor {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 1040px;
-  height: 1000px;
+  width: 728px;
+  height: 540px;
 
   #collapsed-panel,
   #collapsed-content-wrapper {
     position: absolute;
-    width: 160px;
-    height: 600px;
+    width: 728px;
+    height: 90px;
   }
 
   #collapsed-panel {
-    top: 200px;
-    left: 440px;
+    top: 225px;
+    left: 0px;
   }
 
   #expanded-panel {
     position: absolute;
-    width: 600px;
-    height: 800px;
+    width: 728px;
+    height: 315px;
   }
 
   #expanded-content-wrapper {
     position: absolute;
     display: flex;
-    flex-direction: column;
-    top: 200px;
-    left: 440px;
-    width: 160px;
-    height: 600px;
+    flex-direction: row;
+    top: 225px;
+    left: 0px;
+    width: 728px;
+    height: 90px;
   }
 
   .expand > div {
-    width: 600px !important;
-    height: 800px !important;
+    width: 728px !important;
+    height: 315px !important;
   }
 
   .direction-tl {
@@ -61,7 +61,7 @@
 
   .direction-tr {
     top: 0px;
-    left: 440px;
+    left: 0px;
 
     #expanded-content-wrapper {
       top: auto;
@@ -72,7 +72,7 @@
   }
 
   .direction-bl {
-    top: 200px;
+    top: 225px;
     left: 0px;
 
     #expanded-content-wrapper {
@@ -84,8 +84,8 @@
   }
 
   .direction-br {
-    top: 200px;
-    left: 440px;
+    top: 225px;
+    left: 0px;
 
     #expanded-content-wrapper {
       top: 0;

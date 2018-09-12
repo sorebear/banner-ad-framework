@@ -1,4 +1,5 @@
 const autoPrefixer = require('gulp-autoprefixer');
+const sourcemaps = require('gulp-sourcemaps');
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const plumber = require('gulp-plumber');
@@ -16,7 +17,9 @@ module.exports = (gulp, banners) => {
 						console.log('STYLES TASK ERROR: ', err);
 					})
 				)
+				.pipe(sourcemaps.init())
 				.pipe(sass())
+				.pipe(sourcemaps.write())
 				.pipe(concat('main.css'))
 				.pipe(gulp.dest(`dist/${banner}/css`));
 		});

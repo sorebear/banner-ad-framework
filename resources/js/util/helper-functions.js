@@ -40,68 +40,36 @@ export const fadeOut = (el, duration, callback) => {
   window.requestAnimationFrame(step);
 }
 
-export const isiScroll = (speed, isiObj, callback) => {
-  const isiContainer = document.getElementById('isi-container');
-  const isi = document.getElementById('isi');
-  debugger;
-  const scrollbar = document.querySelector('.iScrollVerticalScrollbar');
-  const indicator = document.querySelector('.iScrollIndicator');
-  const scrollableIsiHeight = isi.offsetHeight - isiContainer.offsetHeight;
-  const scrollableScrollbarHeight = scrollbar.offsetHeight - indicator.offsetHeight;
-
-  let yOffset = 0;
-  let indicatorOffset = 0;
-
-  const step = () => {
-    yOffset = yOffset ? parseFloat(isi.style.transform.match(/\-[0-9\.]*/)[0]) - speed : -speed;
-    indicatorOffset = yOffset / scrollableIsiHeight * -scrollableScrollbarHeight;
-    
-    isi.style.transform = `translate(0px, ${yOffset}px) translateZ(0px)`;
-    indicator.style.transform = `translate(0px, ${indicatorOffset}px) translateZ(0px)`;
-
-    if (yOffset > -scrollableIsiHeight) {
-      window.requestAnimationFrame(step);
-    }
-  }
-
-  window.requestAnimationFrame(step);
-}
-
-
-const getPropertyValueAsInt = (el, property) => {
-  return parseInt(getComputedStyle(el).getPropertyValue(property).match(/[0-9]*/)[0]);
-}
-
-export const expandPanel = (el, duration, callback) => {
-  const collapsedPanel = document.getElementById('collapsed-panel');
-  const expandedPanel = document.getElementById('expanded-panel');
-
-  const collapsedWidth = getPropertyValueAsInt(collapsedPanel, 'width');
-  const collapsedHeight = getPropertyValueAsInt(collapsedPanel, 'height');
-  const expandedWidth = getPropertyValueAsInt(expandedPanel, 'width');
-  const expandedHeight = getPropertyValueAsInt(expandedPanel, 'height');
+export const animate = (el, propObj, duration = 400, easing = 'ease-in', callback) => {
+  // Set optional variables regardless of order
+  callback = callback ? callback : 
+    typeof easing === 'function' ? easing : 
+    typeof duration === 'function' ? duration : null;
+  easing = typeof easing === 'string' ? easing : typeof duration === 'string' ? duration : 'ease-in';
+  duration = typeof duration === 'number' ? duration : 400;
   
-  const widthIncrement = (expandedWidth - collapsedWidth) / duration;
-  const heightIncrement = (expandedHeight - collapsedHeight) / duration;
+  const transitionArr = Object.keys(propObj).map(prop => {
+    return `${prop.replace(/[A-Z]/g, (g) => `-${g[0]}`).toLowerCase()} ${duration / 1000}s ${easing}`
+  });
 
-  el.style.width = collapsedWidth + 'px';
-  el.style.height = collapsedHeight + 'px';
+  const cssTransitionValue = getComputedStyle(el).getPropertyValue('transition');
 
-  let start = null;
+  if (cssTransitionValue && cssTransitionValue !== 'all 0s ease 0s') {
+    transitionArr.push(cssTransitionValue);
+  }
+  
+  const transitionString = transitionArr.join(', ');
+  el.style.transition = transitionString;
 
-  const step = (timestamp) => {
-    start = start ? start : timestamp;
-    const progress = timestamp - start;
-    el.style.width = Math.min(collapsedWidth + progress * widthIncrement, expandedWidth) + 'px';
-    el.style.height = Math.min(collapsedHeight + progress * heightIncrement, expandedHeight) + 'px';
-    console.log(progress);
-
-    if (progress <= duration) {
-      window.requestAnimationFrame(step);
-    } else {
-      if (callback) callback();
-    }
+  function handleTransitionEnd(e) {
+    el.removeEventListener('transitionend', handleTransitionEnd);
+    el.style.transition = '';
+    if (callback) callback();
   }
 
-  window.requestAnimationFrame(step);
+  el.addEventListener('transitionend', handleTransitionEnd);
+
+  Object.keys(propObj).forEach(prop => {
+    el.style[prop] = propObj[prop];
+  });
 }

@@ -15,7 +15,7 @@ module.exports = function(IScroll, id) {
 	this.init = function() {
 		if (!this.initialized) {
 			this.initialized = true;
-			// this.startScrollFromBeginning();
+			this.startScrollFromBeginning();
 		}
 	};
 
@@ -76,6 +76,6 @@ module.exports = function(IScroll, id) {
 	};
 
 	// Set event listeners
-	// this.isiContainer.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
-	// this.isiContainer.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+	this.isiContainer.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
+	this.isiContainer.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
 };

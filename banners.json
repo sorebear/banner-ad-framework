@@ -30,7 +30,7 @@
       "expanded": {
         "width": 640,
         "height": 250,
-        "expandDirection": ["right"]
+        "expandDirection": ["left"]
       }
     },
     "sample-multi-direction-expanding-banner": {
@@ -40,9 +40,21 @@
       "static": false,
       "expanded": {
         "width": 600,
-        "height": 600,
+        "height": 800,
         "expandEventHandler": "click",
         "expandDirection": ["left", "right"]
+      }
+    },
+    "sample-multi-direction-expanding-hor": {
+      "width": 728,
+      "height": 90,
+      "orientation": "horizontal",
+      "static": false,
+      "expanded": {
+        "width": 728,
+        "height": 315,
+        "expandEventHandler": "click",
+        "expandDirection": ["up", "down"]
       }
     }
   }

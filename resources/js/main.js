@@ -16,7 +16,9 @@ module.exports = class MainJs {
 		function fadeInScreen1() {
 			const screen1 = document.querySelector('.screen-1');
 			helperFunctions.fadeIn(screen1, animationSpeed, () => {
-				helperFunctions.fadeOut(screen1, animationSpeed);
+				helperFunctions.animate(document.querySelector('.screen-1 h1'), { marginTop: '150px', transform: 'rotate(360deg)' }, 'ease-in-out', () => {
+					console.log('HELLO');
+				});
 			});
 				// Do something after screen 1 fades in
 			
@@ -33,6 +35,6 @@ module.exports = class MainJs {
 		this.isi.init();
 		this.animator.init();
 
-		helperFunctions.isiScroll(.5, this.isi);
+		// helperFunctions.isiScroll(.5, this.isi);
 	}
 }

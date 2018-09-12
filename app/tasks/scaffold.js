@@ -57,21 +57,24 @@ module.exports = (gulp, banners) => {
 				collapsedWidth: banner.width,
 				collapsedHeight: banner.height,
 				expanding: isExpanding,
+				multiDir: isMultiDir,
 				expandEventHandler: isExpanding ? banner.expanded.expandEventHandler : null,
-				expandedWidth: !isExpanding ? null : 
-					!isMultiDir ? banner.expanded.width : 
+				totalWidth: !isExpanding ? banner.width :
+					!isMultiDir ? banner.expanded.width :
 						banner.expanded.width + banner.expanded.width - banner.width,
-				expandedHeight: !isExpanding ? null : 
+				totalHeight: !isExpanding ? banner.height :
 					!isMultiDir ? banner.expanded.height :
 						banner.expanded.height + banner.expanded.height - banner.height,
+				expandedWidth: isExpanding ? banner.expanded.width : null,
+				expandedHeight: isExpanding ? banner.expanded.height : null,
 				expandDirection: isExpanding ? banner.expanded.expandDirection : null,
 				expandMultiDirection: isMultiDir,
-				topOffset: !banner.expanded ? 0 : 
-					banner.expanded.expandDirection.includes('up') || isExpanding ?
-					banner.expanded.height - banner.height : 0,
-				leftOffset: !banner.expanded ? 0 :
-					banner.expanded.expandDirection.includes('left') || isExpanding ?
-						banner.expanded.width - banner.width : 0
+				topOffset: isMultiDir ? banner.expanded.height - banner.height :
+					!isExpanding || !banner.expanded.expandDirection.includes('up') ? 0 :
+						banner.expanded.height - banner.height,
+				leftOffset: isMultiDir ? banner.expanded.width - banner.width :
+					!isExpanding || !banner.expanded.expandDirection.includes('left') ? 0 :
+						banner.expanded.width - banner.width,
 			};
 			scaffoldHTML(bannerTitle, dims);
 			scaffoldSCSS(bannerTitle, dims);
@@ -88,7 +91,7 @@ module.exports = (gulp, banners) => {
 			fs.readFileSync(`${TEMPLATE_PATH}/htmlExpanding.tpl`, 'utf8') :
 			dims.static ?
 				fs.readFileSync(`${TEMPLATE_PATH}/htmlStatic.tpl`, 'utf8') :
-				fs.readFileSync(`${TEMPLATE_PATH}/html.tpl`, 'utf8');
+				fs.readFileSync(`${TEMPLATE_PATH}/htmlStandard.tpl`, 'utf8');
 		tpl = tpl.replace(/<%fileName%>/g, banner);
 		tpl = tpl.replace(/<%width%>/g, dims.collapsedWidth);
 		tpl = tpl.replace(/<%height%>/g, dims.collapsedHeight);
@@ -96,20 +99,29 @@ module.exports = (gulp, banners) => {
 	};
 
 	const scaffoldSCSS = (banner, dims) => {
-		let tpl = dims.expanding ? 
-			fs.readFileSync(`${TEMPLATE_PATH}/scssExpanding.tpl`, 'utf8') :
-			dims.static ? 
-				fs.readFileSync(`${TEMPLATE_PATH}/scssStatic.tpl`, 'utf8') :
-				fs.readFileSync(`${TEMPLATE_PATH}/scss.tpl`, 'utf8');
+		let tpl = dims.static ? 
+			fs.readFileSync(`${TEMPLATE_PATH}/scssStatic.tpl`, 'utf8') :
+			!dims.expanding ? 
+				fs.readFileSync(`${TEMPLATE_PATH}/scss.tpl`, 'utf8') :
+				dims.expandMultiDirection ?
+				fs.readFileSync(`${TEMPLATE_PATH}/scssMultiDirectionExpanding.tpl`, 'utf8') :
+				fs.readFileSync(`${TEMPLATE_PATH}/scssExpanding.tpl`, 'utf8');
 		tpl = tpl.replace(/<%orientation%>/g, dims.orientation);
+		tpl = tpl.replace(/<%flexDirection%>/g, dims.orientation === 'horizontal' ? 'row' : 'column');
 		tpl = tpl.replace(/<%banner-title%>/g, banner);
 		tpl = tpl.replace(/<%collapsedWidth%>/g, dims.collapsedWidth);
 		tpl = tpl.replace(/<%collapsedHeight%>/g, dims.collapsedHeight);
 		if (dims.expanding) {
 			tpl = tpl.replace(/<%expandedWidth%>/g, dims.expandedWidth);
 			tpl = tpl.replace(/<%expandedHeight%>/g, dims.expandedHeight);
-			tpl = tpl.replace(/<%leftPosition%>/g, dims.leftOffset);
-			tpl = tpl.replace(/<%topPosition%>/g, dims.topOffset);
+			tpl = tpl.replace(/<%totalWidth%>/g, dims.totalWidth);
+			tpl = tpl.replace(/<%totalHeight%>/g, dims.totalHeight);
+			tpl = tpl.replace(/<%topPosition%>/g, dims.multiDir ? `top: ${dims.topOffset}px` :
+				!dims.expanding || !dims.expandDirection.includes('up') ? `top: ${dims.topOffset}px` :
+				'bottom: 0px');
+			tpl = tpl.replace(/<%leftPosition%>/g, dims.multiDir ? `left: ${dims.leftOffset}px` :
+				!dims.expanding || !dims.expandDirection.includes('left') ? `left: ${dims.topOffset}px` :
+				'right: 0px');
 		}
 		checkThenWriteFile(`${SCSS_PATH}/pages/${banner}.scss`, tpl);
 	};

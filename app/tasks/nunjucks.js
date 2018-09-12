@@ -36,7 +36,7 @@ module.exports = (gulp, banners) => {
 				.pipe(
 					nunjucksRender({
 						data: dataObject,
-						path: [`${HTML_PATH}/components`, `${HTML_PATH}/macros/clickTags`]
+						path: [`${HTML_PATH}/layouts`, `${HTML_PATH}/components` `${HTML_PATH}/macros/clickTags`]
 					})
 				)
 				.pipe(htmlmin({collapseWhitespace: production}))
@@ -59,7 +59,7 @@ module.exports = (gulp, banners) => {
 				.pipe(
 					nunjucksRender({
 						data: dataObject,
-						path: [`${HTML_PATH}/components`, `${HTML_PATH}/macros/exitLinks`]
+						path: [`${HTML_PATH}/layouts`, `${HTML_PATH}/components`, `${HTML_PATH}/macros/exitLinks`]
 					})
 				)
 				.pipe(htmlmin({collapseWhitespace: true}))

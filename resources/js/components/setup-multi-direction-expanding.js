@@ -16,9 +16,11 @@ module.exports = class SetupMultiDirectionExpandingBanner {
 		this.mainMultiExpandingDirectionJs = new MainMultiDirectionExpanding();
 		this.isExpanded = false;
 		this.inTransition = false;
-		this.$politeLoadImg = document.getElementById('#polite-load-img');
-		this.doubleclick = document.getElementById('#main-panel').classList.contains('doubleclick');
-		this.localExpandDirection = 0;
+		this.expandedPanel = document.getElementById('expanded-panel');
+		this.politeLoadImg = document.getElementById('polite-load-img');
+		this.doubleclick = document.getElementById('main-panel').classList.contains('doubleclick');
+		this.localExpandDirectionNum = 0;
+		this.expandDirectionArr = ['tl', 'tr', 'bl', 'br'];
 		this.politeLoad = this.politeLoad.bind(this);
 		this.enablerInitHandler = this.enablerInitHandler.bind(this);
 		this.setExpandingPixelOffsets = setExpandingPixelOffsets;
@@ -38,7 +40,7 @@ module.exports = class SetupMultiDirectionExpandingBanner {
 
 	politeLoad() {
 		this.addDomEventListeners();
-		if (this.$politeLoadImg.length) { this.$politeLoadImg.hide(); }
+		if (this.politeLoadImg) { this.politeLoadImg.hide(); }
 		this.mainMultiExpandingDirectionJs.init();
 	}
   
@@ -46,7 +48,6 @@ module.exports = class SetupMultiDirectionExpandingBanner {
 		const domExpandHandler = document.getElementById(domExpandHandlerId);
 		if (domExpandHandler) {
 			domExpandHandler.addEventListener(eventListenerType, () => {
-				console.log(`I've been clicked`);
 				if (!this.isExpanded && !this.inTransition) {
 					this.inTransition = true;
 					this.doubleclick ? Enabler.requestExpand() : this.expandStartHandler();
@@ -82,11 +83,13 @@ module.exports = class SetupMultiDirectionExpandingBanner {
 	}
 
 	expandStartHandler() {
-		const expandDirectionObj = this.doubleclick ? Enabler.getExpandDirection() : { a: this.localExpandDirection };
-		this.localExpandDirection = this.localExpandDirection === 3 ? 0 : this.localExpandDirection + 1;
+		this.expandedPanel.classList.remove(`direction-${this.expandDirectionArr[this.localExpandDirectionNum]}`)
+		this.localExpandDirectionNum = this.doubleclick && Enabler.getExpandDirection() ? Enabler.getExpandDirection()['a'] : 
+			this.localExpandDirectionNum === 3 ? 0 : this.localExpandDirectionNum + 1;
+		this.expandedPanel.classList.add(`direction-${this.expandDirectionArr[this.localExpandDirectionNum]}`)
 		this.mainMultiExpandingDirectionJs.expandStartAnimation(() => {
 			this.doubleclick ? Enabler.finishExpand() : this.expandFinishHandler();
-		}, expandDirectionObj);
+		});
 	}
 
 	expandFinishHandler() {
