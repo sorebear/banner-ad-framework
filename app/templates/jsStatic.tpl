@@ -1,28 +1,6 @@
-var exitLinks = require('../components/exit-links.js')
+import SetupStaticBanner from '../components/setup-static';
 
-window.addEventListener('load', function() {
-	if ($('#main-panel').hasClass('doubleclick')) {
-		function enablerInitHandler() {
-			
-      exitLinks();
-
-			if (Enabler.isPageLoaded()) {
-				// Do Something When Page Loads
-        
-			} else {
-				Enabler.addEventListener(studio.events.StudioEvent.PAGE_LOADED, function() {
-          // Do Something When Page Loads
-
-        });
-			}
-		}
-
-		if (Enabler.isInitialized()) {
-			enablerInitHandler();
-		} else {
-			Enabler.addEventListener(studio.events.StudioEvent.INIT, function() {
-				enablerInitHandler();
-			});
-		}
-	} 
+window.addEventListener('load', () => {
+	const staticBanner = new SetupStaticBanner();
+	staticBanner.init();
 });

@@ -6,6 +6,7 @@
    1. [Scaffolding](#12-scaffolding)
    1. [Gulp Tasks](#13-gulp-build-tasks-overview)
    1. [Banner Links](#14-banner-links)
+   1. [Renaming Banners](#15-renaming-banners)
 
 1. [File Structure](#2-file-structure)
    1. [File Structure - HTML](#21-file-structure-html)
@@ -195,6 +196,17 @@ When inserting a link into your HTML, write it as follows:
 <p>A sample paragraph with a {{ link('<link-name>', '<class-name>') }}Sample Link{{ closeLink() }}</p>
 ```
 The link name that you pass in should be a string and match link-name that you placed in `banners.json`. The second parameter is optional and will be added as a class to the link when rendered.
+
+## 1.5: Renaming Banners
+
+If you need to rename one of your banners at any point, there is a built in Gulp command to do this. 
+
+```
+gulp rename --old <name-of-a-current-banner> --new <name-you-want-to-chang-it-to>
+```
+> Note: Because this uses command line variables, this will not work by running 'npm run rename...'. You will need to have Gulp globally installed to run the rename command.
+
+This command helps avoid the hassle of manually alterning your banners.json and renaming several files. 
 
 ### Links for Doubleclick Studio
 

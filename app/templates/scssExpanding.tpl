@@ -14,12 +14,16 @@
   width: <%expandedWidth%>px;
   height: <%expandedHeight%>px;
 
-  #collapsed-panel {
+  #collapsed-panel,
+  #collapsed-content-wrapper {
     position: absolute;
-    top: <%topPosition%>px;
-    left: <%leftPosition%>px;
     width: <%collapsedWidth%>px;
     height: <%collapsedHeight%>px;
+  }
+
+  #collapsed-panel {
+    <%topPosition%>;
+    <%leftPosition%>;
   }
 
   #expanded-panel {
@@ -28,6 +32,21 @@
     left: 0px;
     width: <%expandedWidth%>px;
     height: <%expandedHeight%>px;
+  }
+
+  #expanded-content-wrapper {
+    position: absolute;
+    display: flex;
+    flex-direction: <%flexDirection%>;
+    <%topPosition%>;
+    <%leftPosition%>;
+    width: <%collapsedWidth%>px;
+    height: <%collapsedHeight%>px;
+  }
+
+  .expand > div {
+    width: <%expandedWidth%>px !important;
+    height: <%expandedHeight%>px !important;
   }
 
   /* Declare banner specific styles here */

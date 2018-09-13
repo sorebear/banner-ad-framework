@@ -1,15 +1,22 @@
 module.exports = function() {
-  if ($('.testLink').length) {
-  $('.testLink').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    Enabler.exit('Test Link');
-  });
-}if ($('.gitHub').length) {
-  $('.gitHub').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    Enabler.exit('GitHub');
-  });
-}
+  if (document.getElementsByClassName('testLink').length) {
+    const links = document.getElementsByClassName('testLink');
+    for (let i = 0; i < links.length; i += 1) {
+      links[i].addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        Enabler.exit('Test Link');
+      });
+    }
+  }
+  if (document.getElementsByClassName('testBrokenLink').length) {
+    const links = document.getElementsByClassName('testBrokenLink');
+    for (let i = 0; i < links.length; i += 1) {
+      links[i].addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        Enabler.exit('Test Broken Link');
+      });
+    }
+  }
 }

@@ -6,7 +6,7 @@
 
 {% from "./links.html" import link, closeLink, enabler %}
 
-{% extends "layout.html" %}
+{% extends "layout-standard.html" %}
 
 {% block content %}
 

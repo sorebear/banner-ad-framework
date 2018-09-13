@@ -15,83 +15,94 @@
  * The style should be familar to those who've used jinja2.
  */
 
-const gutil = require('gulp-util');
 const nunjucksRender = require('gulp-nunjucks-render');
 const htmlmin = require('gulp-htmlmin');
-const fs = require('fs');
 
 module.exports = (gulp, banners) => {
-	const HTML_PATH = './resources/html';
-	const TEMPLATE_PATH = './app/templates';
+  const HTML_PATH = './resources/html';
 
-	gulp.task('html', () => {
-		return Object.keys(banners.banners).forEach(banner => {
-			const { orientation } = banners.banners[banner];
-			const dataObject = {
-				doubleclick: '',
-				orientationStyle: `css/${orientation}.css`
-			};
-			Object.keys(banners.links).forEach(link => {
-				dataObject[link] = banners.links[link].href
-			});
-			return gulp
-				.src(`${HTML_PATH}/pages/${banner}.html`)
-				.pipe(
-					nunjucksRender({
-						data: dataObject,
-						path: [`${HTML_PATH}/components`, `${HTML_PATH}/macros/aLinks`]
-					})
-				)
-				// .pipe(htmlmin({collapseWhitespace: true}))
-				.pipe(gulp.dest(`dist/${banner}`));
-		});
-	});
+  function htmlTask(production) {
+    return Object.keys(banners.banners).forEach(banner => {
+      const { orientation } = banners.banners[banner];
+      const dataObject = {
+        doubleclick: '',
+        orientationStyle: `css/${orientation}.css`
+      };
+      Object.keys(banners.links).forEach(link => {
+        dataObject[link] = banners.links[link].href;
+      });
+      return gulp
+        .src(`${HTML_PATH}/pages/${banner}.html`)
+        .pipe(
+          nunjucksRender({
+            data: dataObject,
+            path: [`${HTML_PATH}/layouts`, `${HTML_PATH}/components`, `${HTML_PATH}/macros/clickTags`]
+          })
+        )
+        .pipe(htmlmin({collapseWhitespace: production}))
+        .pipe(gulp.dest(`dist/unzipped/${banner}`));
+    });
+  }
 
-	gulp.task('html-doubleclick', () => {
-		return Object.keys(banners.banners).forEach(banner => {
-			const { orientation } = banners.banners[banner];
-			const dataObject = {
-				doubleclick: 'doubleclick',
-				orientationStyle: `css/${orientation}.css`
-			};
-			Object.keys(banners.links).forEach(link => {
-				dataObject[link] = link
-			});
-			return gulp
-				.src(`${HTML_PATH}/pages/${banner}.html`)
-				.pipe(
-					nunjucksRender({
-						data: dataObject,
-						path: [`${HTML_PATH}/components`, `${HTML_PATH}/macros/dcLinks`]
-					})
-				)
-				// .pipe(htmlmin({collapseWhitespace: true}))
-				.pipe(gulp.dest(`dist/${banner}`));
-		});
-	});
+  function htmlDoubleclickTask() {
+    return Object.keys(banners.banners).forEach(banner => {
+      const { orientation } = banners.banners[banner];
+      const dataObject = {
+        doubleclick: 'doubleclick',
+        orientationStyle: `css/${orientation}.css`
+      };
+      Object.keys(banners.links).forEach(link => {
+        dataObject[link] = link;
+      });
+      return gulp
+        .src(`${HTML_PATH}/pages/${banner}.html`)
+        .pipe(
+          nunjucksRender({
+            data: dataObject,
+            path: [`${HTML_PATH}/layouts`, `${HTML_PATH}/components`, `${HTML_PATH}/macros/exitLinks`]
+          })
+        )
+        .pipe(htmlmin({collapseWhitespace: true}))
+        .pipe(gulp.dest(`dist/unzipped/${banner}`));
+    });
+  }
 
-	gulp.task('transfer-index', () => {
-		return gulp.src(`${HTML_PATH}/index.html`).pipe(gulp.dest(`dist`));
-	});
+  gulp.task('html-campaign-develop', () => {
+    htmlTask(false);
+  });
 
-	// Watch Files For Changes
-	gulp.task('watchHtml', () => {
-		gulp.start(['html', 'transfer-index']);
-		gulp.watch([
-			`${HTML_PATH}/**/*.html`,
-			`${HTML_PATH}/*.html`,
-		],
-		['html']);
-	});
+  gulp.task('html-campaign-production', () => {
+    htmlTask(true);
+  });
 
-	gulp.task('watchDoubleclickHtml', () => {
-		gulp.start(['html-doubleclick', 'transfer-index']);
-		gulp.watch([
-			`${HTML_PATH}/**/*.html`,
-			`${HTML_PATH}/*.html`,
-		],
-		['html-doubleclick']);
-	});
-}
+  gulp.task('html-studio-develop', () => {
+    htmlDoubleclickTask(false);
+  });
 
+  gulp.task('html-studio-production', () => {
+    htmlDoubleclickTask(true);
+  });
 
+  gulp.task('transfer-index', () => {
+    return gulp.src(`${HTML_PATH}/index.html`).pipe(gulp.dest('dist/unzipped'));
+  });
+
+  // Watch Files For Changes
+  gulp.task('html-campaign-watch', () => {
+    gulp.start(['html-campaign-develop', 'transfer-index']);
+    gulp.watch([
+      `${HTML_PATH}/**/*.html`,
+      `${HTML_PATH}/*.html`,
+    ],
+    ['html-campaign-develop']);
+  });
+
+  gulp.task('html-studio-watch', () => {
+    gulp.start(['html-studio-develop', 'transfer-index']);
+    gulp.watch([
+      `${HTML_PATH}/**/*.html`,
+      `${HTML_PATH}/*.html`,
+    ],
+    ['html-studio-develop']);
+  });
+};

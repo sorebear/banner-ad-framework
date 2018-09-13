@@ -3,6 +3,10 @@
     "testLink": {
       "displayName": "Test Link",
       "href": "http://google.com"
+    },
+    "testBrokenLink": {
+      "displayName": "Test Broken Link",
+      "href": "http://slwkejof.com"
     }
   },
   "banners": {
@@ -18,7 +22,7 @@
       "orientation": "vertical",
       "static": true
     },
-    "sample-expand-on-hover-banner": {
+    "sample-expanding-banner": {
       "width": 320,
       "height": 250,
       "orientation": "vertical",
@@ -26,25 +30,31 @@
       "expanded": {
         "width": 640,
         "height": 250,
-        "expandEventHandler": "hover",
-        "expandDirection": [
-          "right"
-        ]
+        "expandDirection": ["left"]
       }
     },
-    "sample-expand-on-click-banner": {
-      "width": 320,
-      "height": 250,
+    "sample-multi-direction-expanding-banner": {
+      "width": 300,
+      "height": 600,
       "orientation": "vertical",
       "static": false,
       "expanded": {
-        "width": 500,
-        "height": 500,
+        "width": 600,
+        "height": 800,
         "expandEventHandler": "click",
-        "expandDirection": [
-          "up",
-          "left"
-        ]
+        "expandDirection": ["left", "right"]
+      }
+    },
+    "sample-multi-direction-expanding-hor": {
+      "width": 728,
+      "height": 90,
+      "orientation": "horizontal",
+      "static": false,
+      "expanded": {
+        "width": 728,
+        "height": 315,
+        "expandEventHandler": "click",
+        "expandDirection": ["up", "down"]
       }
     }
   }
