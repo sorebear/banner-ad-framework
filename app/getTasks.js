@@ -6,14 +6,14 @@ let fs = require('fs');
  * use https://github.com/aseemk/requireDir.
  */
 module.exports = function() {
-	let taskDir = '/tasks';
-	let tasks = fs.readdirSync(__dirname + taskDir);
-	let args = arguments;
+  let taskDir = '/tasks';
+  let tasks = fs.readdirSync(__dirname + taskDir);
+  let args = arguments;
 
-	tasks.map(file => {
-		let path = './' + taskDir + '/' + file;
+  tasks.map(file => {
+    let path = './' + taskDir + '/' + file;
 
-		// pass through arguments passed to getTasks
-		require(path).apply(this, args);
-	});
+    // pass through arguments passed to getTasks
+    require(path).apply(this, args);
+  });
 };

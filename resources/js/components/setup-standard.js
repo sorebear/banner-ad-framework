@@ -28,4 +28,4 @@ module.exports = class SetupStandardBanner {
       this.mainJs.init();
     }
   }
-}
+};

@@ -1,7 +1,7 @@
 .main-content-wrapper {
   height: $main-content-height;
   width: $main-content-width;
-  background-image: linear-gradient(to $gradient-direction, $navy, $blue);
+  background: linear-gradient($gradient-direction, $peach, $light-blue);
 
   .animated-content {
     width: 100%;

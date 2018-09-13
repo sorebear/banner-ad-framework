@@ -2,7 +2,7 @@ import SetupMultiExpandingDirection from '../components/setup-multi-direction-ex
 
 window.addEventListener('load', () => {
 	const setPixelOffsets = () => Enabler.setExpandingPixelOffsets(
-    440,
+    300,
     200,
     600,
     800

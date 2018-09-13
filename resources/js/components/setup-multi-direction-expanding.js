@@ -12,101 +12,103 @@ const eventListenerType = 'click';
 
 
 module.exports = class SetupMultiDirectionExpandingBanner {
-	constructor(setExpandingPixelOffsets) {
-		this.mainMultiExpandingDirectionJs = new MainMultiDirectionExpanding();
-		this.isExpanded = false;
-		this.inTransition = false;
-		this.expandedPanel = document.getElementById('expanded-panel');
-		this.politeLoadImg = document.getElementById('polite-load-img');
-		this.doubleclick = document.getElementById('main-panel').classList.contains('doubleclick');
-		this.localExpandDirectionNum = 0;
-		this.expandDirectionArr = ['tl', 'tr', 'bl', 'br'];
-		this.politeLoad = this.politeLoad.bind(this);
-		this.enablerInitHandler = this.enablerInitHandler.bind(this);
-		this.setExpandingPixelOffsets = setExpandingPixelOffsets;
-	}
+  constructor(setExpandingPixelOffsets) {
+    this.mainMultiExpandingDirectionJs = new MainMultiDirectionExpanding();
+    this.isExpanded = false;
+    this.inTransition = false;
+    this.expandedPanel = document.getElementById('expanded-panel');
+    this.politeLoadImg = document.getElementById('polite-load-img');
+    this.doubleclick = document.getElementById('main-panel').classList.contains('doubleclick');
+    this.localExpandDirectionNum = 0;
+    this.expandDirectionArr = ['tl', 'tr', 'bl', 'br'];
+    this.politeLoad = this.politeLoad.bind(this);
+    this.enablerInitHandler = this.enablerInitHandler.bind(this);
+    this.setExpandingPixelOffsets = setExpandingPixelOffsets;
+  }
 
-	init() {
-		if (this.doubleclick) {
-			if (Enabler.isInitialized()) {
-				this.enablerInitHandler();
-			} else {
-				Enabler.addEventListener(studio.events.StudioEvent.INIT, this.enablerInitHandler);
-			}
-		} else {
-			this.politeLoad();
-		}
-	}
+  init() {
+    if (this.doubleclick) {
+      if (Enabler.isInitialized()) {
+        this.enablerInitHandler();
+      } else {
+        Enabler.addEventListener(studio.events.StudioEvent.INIT, this.enablerInitHandler);
+      }
+    } else {
+      this.politeLoad();
+    }
+  }
 
-	politeLoad() {
-		this.addDomEventListeners();
-		if (this.politeLoadImg) { this.politeLoadImg.hide(); }
-		this.mainMultiExpandingDirectionJs.init();
-	}
+  politeLoad() {
+    this.addDomEventListeners();
+    if (this.politeLoadImg) { this.politeLoadImg.hide(); }
+    this.mainMultiExpandingDirectionJs.init();
+  }
   
-	addDomEventListeners() {
-		const domExpandHandler = document.getElementById(domExpandHandlerId);
-		if (domExpandHandler) {
-			domExpandHandler.addEventListener(eventListenerType, () => {
-				if (!this.isExpanded && !this.inTransition) {
-					this.inTransition = true;
-					this.doubleclick ? Enabler.requestExpand() : this.expandStartHandler();
-				}
-			});
-		}
+  addDomEventListeners() {
+    const domExpandHandler = document.getElementById(domExpandHandlerId);
+    if (domExpandHandler) {
+      domExpandHandler.addEventListener(eventListenerType, () => {
+        if (!this.isExpanded && !this.inTransition) {
+          this.inTransition = true;
+          this.doubleclick ? Enabler.requestExpand() : this.expandStartHandler();
+        }
+      });
+    }
 
-		const domCollapseHandler = document.getElementById(domCollapseHandlerId);
-		if (domCollapseHandler) {
-			domCollapseHandler.addEventListener(eventListenerType, () => {
-				if (this.isExpanded && !this.inTransition) {
-					this.inTransition = true;
-					this.doubleclick ? Enabler.requestCollapse() : this.collapseStartHandler();
-				}
-			});
-		}
-	}
+    const domCollapseHandler = document.getElementById(domCollapseHandlerId);
+    if (domCollapseHandler) {
+      domCollapseHandler.addEventListener(eventListenerType, () => {
+        if (this.isExpanded && !this.inTransition) {
+          this.inTransition = true;
+          this.doubleclick ? Enabler.requestCollapse() : this.collapseStartHandler();
+        }
+      });
+    }
+  }
 
-	enablerInitHandler() {
-		Enabler.setIsMultiDirectional(true);
-		this.setExpandingPixelOffsets();
-		Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, () => this.expandStartHandler());
-		Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, () => this.expandFinishHandler());
-		Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_START, () => this.collapseStartHandler());
-		Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, () => this.collapseFinishHandler());
-		exitLinks();
+  enablerInitHandler() {
+    Enabler.setIsMultiDirectional(true);
+    this.setExpandingPixelOffsets();
 
-		if (Enabler.isPageLoaded()) {
-			this.politeLoad();
-		} else {
-			Enabler.addEventListener(studio.events.StudioEvent.PAGE_LOADED, this.politeLoad);
-		}
-	}
+    Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, () => this.expandStartHandler());
+    Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, () => this.expandFinishHandler());
+    Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_START, () => this.collapseStartHandler());
+    Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, () => this.collapseFinishHandler());
+    
+    exitLinks();
 
-	expandStartHandler() {
-		this.expandedPanel.classList.remove(`direction-${this.expandDirectionArr[this.localExpandDirectionNum]}`)
-		this.localExpandDirectionNum = this.doubleclick && Enabler.getExpandDirection() ? Enabler.getExpandDirection()['a'] : 
-			this.localExpandDirectionNum === 3 ? 0 : this.localExpandDirectionNum + 1;
-		this.expandedPanel.classList.add(`direction-${this.expandDirectionArr[this.localExpandDirectionNum]}`)
-		this.mainMultiExpandingDirectionJs.expandStartAnimation(() => {
-			this.doubleclick ? Enabler.finishExpand() : this.expandFinishHandler();
-		});
-	}
+    if (Enabler.isPageLoaded()) {
+      this.politeLoad();
+    } else {
+      Enabler.addEventListener(studio.events.StudioEvent.PAGE_LOADED, this.politeLoad);
+    }
+  }
 
-	expandFinishHandler() {
-		this.isExpanded = true;
-		this.inTransition = false;
-		this.mainMultiExpandingDirectionJs.expandFinishAnimation();
-	}
+  expandStartHandler() {
+    this.expandedPanel.classList.remove(`direction-${this.expandDirectionArr[this.localExpandDirectionNum]}`);
+    this.localExpandDirectionNum = this.doubleclick && Enabler.getExpandDirection() ? Enabler.getExpandDirection()['a'] : 
+      this.localExpandDirectionNum === 3 ? 0 : this.localExpandDirectionNum + 1;
+    this.expandedPanel.classList.add(`direction-${this.expandDirectionArr[this.localExpandDirectionNum]}`);
+    this.mainMultiExpandingDirectionJs.expandStartAnimation(() => {
+      this.doubleclick ? Enabler.finishExpand() : this.expandFinishHandler();
+    });
+  }
 
-	collapseStartHandler() {
-		this.mainMultiExpandingDirectionJs.collapseStartAnimation(() => {
-			this.doubleclick ? Enabler.finishCollapse() : this.collapseFinishHandler();
-		});
-	}
+  expandFinishHandler() {
+    this.isExpanded = true;
+    this.inTransition = false;
+    this.mainMultiExpandingDirectionJs.expandFinishAnimation();
+  }
 
-	collapseFinishHandler() {
-		this.isExpanded = false;
-		this.inTransition = false;
-		this.mainMultiExpandingDirectionJs.collapseFinishAnimation();
-	}
+  collapseStartHandler() {
+    this.mainMultiExpandingDirectionJs.collapseStartAnimation(() => {
+      this.doubleclick ? Enabler.finishCollapse() : this.collapseFinishHandler();
+    });
+  }
+
+  collapseFinishHandler() {
+    this.isExpanded = false;
+    this.inTransition = false;
+    this.mainMultiExpandingDirectionJs.collapseFinishAnimation();
+  }
 };
