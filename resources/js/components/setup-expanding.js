@@ -13,6 +13,7 @@ module.exports = class ExpandingBanner {
     this.politeLoadImg = document.getElementById('polite-load-img');
     this.doubleclick = document.getElementById('main-panel').classList.contains('doubleclick');
     this.setExpandingPixelOffsets = setExpandingPixelOffsets;
+    this.politeLoad = this.politeLoad.bind(this);
     this.enablerInitHandler = this.enablerInitHandler.bind(this);
   }
 
