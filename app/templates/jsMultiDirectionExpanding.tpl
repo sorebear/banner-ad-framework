@@ -1,4 +1,4 @@
-import SetupExpanding from '../components/setup-expanding';
+import SetupMultiExpandingDirection from '../components/setup-multi-direction-expanding';
 
 window.addEventListener('load', () => {
 	const setPixelOffsets = () => Enabler.setExpandingPixelOffsets(
@@ -7,6 +7,6 @@ window.addEventListener('load', () => {
     <%expandedWidth%>,
     <%expandedHeight%>
   );
-	const expandingBanner = new SetupExpanding(setPixelOffsets);
+	const expandingBanner = new SetupMultiExpandingDirection(setPixelOffsets);
 	expandingBanner.init();
 });

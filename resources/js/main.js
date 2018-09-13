@@ -1,28 +1,40 @@
-var Isi = require('./components/isi.js');
-var IScroll = require('./vendor/iscroll-probe.js');
+const Isi = require('./components/isi.js');
+const IScroll = require('./vendor/iscroll-probe.js');
+import * as helperFunctions from './util/helper-functions';
 
-module.exports = function() {
-	var isi = new Isi(IScroll);
-	// If you dont want an auto-scrolling Isi
-	// Remove this init function 
-	isi.init();
+module.exports = class MainJs {
+	constructor() {
+		this.isi = new Isi(IScroll);
+		this.animator =  this.animationLoader();
+		this.init = this.init.bind(this);
+	}
 
-	var animationLoader = (function() {
-		var animator = {};
-		var animationSpeed = 1500;
-	
+	animationLoader() {
+		const animator = {};
+		const animationSpeed = 2000;
+
 		function fadeInScreen1() {
-			$('.screen-1').fadeIn(animationSpeed, function() { 
-				// Do something after screen-1 fades in
+			const screen1 = document.querySelector('.screen-1');
+			helperFunctions.fadeIn(screen1, animationSpeed, () => {
+				helperFunctions.animate(document.querySelector('.screen-1 h1'), { marginTop: '150px', transform: 'rotate(360deg)' }, 'ease-in-out', () => {
+					console.log('HELLO');
+				});
 			});
+				// Do something after screen 1 fades in
+			
 		}
-	
+
 		animator.init = function() {
 			fadeInScreen1();
 		}
-	
-		return animator;
-	}());
 
-	animationLoader.init();
+		return animator;
+	}
+
+	init() {
+		this.isi.init();
+		this.animator.init();
+
+		// helperFunctions.isiScroll(.5, this.isi);
+	}
 }
