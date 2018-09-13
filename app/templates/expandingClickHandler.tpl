@@ -1,10 +1,10 @@
-document.getElementById('collapsed-panel').addEventListener('click', function() {
+document.getElementById('expand-handler').addEventListener('click', function() {
   if (!isExpanded) {
     Enabler.requestExpand();
   }
 });
 
-document.getElementById('main-panel').addEventListener('click', function() {
+document.getElementById('request-handler').addEventListener('click', function() {
   if (isExpanded) {
     Enabler.requestCollapse();
   }

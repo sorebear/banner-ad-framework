@@ -2,8 +2,9 @@
 // Variables with orientation specific values should be written in horizontal.scss and vertical.scss
 
 // Colors
-$peach: rgb(240, 103, 92);
-$beige: rgb(233, 231, 213);
+$peach: #ffaaaa;
+$light-blue: #aaffff;
+$slate: grey;
 $red: rgb(212, 39, 62);
 $yellow: rgb(254, 197, 46);
 $turqoise: rgb(33, 179, 150);
@@ -11,12 +12,13 @@ $blue: rgb(51, 119, 131);
 $navy: rgb(22, 49, 67);
 $medium-grey: rgb(153, 153, 153);
 $white-semi-transparent: rgba(255, 255, 255, 0.5);
+$gradient-direction: to bottom;
 
 // Component Colors
-$isi-background-color: $blue;
-$isi-scrollbar-background-color: $peach;
-$isi-indicator-color: $red;
-$isi-text-color: $beige;
+$isi-background: $light-blue;
+$isi-scrollbar-background-color: white;
+$isi-indicator-color: $peach;
+$isi-text-color: black;
 
 // Component Sizes
 $isi-scrollbar-width: 20px;

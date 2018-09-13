@@ -2,12 +2,13 @@
 	height: $isi-height;
 	width: $isi-width;
 	position: relative;
+	z-index: 1;
 }
 
 .isi-container {
 	overflow-y: hidden;
 	overflow-x: hidden;
-	background-color: $isi-background-color;
+	background: $isi-background;
 	display: block;
 	position: relative;
 	height: 100%;
@@ -22,15 +23,19 @@
 	top: 0;
 	left: 0;
 	color: $isi-text-color;
+	font-size: 10px;
+	line-height: 1.5em;
 }
 
 .iScrollVerticalScrollbar {
 	background-color: $isi-scrollbar-background-color !important;
 	width: $isi-scrollbar-width;
+	right: 5px !important;
 }
 
 .iScrollIndicator {
 	background-color: $isi-indicator-color !important;
 	border: none !important;
 	border-radius: 0 !important;
+	
 }
