@@ -34,12 +34,12 @@
 
   #expanded-content-wrapper {
     position: absolute;
-    display: flex;
-    flex-direction: <%flexDirection%>;
     <%topPosition%>;
     <%leftPosition%>;
     width: <%collapsedWidth%>px;
     height: <%collapsedHeight%>px;
+    <%flex%>
+    <%flexDirection%>
   }
 
   .expand > div {

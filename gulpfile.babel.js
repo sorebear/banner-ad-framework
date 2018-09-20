@@ -25,7 +25,8 @@ const runTasks = (devOrProduction, campaignOrStudio) => {
       `transfer-${devOrProduction}`
     ],
     [
-      `zip-${devOrProduction}`
+      `zip-${devOrProduction}`,
+      'create-index'
     ]
   );
 };

@@ -40,11 +40,7 @@ module.exports = (gulp, banners) => {
       checkThenMakeDir(`${RESOURCES_PATH}/${subFolder}`);
       checkThenMakeDir(`${RESOURCES_PATH}/${subFolder}/pages`);
     });
-    let tpl = '';
     for (let bannerTitle in banners.banners) {
-      let link = fs.readFileSync(`${TEMPLATE_PATH}/index.tpl`, 'utf8');
-      link = link.replace(/<%banner%>/g, bannerTitle);
-      tpl += link;
       const banner = banners.banners[bannerTitle];
       const isExpanding = banner.expanded;
       const isMultiDir = !isExpanding ? null :
@@ -83,7 +79,6 @@ module.exports = (gulp, banners) => {
     }
     scaffoldExitLinksJS(banners);
     scaffoldClickTags(banners);
-    fs.writeFileSync(`${HTML_PATH}/index.html`, tpl);
   });
 
   const scaffoldHTML = (banner, dims) => {
@@ -107,7 +102,8 @@ module.exports = (gulp, banners) => {
           fs.readFileSync(`${TEMPLATE_PATH}/scssMultiDirectionExpanding.tpl`, 'utf8') :
           fs.readFileSync(`${TEMPLATE_PATH}/scssExpanding.tpl`, 'utf8');
     tpl = tpl.replace(/<%orientation%>/g, dims.orientation);
-    tpl = tpl.replace(/<%flexDirection%>/g, dims.orientation === 'horizontal' ? 'row' : 'column');
+    tpl = tpl.replace(/<%flex%>/g, dims.orientation === 'horizontal' ? 'display: flex;' : '');
+    tpl = tpl.replace(/<%flexDirection%>/g, dims.orientation === 'horizontal' ? 'flex-direction: row;' : '');
     tpl = tpl.replace(/<%banner-title%>/g, banner);
     tpl = tpl.replace(/<%collapsedWidth%>/g, dims.collapsedWidth);
     tpl = tpl.replace(/<%collapsedHeight%>/g, dims.collapsedHeight);
@@ -199,5 +195,6 @@ module.exports = (gulp, banners) => {
   });
 
   // Re-Scaffold Task
+  gulp.task('rescaffold', ['scaffold:clean', 'scaffold']);
   gulp.task('re-scaffold', ['scaffold:clean', 'scaffold']);
 };
