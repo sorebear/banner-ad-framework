@@ -18,7 +18,7 @@ module.exports = class SetupStandardBanner {
   }
 
   init() {
-    if (document.getElementById('main-panel').classList.contains('doubleclick')) {
+    if (document.getElementById('main-panel').classList.contains('studio')) {
       if (Enabler.isInitialized()) {
         this.enablerInitHandler();
       } else {

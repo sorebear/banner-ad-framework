@@ -34,12 +34,12 @@
 
   #expanded-content-wrapper {
     position: absolute;
-    display: flex;
-    flex-direction: row;
     top: 225px;
     left: 0px;
     width: 728px;
     height: 90px;
+    display: flex;
+    flex-direction: row;
   }
 
   .expand > div {

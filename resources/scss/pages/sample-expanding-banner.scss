@@ -36,12 +36,12 @@
 
   #expanded-content-wrapper {
     position: absolute;
-    display: flex;
-    flex-direction: column;
     top: 0px;
     right: 0px;
     width: 320px;
     height: 250px;
+    
+    
   }
 
   .expand > div {

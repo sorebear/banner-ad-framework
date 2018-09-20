@@ -29,10 +29,10 @@ This quick start guide will give the basic overview of commands and file structu
 Start by cloning this project.
 
 ```
-git clone git@gitlab.envivent.com:sbaird/banner-ad-framework.git <name-of-your-project>
+git clone git@gitlab.envivent.com:envivent/bolognese-banners.git <name-of-your-project>
 ```
 
-The install the necessary dependencies
+Then install the necessary dependencies
 
 ```
 npm install
@@ -57,7 +57,8 @@ Once everything is installed, open up `banners.json` in the root directory to cu
       "expandEventHandler": <event>,      // @string - Either 'click' or 'hover'
       "expandDirection": [
         <expand-direction-1>,             // @string - Accepts 'left', 'right', 'up', or 'down'
-        <expand-direction-2>              // @string - Optionally add a second direction
+        <expand-direction-2>              // @string - Optionally more directions
+        /* A multi-directional expanding banner will automatically be made if you include "up" and "down" or "left" and "right" */
       ]
     }
   }
@@ -66,13 +67,13 @@ Once everything is installed, open up `banners.json` in the root directory to cu
 
 ### Links
 ```javascript
-"<link-name>": {                   // @string - Reference name for link. Should be camelCase
-  "displayName": <displayed-name>, // @string - Name that will show in DoubleClick studio analytics
-  "href": <url-of-link>            // @string - Link URL. This will only be used in non-doubleclick banners
+"<link-name>": {                   // @string - Reference name for link. It cannot include spaces or dashes. It should be camelCase.
+  "displayName": <displayed-name>, // @string - Name that will show in DoubleClick Studio analytics
+  "href": <url-of-link>            // @string - Link URL. This will be used to create click tags in Doubleclick Campaign Manager banners.
 }
 ```
 
-Banners deployed to doubleclick studio do not use traditional anchor tags, but handle all linking through javascript. The necessary javascript functions will be built from the information that is provided in this links object. Links are explained in further details in [Section 1.4](#14-banner-links).
+Banners do not use traditional anchor tags, but handle all linking through javascript. Banners deployed to DoubleClick Studio use exit links. Banners deployed to DoubleClick Campaign Manager use click tags. The necessary javascript functions will be built from the information that is provided in this links object. Links are explained in further details in [Section 1.4](#14-banner-links).
 
 ## 1.2: Scaffolding
 
@@ -81,7 +82,7 @@ After filling out `banners.json`, there are two scaffolding processes you can ru
 ```
 gulp scaffold
 ```
-This task will build out the file-structure and generate a couple files for you based on the contents of `banner.json`. If you alter the banners object in `banner.json` file and re-run this command, it will build files for the new banners and will **not** remove any previous banners that were created.
+This task will build out the source file-structure based on the contents of `banner.json`. If you alter the banners object in `banner.json` file and re-run this command, it will only build files for the new banners and will **not** remove any previous banners that were created.
 
 ```
 gulp re-scaffold
@@ -96,12 +97,11 @@ To see the scaffolding script, open up `app/tasks/scaffold.js`. Here is a quick 
 * Within the For-In loop: 
     * A large object is created with several dimensions (*dims*) specific to that *banner*. 
     * The scaffoldHTML, scaffoldSCSS, scaffoldJS, and scaffoldIMG functions are called, passing in the name of each banner and each banner's *dims* object.
-    * Each of these scaffold functions selects and reads a template file from `app/templates`, a template is determined by whether the banner is standard, static, or expanding. 
+    * Each of these scaffold functions selects and reads a template file from `app/templates`, a template is determined by whether the banner is standard, static, expanding, or multi-direction expanding. 
     * It then takes this template and replaces several placeholder tags in the template with information about the banner from the *dims* object. 
-    * The newly written file is then placed in its respective banner folder within the `resources` directory. 
+    * The newly written files are then placed in their respective banner folder within the `resources` directory. 
 * An Exit Links module is built from the *links* object in `banner.json` and written to `resources/js/components/exit-links.js`.
-* An Anchor Links module is built, forming Click Tags from the *links* object and written to `resources/js/macros/aLinks/links.html`.
-* Lastly, a simple index page is created and written to `resources/html/index.html`. 
+* A Click Tag Links module is built from the *links* object and written to `resources/js/macros/clickTags/links.html`.
 
 #### Example
 A banner titled 'banner-banter' would:
@@ -112,59 +112,73 @@ A banner titled 'banner-banter' would:
 
 ### Note on Scaffolding and Re-Scaffolding
 
-While `gulp scaffold` will not overwrite any HTML, SCSS, Javascript, or Image files within the pages subfolder, it will **always** rewrite `resources/html/index.html`, `resources/html/macros/aLinks/links.html` and `resources/js/components/exit-links.js`. This is because it is common to add in additional banners or links when you are halfway through a project and always want to ensure the exit links and index file are up to date. 
+While `gulp scaffold` will not overwrite any HTML, SCSS, Javascript, or Image files within the pages subfolder, it will **always** rewrite `resources/html/macros/clickTags/links.html` and `resources/js/components/exitLinks.js`. This is because it is common to add in additional banners or links when you are halfway through a project and always want to ensure the exit links and index file are up to date. 
 
-## 1.3: Gulp Build Tasks Overview
+## 1.3: Gulp Build and Develop Tasks Overview
 
 Here is a quick guide to the Gulp build tasks available in this framework. If you do not have Gulp globally installed, each task covered here can also be accessed by running `npm run <gulp-task>`.
 
-### Build Overview
+### Build / Develop Overview
 
-All of the build processes will create a seperate folder for each banner in the `dist` directory with self-contained assets for that banner. 
+All of the build and develop processes will create a seperate folder for each banner `dist/unzipped` with self-contained assets for that banner. 
 
 *For Example:* If you have two banners in your project, "first-banner" and "second-banner", the build processes will create the following file structure:
 ```
 -dist
-  -first-banner
-    -css
-      -main.css
-    -js
-      -bundle.js
-    -img
-    -first-banner.html
-  -second-banner
-    -css
-      -main.css
-    -js
-      -bundle.js
-    -img
-    -second-banner.html
+  -unzipped
+    -first-banner
+      -css
+        -main.css
+      -js
+        -bundle.js
+      -img
+      -first-banner.html
+    -second-banner
+      -css
+        -main.css
+      -js
+        -bundle.js
+      -img
+      -second-banner.html
 ```
 
 ### develop
 ```
 gulp develop
 ```	
-This task will build your project, place it in `dist`, and then watch for any updates within `resources`. It will not minify your CSS or Javascript, making it easier to debug. 
 
-This build process is for *Non-Doubleclick Banners*, which means that:
+This task will return a prompt to see if you are developing for DoubleClick Campaign Manager or DoubleClick Studio.
 
-* All `{{ link(<link-name>, <class-name>) }}Sample Link{{ closeLink() }}` will be rendered as `<a href="<link-url>">Sample Link</a>`
-* The class "doubleclick" will not be added to the banners.
+### Develop for DoubleClick Campaign Manager
+
+This option can be selected when running `gulp develop` or can be directly accessed by running:
+
+```
+gulp develop:campaign
+```
+
+This task will build your project, place it in `dist`, and then watch for any updates within `resources`. It will not minify your CSS or Javascript, making it easier to debug. It will also include an 'EXPAND ISI' button in the top right corner of non-static banners, which clients often ask for to proof check the ISI content on smaller banners.
+
+This build process is for *DoubleClick Campaign Manager Banners*, which means that:
+
+* A script containing Click Tags will be included in the document &lt;head&gt;, `<script> var sampleLink = http://samplelink.com </script>`.
+* The link `{{ link(sampleLink, 'sample-class') }}Sample Link{{ closeLink() }}` will be rendered as `<span class="sample-class" onclick="window.open(window.sampleLink)>Sample Link</span>`
 * The Enabler script, `<script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>`, will not be included in your document <head>
-* A script containing Click Tags will be included in the document &lt;head&gt;.
 * All Enabler methods will be bypassed in your Javascript files.
 
-### develop:doubleclick
-```
-gulp develop:doubleclick
-```	
-This task will build your project, place it in `dist`, and then watch for any updates within `resources`. It will not minify your CSS or Javascript, making it easier to debug. 
+### Develop for DoubleClick Studio
 
-This build process is for *Doubleclick Banners*, which means that:
+This option can be selected when running `gulp develop` or can be directly accessed by running:
+```
+gulp develop:studio
+```	
+This task will build your project, place it in `dist`, and then watch for any updates within `resources`. It will not minify your CSS or Javascript, making it easier to debug.
+It will also include an 'EXPAND ISI' button in the top right corner of non-static banners, which clients often ask for to proof check the ISI content on smaller banners.
+
+This build process is for *Doubleclick Studio Banners*, which means that:
 
 * All `{{ link(<link-name>, <class-name>) }}Sample Link{{ closeLink() }}` will be rendered as `<span class="<link-name> <class-name>">Sample Link</span>`
-* The class "doubleclick" will be added to the banners.
+* The class "studio" will be added to the banners.
 * The Enabler script, `<script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>`, will be included in your document <head>
 * A script containing Click Tags will not be included in the document &lt;head&gt;
 * All Enabler methods will be executed in your Javascript files.
@@ -173,7 +187,12 @@ This build process is for *Doubleclick Banners*, which means that:
 ```
 gulp build
 ```
-This task will build your project similar to `gulp develop`, but will minify all Javascript and CSS, and will run just once.
+This task will build your project similar to `gulp develop` with the following differences:
+* Minifies all Javascript and CSS
+* Runs just once and then exits
+* Does not include the 'EXPAND ISI' button
+* Includes a zipped folder for each banner placed in `dist/zipped`
+* Includes a single zipped file of all the banners placed in `dist/single-zip`.
 
 ### build:doubleclick
 ```

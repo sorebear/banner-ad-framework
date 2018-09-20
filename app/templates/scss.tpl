@@ -9,12 +9,12 @@
 
 #main-panel.<%banner-title%> {
   position: absolute;
-  display: flex;
-  flex-direction: <%flexDirection%>;
   top: 0px;
   left: 0px;
   width: <%collapsedWidth%>px;
   height: <%collapsedHeight%>px;
+  <%flex%>
+  <%flexDirection%>
 
   /* Declare banner specific styles here */
 

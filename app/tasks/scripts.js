@@ -9,7 +9,9 @@ const JS_PATH = 'resources/js';
 module.exports = (gulp, banners) => {
   gulp.task('scripts-develop', () => {
     return Object.keys(banners.banners).forEach(banner => {
-      return browserify(`${JS_PATH}/pages/${banner}.js`)
+      const src = banners.banners[banner].static ? `${JS_PATH}/pages/${banner}.js` :
+        [`${JS_PATH}/pages/${banner}.js`, `${JS_PATH}/util/expand-isi-button.js`];
+      return browserify(src)
         .transform('babelify', { presets: ['es2015'] })
         .bundle()
         .pipe(source('bundle.js'))
