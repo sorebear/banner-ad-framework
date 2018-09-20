@@ -21,11 +21,11 @@ const htmlmin = require('gulp-htmlmin');
 module.exports = (gulp, banners) => {
   const HTML_PATH = './resources/html';
 
-  function htmlTask(production) {
+  function htmlCampaignTask(production) {
     return Object.keys(banners.banners).forEach(banner => {
       const { orientation } = banners.banners[banner];
       const dataObject = {
-        doubleclick: '',
+        studio: '',
         orientationStyle: `css/${orientation}.css`
       };
       Object.keys(banners.links).forEach(link => {
@@ -44,11 +44,11 @@ module.exports = (gulp, banners) => {
     });
   }
 
-  function htmlDoubleclickTask() {
+  function htmlStudioTask() {
     return Object.keys(banners.banners).forEach(banner => {
       const { orientation } = banners.banners[banner];
       const dataObject = {
-        doubleclick: 'doubleclick',
+        studio: 'studio',
         orientationStyle: `css/${orientation}.css`
       };
       Object.keys(banners.links).forEach(link => {
@@ -68,23 +68,23 @@ module.exports = (gulp, banners) => {
   }
 
   gulp.task('html-campaign-develop', () => {
-    htmlTask(false);
+    htmlCampaignTask(false);
   });
 
   gulp.task('html-campaign-production', () => {
-    htmlTask(true);
+    htmlCampaignTask(true);
   });
 
   gulp.task('html-studio-develop', () => {
-    htmlDoubleclickTask(false);
+    htmlStudioTask(false);
   });
 
   gulp.task('html-studio-production', () => {
-    htmlDoubleclickTask(true);
+    htmlStudioTask(true);
   });
 
   gulp.task('transfer-index', () => {
-    return gulp.src(`${HTML_PATH}/index.html`).pipe(gulp.dest('dist/unzipped'));
+    // return gulp.src(`${HTML_PATH}/index.html`).pipe(gulp.dest('dist/unzipped'));
   });
 
   // Watch Files For Changes

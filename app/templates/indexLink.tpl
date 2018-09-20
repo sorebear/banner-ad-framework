@@ -1,0 +1,1 @@
+<a href="unzipped/<%banner%>/<%banner%>.html"><%banner%></a><br>

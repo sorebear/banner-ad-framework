@@ -11,14 +11,14 @@ module.exports = class ExpandingBanner {
     this.isExpanded = false;
     this.inTransition = false;
     this.politeLoadImg = document.getElementById('polite-load-img');
-    this.doubleclick = document.getElementById('main-panel').classList.contains('doubleclick');
+    this.studio = document.getElementById('main-panel').classList.contains('studio');
     this.setExpandingPixelOffsets = setExpandingPixelOffsets;
     this.politeLoad = this.politeLoad.bind(this);
     this.enablerInitHandler = this.enablerInitHandler.bind(this);
   }
 
   init() {
-    if (this.doubleclick) {
+    if (this.studio) {
       if (Enabler.isInitialized()) {
         this.enablerInitHandler();
       } else {
@@ -41,7 +41,7 @@ module.exports = class ExpandingBanner {
       domExpandHandler.addEventListener(eventListenerType, () => {
         if (!this.isExpanded && !this.inTransition) {
           this.inTransition = true;
-          this.doubleclick ? Enabler.requestExpand() : this.expandStartHandler();
+          this.studio ? Enabler.requestExpand() : this.expandStartHandler();
         }
       });
     }
@@ -51,7 +51,7 @@ module.exports = class ExpandingBanner {
       domCollapseHandler.addEventListener(eventListenerType, () => {
         if (this.isExpanded && !this.inTransition) {
           this.inTransition = true;
-          this.doubleclick ? Enabler.requestCollapse() : this.collapseStartHandler();
+          this.studio ? Enabler.requestCollapse() : this.collapseStartHandler();
         }
       });
     }
@@ -76,7 +76,7 @@ module.exports = class ExpandingBanner {
 
   expandStartHandler() {
     this.mainExpandingJs.expandStartAnimation(() => {
-      this.doubleclick ? Enabler.finishExpand() : this.expandFinishHandler();
+      this.studio ? Enabler.finishExpand() : this.expandFinishHandler();
     });
   }
 
@@ -88,7 +88,7 @@ module.exports = class ExpandingBanner {
 
   collapseStartHandler() {
     this.mainExpandingJs.collapseStartAnimation(() => {
-      this.doubleclick ? Enabler.finishCollapse() : this.collapseFinishHandler();
+      this.studio ? Enabler.finishCollapse() : this.collapseFinishHandler();
     });
   }
 

@@ -18,7 +18,7 @@ module.exports = class SetupMultiDirectionExpandingBanner {
     this.inTransition = false;
     this.expandedPanel = document.getElementById('expanded-panel');
     this.politeLoadImg = document.getElementById('polite-load-img');
-    this.doubleclick = document.getElementById('main-panel').classList.contains('doubleclick');
+    this.studio = document.getElementById('main-panel').classList.contains('studio');
     this.localExpandDirectionNum = 0;
     this.expandDirectionArr = ['tl', 'tr', 'bl', 'br'];
     this.politeLoad = this.politeLoad.bind(this);
@@ -27,7 +27,7 @@ module.exports = class SetupMultiDirectionExpandingBanner {
   }
 
   init() {
-    if (this.doubleclick) {
+    if (this.studio) {
       if (Enabler.isInitialized()) {
         this.enablerInitHandler();
       } else {
@@ -50,7 +50,7 @@ module.exports = class SetupMultiDirectionExpandingBanner {
       domExpandHandler.addEventListener(eventListenerType, () => {
         if (!this.isExpanded && !this.inTransition) {
           this.inTransition = true;
-          this.doubleclick ? Enabler.requestExpand() : this.expandStartHandler();
+          this.studio ? Enabler.requestExpand() : this.expandStartHandler();
         }
       });
     }
@@ -60,7 +60,7 @@ module.exports = class SetupMultiDirectionExpandingBanner {
       domCollapseHandler.addEventListener(eventListenerType, () => {
         if (this.isExpanded && !this.inTransition) {
           this.inTransition = true;
-          this.doubleclick ? Enabler.requestCollapse() : this.collapseStartHandler();
+          this.studio ? Enabler.requestCollapse() : this.collapseStartHandler();
         }
       });
     }
@@ -86,11 +86,11 @@ module.exports = class SetupMultiDirectionExpandingBanner {
 
   expandStartHandler() {
     this.expandedPanel.classList.remove(`direction-${this.expandDirectionArr[this.localExpandDirectionNum]}`);
-    this.localExpandDirectionNum = this.doubleclick && Enabler.getExpandDirection() ? Enabler.getExpandDirection()['a'] : 
+    this.localExpandDirectionNum = this.studio && Enabler.getExpandDirection() ? Enabler.getExpandDirection()['a'] : 
       this.localExpandDirectionNum === 3 ? 0 : this.localExpandDirectionNum + 1;
     this.expandedPanel.classList.add(`direction-${this.expandDirectionArr[this.localExpandDirectionNum]}`);
     this.mainMultiExpandingDirectionJs.expandStartAnimation(() => {
-      this.doubleclick ? Enabler.finishExpand() : this.expandFinishHandler();
+      this.studio ? Enabler.finishExpand() : this.expandFinishHandler();
     });
   }
 
@@ -102,7 +102,7 @@ module.exports = class SetupMultiDirectionExpandingBanner {
 
   collapseStartHandler() {
     this.mainMultiExpandingDirectionJs.collapseStartAnimation(() => {
-      this.doubleclick ? Enabler.finishCollapse() : this.collapseFinishHandler();
+      this.studio ? Enabler.finishCollapse() : this.collapseFinishHandler();
     });
   }
 
