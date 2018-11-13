@@ -281,10 +281,12 @@ Each banner's HTML, SCSS, and Javascript file pulls in common components, but th
 
 #### Overview - Images
 
-If "my-awesome-banner" was marked as a "vertical" banner, it would pull in all the images from:
+If "my-awesome-banner" was marked as a "static" banner, it would pull in all the images from:
 * `resources/img/shared`
-* `resources/img/vertical`
+* `resources/img/shared-static`
 * `resources/img/pages/my-awesome-banner`.
+
+Banners will always pull in the globablly shared image folder, the banner type shared image folder, and the banner specific image folder.
 
 ## 2.1: File Structure - HTML
 
@@ -333,6 +335,8 @@ This line imports Macros to build either click tags or exit links depending on w
 These three layout files can all be found within `resources/html/components`. You can edit these files for changes you would like to see across all banners of one type.
 
 ### Content Blocks
+
+We will look at the content blocks for Standard Banners, Static Banners, and Expanding Banners respectively.
 
 #### Main Content and ISI - Standard Banners
 
@@ -385,7 +389,7 @@ Static banners typically do not include the Important Safety Information, which 
 {% endblock %}
 ```
 
-The required structure for an expanding banner is to have one main panel, with a collapsed panel and expanded panel inside of it. Typically, the main content of your collapsed banner and your expanded banner will be different, so each block is pulling in a different file (either `resources/html/components/main-content-collapsed.html` or `resources/html/components/main-content-expanded.html`. 
+The required structure for an expanding banner is to have one main panel, with a collapsed panel and expanded panel inside of it. Typically, the main content of your collapsed banner and your expanded banner will be different, so each block is pulling in a different file (either `resources/html/components/main-content-collapsed.html` or `resources/html/components/main-content-expanded.html`.
 
 It is easiest to only have the ISI block on the `main-content-expanded` and crop the `main-content-collapsed` to have that ISI block show through when the banner is collapsed.
 
@@ -398,12 +402,21 @@ The entry point for each banner's styles is that banner's specific SCSS file wit
 @import "../vendor/normalize";
 @import "../modules/all";
 @import "../orientation/vertical";
+@import "../type/static";
 ```
 First, we will import normalize.scss. This is a commonly used 3rd party stylesheet to help normalize some inconsistencies across browsers.
 
 Second, we will import all of our modules. This could include variables, animations, and other stylesheets that don't directly apply styles to the DOM. By default, several variables will be pulled in from `resources/scss/modules/_variables.scss`. It is good to open up this file to view, edit, and add variables to your project. 
 
-Third, depending on the banner's orientation, we will import either `resources/scss/orientation/vertical.scss` or `resources/scss/orientation/horizontal`. If you open up these files, you will see some additional variables. This is a great place to add or overwrite global variables that are orientation specific. 
+Third, depending on the banner's orientation, we will import either `resources/scss/orientation/vertical.scss` or `resources/scss/orientation/horizontal`. If you open up these files, you will see some additional variables. This is a great place to add or overwrite global variables that are orientation specific.
+
+Fourth, depending on the banner type, we will import one of the following four:
+* `resources/scss/type/static`;
+* `resources/scss/type/standard`;
+* `resources/scss/type/expanding`;
+* `resources/scss/type/multi-direction-expanding`;
+
+These files will allow you to create general styles scoped for each banner type.
 
 ### Declare or Re-Declare Banner- Specific Variables
 
