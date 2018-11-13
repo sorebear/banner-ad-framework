@@ -44,9 +44,9 @@
     
   }
 
-  .expand > div {
-    width: 640px !important;
-    height: 250px !important;
+  #expanded-panel.expand #expanded-content-wrapper {
+    width: 640px;
+    height: 250px;
   }
 
   /* Declare banner specific styles here */

@@ -42,12 +42,12 @@
     flex-direction: row;
   }
 
-  .expand > div {
-    width: 728px !important;
-    height: 315px !important;
+  #expanded-panel.expand #expanded-content-wrapper {
+    width: 728px;
+    height: 315px;
   }
 
-  .direction-tl {
+  #expanded-panel.direction-tl {
     top: 0px;
     left: 0px;
 
@@ -59,7 +59,7 @@
     }
   }
 
-  .direction-tr {
+  #expanded-panel.direction-tr {
     top: 0px;
     left: 0px;
 
@@ -71,7 +71,7 @@
     }
   }
 
-  .direction-bl {
+  #expanded-panel.direction-bl {
     top: 225px;
     left: 0px;
 
@@ -83,7 +83,7 @@
     }
   }
 
-  .direction-br {
+  #expanded-panel.direction-br {
     top: 225px;
     left: 0px;
 

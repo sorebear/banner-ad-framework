@@ -42,12 +42,12 @@
     <%flexDirection%>
   }
 
-  .expand > div {
-    width: <%expandedWidth%>px !important;
-    height: <%expandedHeight%>px !important;
+  #expanded-panel.expand #expanded-content-wrapper {
+    width: <%expandedWidth%>px;
+    height: <%expandedHeight%>px;
   }
 
-  .direction-tl {
+  #expanded-panel.direction-tl {
     top: 0px;
     left: 0px;
 
@@ -59,7 +59,7 @@
     }
   }
 
-  .direction-tr {
+  #expanded-panel.direction-tr {
     top: 0px;
     <%leftPosition%>;
 
@@ -71,7 +71,7 @@
     }
   }
 
-  .direction-bl {
+  #expanded-panel.direction-bl {
     <%topPosition%>;
     left: 0px;
 
@@ -83,7 +83,7 @@
     }
   }
 
-  .direction-br {
+  #expanded-panel.direction-br {
     <%topPosition%>;
     <%leftPosition%>;
 

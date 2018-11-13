@@ -191,45 +191,60 @@ This task will build your project similar to `gulp develop` with the following d
 * Minifies all Javascript and CSS
 * Runs just once and then exits
 * Does not include the 'EXPAND ISI' button
-* Includes a zipped folder for each banner placed in `dist/zipped`
-* Includes a single zipped file of all the banners placed in `dist/single-zip`.
 
-### build:doubleclick
+This command will prompt you to choose which production build you would like to execute. You can either choose to build banners for DoubleClick Campaign Manager or DoubleClick Studio.
+
+### Build For DoubleClick Campaign Manager
+
+You can directly access this process by running:
+
 ```
-gulp build:doubleclick
+gulp build:campaign
 ```
-This task will build your project similar to `gulp develop:doubleclick`, but will minify all Javascript and CSS, and will run just once.
+
+### Build For DoubleClick Studio
+
+You can directly access this process by running:
+
+```
+gulp build:studio
+```
+
+
 
 ### zip
 ```
 gulp zip
 ```
-This task will take each folder currently in `dist`, zip it, and place it in `dist/zips`.
+This task will take each folder currently in `dist/unzipped`, zip it, and place it in `dist/zipped`. It will also take all the folders in `dist/unzipped` and create one zip file placed in `dist/single-zip`.
 
 ## 1.4: Banner Links
 
-If a banner is going to be deployed on Doubleclick Studio, it does not use anchor tags, but handles everything in Javascript. If the banner is not for Doubleclick Studio, it will have standard anchor tags. This framework is built to have one link syntax which will be rendered as Doubleclick links in one build process and anchor tags in another build process.
-
 When inserting a link into your HTML, write it as follows:
+
 ```html
 <p>A sample paragraph with a {{ link('<link-name>', '<class-name>') }}Sample Link{{ closeLink() }}</p>
 ```
-The link name that you pass in should be a string and match link-name that you placed in `banners.json`. The second parameter is optional and will be added as a class to the link when rendered.
+The link name that you pass in should be a string and match link-name that you placed in `banners.json`. Make sure that the link name does not start with a number and does not contain hyphens or other special characters. When building for DoubleClick Campaign Manager, this link name will be a javascript variable, and needs to follow all the rules and restrictions of naming javascript variables. The second parameter is optional and will be added as a class to the link when rendered.
 
-## 1.5: Renaming Banners
+Writing links this way and ensuring that the links object in `banners.json` is up-to-date, will allow banner links to be correctly compiled for either build process.
 
-If you need to rename one of your banners at any point, there is a built in Gulp command to do this. 
+### Links for DoubleClick Campaign Manager
 
+When your run `gulp develop:campaign` or `gulp build:campaign` the links will be rendered as spans, with an onclick event listener. Additionally a script will be added to the `<head>` which will include each click tag as variable, with the value being the associated `href`. Remember that the "href" url will be pulled from the matching link name in `banners.json`.
+
+```html
+<!-- The following link -->
+
+{{ link('myCoolLink', 'exit-link awesome-class') }}Click Here{{ closeLink() }}
+
+<!-- Will be rendered to -->
+<span onclick="window.open(window.myCoolLink)" class="exit-link awesome-class">Click Here</a>
 ```
-gulp rename --old <name-of-a-current-banner> --new <name-you-want-to-chang-it-to>
-```
-> Note: Because this uses command line variables, this will not work by running 'npm run rename...'. You will need to have Gulp globally installed to run the rename command.
 
-This command helps avoid the hassle of manually alterning your banners.json and renaming several files. 
+### Links for DoubleClick Studio
 
-### Links for Doubleclick Studio
-
-When you run `gulp develop:doubleclick` or `gulp build:doubleclick` the links will be rendered as "span" elements. The link name and "exit" will be automatically be added as classes. Add the class "exit-link" as the second argument to underline the text and make it inherit the parent element's color (this matches the appearance of an anchor tag). If you are adding the link to an image or container &lt;div&gt;, you typically would not add the "exit-link" class.
+When you run `gulp develop:studio` or `gulp build:studio` the links will be rendered as "span" elements. The link name and "exit" will be automatically be added as classes.
 
 ```html
 <!-- The following link -->
@@ -240,18 +255,16 @@ When you run `gulp develop:doubleclick` or `gulp build:doubleclick` the links wi
 <span class="myCoolLink exit-link awesome-class">Click Here</span>
 ```
 
-### Links for Other Platforms
+## 1.5: Renaming Banners
 
-When your run `gulp develop` or `gulp build` the links will be rendered as anchor tags, making reference to click tags which are declared in a script within the document &lt;head&gt;. Remember that the "href" url will be pulled from the matching link name in `banners.json`.
+If you need to rename one of your banners at any point, run the following command:
 
-```html
-<!-- The following link -->
-
-{{ link('myCoolLink', 'exit-link awesome-class') }}Click Here{{ closeLink() }}
-
-<!-- Will be rendered to -->
-<a src="javascript:window.open(window.myCoolLink)" class="exit-link awesome-class">Click Here</a>
 ```
+gulp rename
+```
+This will return a list of all the current banner names and prompt you to select which banner you would like to rename. It will then ask you what you'd like to rename the banner to.
+
+This command helps avoid the hassle of manually alterning your banners.json and renaming several files. 
 
 # 2: File Structure
 
@@ -268,7 +281,7 @@ Each banner's HTML, SCSS, and Javascript file pulls in common components, but th
 
 #### Overview - Images
 
-The image folder works slightly different. If "my-awesome-banner" was marked as a "vertical" banner, it would pull in all the images from:
+If "my-awesome-banner" was marked as a "vertical" banner, it would pull in all the images from:
 * `resources/img/shared`
 * `resources/img/vertical`
 * `resources/img/pages/my-awesome-banner`.
@@ -302,7 +315,7 @@ The banner file name will set the title and set the class of outermost banner di
 {% from "./links.html" import link, closeLink, enabler %}
 ```
 
-This line imports Macros to build either standard links or doubleclick links depending on the build process which is run. When `gulp develop` or `gulp build` is run, it will import the macros from `resources/html/macros/dataLinks/links.html`. When `gulp develop:doubleclick` or `gulp build:doubleclick` is run, it will import the macros from `resources/html/macros/dcLinks/links.html`.
+This line imports Macros to build either click tags or exit links depending on which develop/build process is run. When `gulp develop:campaign` or `gulp build:campaign` is run, it will import the macros from `resources/html/macros/clickTags/links.html`. When `gulp develop:studio` or `gulp build:studio` is run, it will import the macros from `resources/html/macros/exitLinks/links.html`.
 
 ### Extending Layouts
 
@@ -374,7 +387,7 @@ Static banners typically do not include the Important Safety Information, which 
 
 The required structure for an expanding banner is to have one main panel, with a collapsed panel and expanded panel inside of it. Typically, the main content of your collapsed banner and your expanded banner will be different, so each block is pulling in a different file (either `resources/html/components/main-content-collapsed.html` or `resources/html/components/main-content-expanded.html`. 
 
-Often your ISI will be identical on both, which is why both the collapsed ISI block and expanded ISI block are pulling in the same file by default. 
+It is easiest to only have the ISI block on the `main-content-expanded` and crop the `main-content-collapsed` to have that ISI block show through when the banner is collapsed.
 
 ## 2.2: File Structure - SCSS
 
@@ -424,19 +437,23 @@ There is then space to add your banner-specific styles.
 ### Banner-Specific Styles (Expanding)
 
 ```scss
-#main-panel.sample-expand-on-hover-banner {
+#main-panel.sample-expanding-banner {
   position: absolute;
   top: 0px;
   left: 0px;
   width: 640px;
   height: 250px;
 
-  #collapsed-panel {
+  #collapsed-panel,
+  #collapsed-content-wrapper {
     position: absolute;
-    top: 0px;
-    left: 0px;
     width: 320px;
     height: 250px;
+  }
+
+  #collapsed-panel {
+    top: 0px;
+    right: 0px;
   }
 
   #expanded-panel {
@@ -447,13 +464,30 @@ There is then space to add your banner-specific styles.
     height: 250px;
   }
 
-  /* Declare banner specific styles here */
+  #expanded-content-wrapper {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 320px;
+    height: 250px;
+    
+    
+  }
 
+  #expanded-panel.expand #expanded-content-wrapper {
+    width: 640px;
+    height: 250px;
+  }
+
+  /* Declare banner specific styles here */
 
 }
 
+
 ```
 If you are making an expanding banner, there will be some additional sizing styles for the multiple panels within your file structure. 
+
+Look at the last block which is targeting `#expanded-panel.expand #expanded-content-wrapper`. As seen here, the size of the collapsed panel and the expanded panel should not change, so the visual expansion is best done by expanding the content within the expanded panel. Simply adding a transition to the expanded-content-wrapper will make the expanding and collapsing appear animated.
 
 ## 2.3: File Structure - Javascript
 
@@ -463,46 +497,62 @@ The entry point for each banner's javascript is that banner's specific JS file w
 Example: `resources/js/pages/my-standard-banner.js`
 
 ```javascript
-var mainJs = require('../main.js');
+const SetupStandardBanner = require('../components/setup-standard');
 
-window.addEventListener('load', function() {
-  if ($('#main-panel').hasClass('doubleclick')) {
-    function enablerInitHandler() {
-      testLinks();
-			
-      if (Enabler.isPageLoaded()) {
-        mainJs();
-      } else {
-        Enabler.addEventListener(studio.events.StudioEvent.PAGE_LOADED, mainJs);
-      }
-    }
-
-    if (Enabler.isInitialized()) {
-      enablerInitHandler();
-    } else {
-      Enabler.addEventListener(studio.events.StudioEvent.INIT, function() {
-        enablerInitHandler();
-      });
-    }
-  } else {
-    mainJs();
-  }
+window.addEventListener('load', () => {
+  const standardBanner = new SetupStandardBanner();
+  standardBanner.init();
 });
+```
 
+This code creates an instance of the SetupStandardBanner class and then initializes that object. Let's look at the code for that class located in `resources/js/components/setup-standard.js`.
+
+```javascript
+var MainJs = require('../main.js');
+var exitLinks = require('../components/exit-links.js');
+
+module.exports = class SetupStandardBanner {
+  constructor() {
+    this.mainJs = new MainJs();
+    this.enablerInitHandler = this.enablerInitHandler.bind(this);
+  }
+
+  enablerInitHandler() {
+    exitLinks();
+
+    if (Enabler.isPageLoaded()) {
+      this.mainJs.init();
+    } else {
+      Enabler.addEventListener(studio.events.StudioEvent.PAGE_LOADED, this.mainJs.init);
+    }
+  }
+
+  init() {
+    if (document.getElementById('main-panel').classList.contains('studio')) {
+      if (Enabler.isInitialized()) {
+        this.enablerInitHandler();
+      } else {
+        Enabler.addEventListener(studio.events.StudioEvent.INIT, this.enablerInitHandler);
+      }
+    } else {
+      this.mainJs.init();
+    }
+  }
+};
 ```
 The majority of this code is simply conditionally initializing the HTML5 "Enabler" and importing `resources/js/main.js`.
 
-When your project is built for DoubleClick Studio, it will properly initialize the Enabler script, import your configured exit links, and then run `resources/js/main.js`. When your project is not built for DoubleClick Studio, this file will simply import and run `resources/js/main.js`. 
+When your project is built for DoubleClick Studio, it will properly initialize the Enabler script, import your configured exit links, and then run `resources/js/main.js`. When your project is not built for DoubleClick Campaign Manager, this file will simply import and run `resources/js/main.js`. 
 
 If you would like to better understand how the Enabler is initialized and loaded, you can visit <a href="https://support.google.com/richmedia/answer/2672545?hl=en&ref_topic=2672541&visit_id=1-636613313005899523-3765677550&rd=1">DoubleClick's documentation</a>
 
 ### banner.js - Static Banners
 Example: `resources/js/pages/my-static-banner.js`
 
-The code within static banners will look almost identical to that of standard banners. The only difference is that once Enabler.js is initialized and loaded in DoubleClick banners it loads nothing else, and in non-DoubleClick banners it verifies it doesn't have the class "doubleclick" and loads nothing.
-a
+The code within static banners and within `resources/js/components/setup-static.js` will look almost identical to that of standard banners. The only difference is that once Enabler.js is initialized and loaded in DoubleClick Studio banners it loads nothing else, and in DoubleClick Campaign Manager banners it verifies it doesn't have the class "studio" and loads nothing.
+
 ### banner.js - Expanding Banners
-Example: `resources/js/pages/my-expand-on-hover-banner.js`
+Example: `resources/js/pages/my-expand-banner.js`
 
 This section will be added to the documentation soon. Please reach out to `sbaird@envivent.com` if you have questions about the file structure for expanding banners.
 
@@ -512,38 +562,51 @@ Path: `resources/js/main.js`
 By default, `main.js` is set up with base functionality that will be typical for most banner projects. 
 
 ```javascript
-var Isi = require('./components/isi.js');
-var IScroll = require('./vendor/iscroll-probe.js');
+const Isi = require('./components/isi.js');
+const IScroll = require('./vendor/iscroll-probe.js');
+const helperFunctions = require('./util/helper-functions');
 
-module.exports = function() {
-  var isi = new Isi(IScroll);
-  // If you don't want an auto-scrolling Isi
-  // Remove this init function 
-  isi.init();
+module.exports = class MainJs {
+  constructor() {
+    this.isi = new Isi(IScroll);
+    this.animator =  this.animationLoader();
+    this.init = this.init.bind(this);
+  }
 
-  var animationLoader = (function() {
-    var animator = {};
-    var animationSpeed = 1500;
-      function fadeInScreen1() {
-        $('.screen-1').fadeIn(animationSpeed, function() { 
-          // Do something after screen-1 fades in
+  animationLoader() {
+    const animator = {};
+    const animationSpeed = 2000;
+
+    function fadeInScreen1() {
+      const screen1 = document.querySelector('.screen-1');
+      helperFunctions.fadeIn(screen1, animationSpeed, () => {
+        helperFunctions.animate(document.querySelector('.screen-1 h1'), { marginTop: '150px', transform: 'rotate(360deg)' }, 'ease-in-out', () => {
+					
+        });
       });
+      // Do something after screen 1 fades in
+			
     }
-      
+
     animator.init = function() {
       fadeInScreen1();
-    }
+    };
 
     return animator;
-  }());
+  }
 
-  animationLoader.init();
-}
+  init() {
+    this.isi.init();
+    this.animator.init();
+
+    // helperFunctions.isiScroll(.5, this.isi);
+  }
+};
 ```
 
-First, we will create a new ISI (Important Safety Information) Component using iScroll. This component is explained in further detail [below](#isijs). If you are not going to have automatic (programmatic) scrolling, remote `isi.init()`. 
+First, we will create a new ISI (Important Safety Information) Component using iScroll. This component is explained in further detail [below](#isijs). If you are not going to have automatic (programmatic) scrolling, remove `isi.init()`. 
 
-Next we will build an animationLoader object, return that object, and then call it's `init()` method. When the animationLoader component is initialized it will run the function `fadeInScreen1()`, which finds the DOM element with the class ".screen-1" and causes it to fade in. From here you can build out additional methods to be called in sequence.
+Next we will build an animationLoader object, return that object, and then call its `init()` method. When the animationLoader component is initialized it will run the function `fadeInScreen1()`, which finds the DOM element with the class ".screen-1" and causes it to fade in. From here you can build out additional methods to be called in sequence.
 
 ### main-expanding.js - Expanding Banners
 Path: `resources/js/main-expanding.js`.
@@ -551,40 +614,58 @@ Path: `resources/js/main-expanding.js`.
 The first 27 lines of this file are almost identical to `resources/js/main.js`. The unique features of expanding banners are the next four methods 
 
 ```javascript
-this.expandStartAnimation = function(callback) {
-
-  if (callback) { callback(); };
+expandStartAnimation(callback) {
+  // Do stuff, then call callback after it is complete
+  this.expandedPanel.classList.add('expand');
+  this.collapsedPanel.style.display = 'none';
+  
+  if (callback) {
+    callback();
+  }
 }
 ```
-This method will be called whenever the request to expand the banner is made. This is where you will add your own code to animate the expanding of your banner. After your animation is complete, you will need to run `if (callback) { callback(); };`. When this banner is built for DoubleClick Studio, this callback is what notifies Enabler.js the banner is now expanded.
+This method will be called whenever the request to expand the banner is made. This is where you can add additional code to animate the banner expansion. After your animation is complete, you will need to run `if (callback) { callback(); };`. By default, the class 'expand' is added to the expanded panel and collapsed panel is removed from display. This 'expand' class matches the styles discussed in [Section 2.2](#22-file-structure-scss).
+ 
+When this banner is built for DoubleClick Studio, this callback is what notifies Enabler.js the banner is now expanded.
 
-**NOTE:** It's important to set up your code in such a way that the callback is not executed until your animation has completed. 
+**NOTE:** It's important to set up your code in such a way that the callback is not executed until your animation has completed. If you use a transition to animate the banner expansion, then set an event listener to run the callback on `transitionend`.
 
 ```javascript
-this.expandFinishAnimation = function(callback) {
-    
+expandFinishAnimation() {
+  // Do stuff when the expansion finishes
+  this.isi.refresh();
+
 }
 ```
 
-If something needs to execute *after* the expand animation is complete, add it here. 
+If something needs to execute *after* the expand animation is complete, add it here. By default the ISI refresh method is called. This recalculates the size of the ISI area and resets the scroll accordingly.
 
 ```javascript
-this.collapseStartAnimation = function(callback) {
-    
-    if (callback) { callback() ; };
+collapseStartAnimation(callback) {
+  // Do stuff, then call callback after it is complete
+  this.expandedPanel.classList.remove('expand');
+  this.collapsedPanel.style.display = 'block';
+
+  if (callback) {
+    callback();
+  }
 }
 ```
-Similar to this.expandStartAnimation, this method will be called whenever the request to collapse the banner is called. This is where code is added to animate the expanding of the banner. After the animation is complete, you will need to run `if (callback) { callback(); };`. When this banner is built for DoubleClick Studio, this callback is what notifies Enabler.js the banner is now collapsed.
+Similar to this.expandStartAnimation, this method will be called whenever the request to collapse the banner is called. This is where code is added to animate the expanding of the banner. After the animation is complete, you will need to run `if (callback) { callback(); };`. By default, the expand class is removed from the expanded panel and the collapsed panel is returned to the display.
 
-**NOTE:** It's important to set up your code in such a way that the callback is not executed until your animation has completed. 
+When this banner is built for DoubleClick Studio, this callback is what notifies Enabler.js the banner is now collapsed.
+
+**NOTE:** It's important to set up your code in such a way that the callback is not executed until your animation has completed. If you use a transition to animate the banner collapse, then set an event listener to run the callback on `transitionend`.
 
 ```javascript
-this.collapseFinishAnimation = function(callback) {
-    
+collapseFinishAnimation() {
+  // Do stuff when the collapse finishes
+  this.isi.refresh();
+
 }
 ```
 
-If something needs to execute *after* the collapse animation is complete, add it here.
+If something needs to execute *after* the collapse animation is complete, add it here. By default the ISI refresh method is called. This recalculates the size of the ISI area and resets the scroll accordingly.
 
 ### isi.js
 
