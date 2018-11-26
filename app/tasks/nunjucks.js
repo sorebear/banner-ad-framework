@@ -17,15 +17,16 @@
 
 const nunjucksRender = require('gulp-nunjucks-render');
 const htmlmin = require('gulp-htmlmin');
+const merge = require('merge-stream');
+
+const HTML_PATH = './resources/html';
 
 module.exports = (gulp, banners) => {
-  const HTML_PATH = './resources/html';
-
-  function htmlTask(production) {
-    return Object.keys(banners.banners).forEach(banner => {
+  function htmlCampaignTask(production) {
+    const streams = Object.keys(banners.banners).map(banner => {
       const { orientation } = banners.banners[banner];
       const dataObject = {
-        doubleclick: '',
+        studio: '',
         orientationStyle: `css/${orientation}.css`
       };
       Object.keys(banners.links).forEach(link => {
@@ -42,13 +43,15 @@ module.exports = (gulp, banners) => {
         .pipe(htmlmin({collapseWhitespace: production}))
         .pipe(gulp.dest(`dist/unzipped/${banner}`));
     });
+
+    return merge(streams);
   }
 
-  function htmlDoubleclickTask() {
-    return Object.keys(banners.banners).forEach(banner => {
+  function htmlStudioTask() {
+    const streams = Object.keys(banners.banners).map(banner => {
       const { orientation } = banners.banners[banner];
       const dataObject = {
-        doubleclick: 'doubleclick',
+        studio: 'studio',
         orientationStyle: `css/${orientation}.css`
       };
       Object.keys(banners.links).forEach(link => {
@@ -65,31 +68,28 @@ module.exports = (gulp, banners) => {
         .pipe(htmlmin({collapseWhitespace: true}))
         .pipe(gulp.dest(`dist/unzipped/${banner}`));
     });
+
+    return merge(streams);
   }
 
   gulp.task('html-campaign-develop', () => {
-    htmlTask(false);
+    return htmlCampaignTask(false);
   });
 
   gulp.task('html-campaign-production', () => {
-    htmlTask(true);
+    return htmlCampaignTask(true);
   });
 
   gulp.task('html-studio-develop', () => {
-    htmlDoubleclickTask(false);
+    return htmlStudioTask(false);
   });
 
   gulp.task('html-studio-production', () => {
-    htmlDoubleclickTask(true);
-  });
-
-  gulp.task('transfer-index', () => {
-    return gulp.src(`${HTML_PATH}/index.html`).pipe(gulp.dest('dist/unzipped'));
+    return htmlStudioTask(true);
   });
 
   // Watch Files For Changes
-  gulp.task('html-campaign-watch', () => {
-    gulp.start(['html-campaign-develop', 'transfer-index']);
+  gulp.task('html-campaign-watch', ['html-campaign-develop'], () => {
     gulp.watch([
       `${HTML_PATH}/**/*.html`,
       `${HTML_PATH}/*.html`,
@@ -97,8 +97,7 @@ module.exports = (gulp, banners) => {
     ['html-campaign-develop']);
   });
 
-  gulp.task('html-studio-watch', () => {
-    gulp.start(['html-studio-develop', 'transfer-index']);
+  gulp.task('html-studio-watch', ['html-studio-develop'], () => {
     gulp.watch([
       `${HTML_PATH}/**/*.html`,
       `${HTML_PATH}/*.html`,

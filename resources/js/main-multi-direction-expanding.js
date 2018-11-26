@@ -1,10 +1,10 @@
 
 var Isi = require('./components/isi.js');
-var Iscroll = require('./vendor/iscroll-probe.js');
+var IScroll = require('./vendor/iscroll-probe.js');
 
 module.exports = class Expanding {
   constructor() {
-    this.isi = new Isi(Iscroll);
+    this.isi = new Isi(IScroll);
     this.mainPanel = document.getElementById('main-panel');
     this.expandedPanel = document.getElementById('expanded-panel');
     this.collapsedPanel = document.getElementById('collapsed-panel');

@@ -1,6 +1,8 @@
+const merge = require('merge-stream');
+
 module.exports = (gulp, banners) => {
   gulp.task('transfer-production', () => {
-    return Object.keys(banners.banners).forEach(banner => {
+    const streams = Object.keys(banners.banners).map(banner => {
       return gulp
         .src([
           'resources/**/*',
@@ -15,11 +17,12 @@ module.exports = (gulp, banners) => {
         ])
         .pipe(gulp.dest(`dist/unzipped/${banner}/`));
     });
+
+    return merge(streams);
   });
 
   // Watch Files For Changes
-  gulp.task('transfer-watch', () => {
-    gulp.start('transfer-production');
+  gulp.task('transfer-watch', ['transfer-production'], () => {
     gulp.watch(['resources/**/*'], ['transfer-production']);
   });
 };

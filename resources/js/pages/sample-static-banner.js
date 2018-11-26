@@ -1,6 +1,6 @@
-import SetupStaticBanner from '../components/setup-static';
+const SetupStaticBanner = require('../components/setup-static');
 
 window.addEventListener('load', () => {
-	const staticBanner = new SetupStaticBanner();
-	staticBanner.init();
+  const staticBanner = new SetupStaticBanner();
+  staticBanner.init();
 });

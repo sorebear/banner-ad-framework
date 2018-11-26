@@ -10,17 +10,17 @@
     }
   },
   "banners": {
-    "sample-standard-banner": {
-      "width": 160,
-      "height": 600,
-      "orientation": "vertical",
-      "static": false
-    },
     "sample-static-banner": {
       "width": 336,
       "height": 280,
       "orientation": "vertical",
       "static": true
+    },
+    "sample-standard-banner": {
+      "width": 160,
+      "height": 600,
+      "orientation": "vertical",
+      "static": false
     },
     "sample-expanding-banner": {
       "width": 320,

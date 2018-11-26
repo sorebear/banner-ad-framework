@@ -36,17 +36,17 @@
 
   #expanded-content-wrapper {
     position: absolute;
-    display: flex;
-    flex-direction: column;
     top: 0px;
     right: 0px;
     width: 320px;
     height: 250px;
+    
+    
   }
 
-  .expand > div {
-    width: 640px !important;
-    height: 250px !important;
+  #expanded-panel.expand #expanded-content-wrapper {
+    width: 640px;
+    height: 250px;
   }
 
   /* Declare banner specific styles here */

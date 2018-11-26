@@ -1,9 +1,9 @@
 const gulp = require('gulp');
-const runSequence = require('run-sequence');
 const del = require('del');
 const banners = require('./banners.json');
 const prompt = require('gulp-prompt');
-const util = require('gulp-util');
+const log = require('fancy-log');
+const runSequence = require('run-sequence');
 
 /**
  * getTasks automatically pulls all gulp tasks from directory ./app/tasks/
@@ -11,24 +11,6 @@ const util = require('gulp-util');
 require('./app/getTasks.js')(gulp, banners);
 
 gulp.task('default', ['develop']);
-
-const runTasks = (devOrProduction, campaignOrStudio) => {
-  runSequence(
-    [
-      'clean-dist'
-    ],
-    [
-      `images-${devOrProduction}`,
-      `styles-${devOrProduction}`,
-      `scripts-${devOrProduction}`,
-      `html-${campaignOrStudio}-${devOrProduction}`,
-      `transfer-${devOrProduction}`
-    ],
-    [
-      `zip-${devOrProduction}`
-    ]
-  );
-};
 
 gulp.task('develop', () => {
   gulp.src('./gulpfile.babel.js')
@@ -40,11 +22,11 @@ gulp.task('develop', () => {
     }, result => {
       switch (result.developmentType) {
       case '1':
-        return runTasks('watch', 'campaign');
+        return runSequence('develop:campaign');
       case '2':
-        return runTasks('watch', 'studio');
+        return runSequence('develop:studio');
       default:
-        return util.log(util.colors.red('ERROR: Please select a valid development type.'));
+        return log.error('ERROR: Please select a valid development type.');
       }
     }));
 });
@@ -59,23 +41,41 @@ gulp.task('build', () => {
     }, result => {
       switch (result.buildType) {
       case '1':
-        return runTasks('production', 'campaign');
+        return runSequence('build:campaign');
       case '2':
-        return runTasks('production', 'studio');
+        return runSequence('build:studio');
       default:
-        return util.log(util.colors.red('ERROR: Please select a valid build type.'));
+        return log.error('ERROR: Please select a valid build type.');
       }
     }));
 });
 
-gulp.task('develop:campaign', () => runTasks('watch', 'campaign'));
-gulp.task('develop:studio', () => runTasks('watch', 'studio'));
-gulp.task('develop:doubleclick', () => runTasks('watch', 'studio'));
 
+gulp.task('develop:campaign', ['clean-dist'], () => runSequence('develop:campaign-step-2'));
+gulp.task('develop:campaign-step-2',
+  ['images-watch', 'styles-watch', 'scripts-watch', 'html-campaign-watch', 'transfer-watch'],
+  () => runSequence([ 'create-index', 'check-size', 'check-links' ])
+);
 
-gulp.task('build:campaign', () => runTasks('production', 'campaign'));
-gulp.task('build:studio', () => runTasks('production', 'studio'));
-gulp.task('build:doubleclick', () => runTasks('production', 'studio'));
+gulp.task('develop:studio', ['clean-dist'], () => runSequence('develop:studio-step-2'));
+gulp.task('develop:doubleclick', ['clean-dist'], () => runSequence('develop:studio-step-2'));
+gulp.task('develop:studio-step-2',
+  ['images-watch', 'styles-watch', 'scripts-watch', 'html-studio-watch', 'transfer-watch'],
+  () => runSequence([ 'create-index', 'check-size', 'check-links' ])
+);
+
+gulp.task('build:campaign', ['clean-dist'], () => runSequence('build:campaign-step-2'));
+gulp.task('build:campaign-step-2',
+  ['images-production', 'styles-production', 'scripts-production', 'html-campaign-production', 'transfer-production'],
+  () => runSequence([ 'create-index', 'check-size', 'check-links', 'zip' ])
+);
+
+gulp.task('build:studio', ['clean-dist'], () => runSequence('build:studio-step-2'));
+gulp.task('build:doubleclick', ['clean-dist'], () => runSequence('build:studio-step-2'));
+gulp.task('build:studio-step-2',
+  ['images-production', 'styles-production', 'scripts-production', 'html-studio-production', 'transfer-production'],
+  () => runSequence([ 'create-index', 'check-size', 'check-links', 'zip' ])
+);
 
 /**
  * Clean dist folders

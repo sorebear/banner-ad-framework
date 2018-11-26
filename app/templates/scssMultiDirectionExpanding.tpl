@@ -1,6 +1,7 @@
 @import "../vendor/normalize";
 @import "../modules/all";
 @import "../orientation/<%orientation%>";
+@import "../type/multi-direction-expanding";
 
 /* Alter variables for one specific banner by redefining them here */
 
@@ -34,20 +35,20 @@
 
   #expanded-content-wrapper {
     position: absolute;
-    display: flex;
-    flex-direction: <%flexDirection%>;
     <%topPosition%>;
     <%leftPosition%>;
     width: <%collapsedWidth%>px;
     height: <%collapsedHeight%>px;
+    <%flex%>
+    <%flexDirection%>
   }
 
-  .expand > div {
-    width: <%expandedWidth%>px !important;
-    height: <%expandedHeight%>px !important;
+  #expanded-panel.expand #expanded-content-wrapper {
+    width: <%expandedWidth%>px;
+    height: <%expandedHeight%>px;
   }
 
-  .direction-tl {
+  #expanded-panel.direction-tl {
     top: 0px;
     left: 0px;
 
@@ -59,7 +60,7 @@
     }
   }
 
-  .direction-tr {
+  #expanded-panel.direction-tr {
     top: 0px;
     <%leftPosition%>;
 
@@ -71,7 +72,7 @@
     }
   }
 
-  .direction-bl {
+  #expanded-panel.direction-bl {
     <%topPosition%>;
     left: 0px;
 
@@ -83,7 +84,7 @@
     }
   }
 
-  .direction-br {
+  #expanded-panel.direction-br {
     <%topPosition%>;
     <%leftPosition%>;
 
