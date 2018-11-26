@@ -7,7 +7,6 @@
 	},
   "extends": "eslint:recommended",
   "globals": {
-    "$": false,
     "Enabler": false,
     "studio": false
   },

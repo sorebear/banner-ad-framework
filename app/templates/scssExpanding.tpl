@@ -1,6 +1,7 @@
 @import "../vendor/normalize";
 @import "../modules/all";
 @import "../orientation/<%orientation%>";
+@import "../type/expanding";
 
 /* Alter variables for one specific banner by redefining them here */
 
@@ -44,9 +45,9 @@
     <%flexDirection%>
   }
 
-  .expand > div {
-    width: <%expandedWidth%>px !important;
-    height: <%expandedHeight%>px !important;
+  #expanded-panel.expand #expanded-content-wrapper {
+    width: <%expandedWidth%>px;
+    height: <%expandedHeight%>px;
   }
 
   /* Declare banner specific styles here */

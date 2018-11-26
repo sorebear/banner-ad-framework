@@ -35,6 +35,6 @@ module.exports = class MainJs {
     this.isi.init();
     this.animator.init();
 
-    // helperFunctions.isiScroll(.5, this.isi);
+
   }
 };

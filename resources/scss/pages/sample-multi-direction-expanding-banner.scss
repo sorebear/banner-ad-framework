@@ -42,12 +42,12 @@
     
   }
 
-  .expand > div {
-    width: 600px !important;
-    height: 800px !important;
+  #expanded-panel.expand #expanded-content-wrapper {
+    width: 600px;
+    height: 800px;
   }
 
-  .direction-tl {
+  #expanded-panel.direction-tl {
     top: 0px;
     left: 0px;
 
@@ -59,7 +59,7 @@
     }
   }
 
-  .direction-tr {
+  #expanded-panel.direction-tr {
     top: 0px;
     left: 300px;
 
@@ -71,7 +71,7 @@
     }
   }
 
-  .direction-bl {
+  #expanded-panel.direction-bl {
     top: 200px;
     left: 0px;
 
@@ -83,7 +83,7 @@
     }
   }
 
-  .direction-br {
+  #expanded-panel.direction-br {
     top: 200px;
     left: 300px;
 

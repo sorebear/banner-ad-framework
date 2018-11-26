@@ -17,12 +17,13 @@
 
 const nunjucksRender = require('gulp-nunjucks-render');
 const htmlmin = require('gulp-htmlmin');
+const merge = require('merge-stream');
+
+const HTML_PATH = './resources/html';
 
 module.exports = (gulp, banners) => {
-  const HTML_PATH = './resources/html';
-
   function htmlCampaignTask(production) {
-    return Object.keys(banners.banners).forEach(banner => {
+    const streams = Object.keys(banners.banners).map(banner => {
       const { orientation } = banners.banners[banner];
       const dataObject = {
         studio: '',
@@ -42,10 +43,12 @@ module.exports = (gulp, banners) => {
         .pipe(htmlmin({collapseWhitespace: production}))
         .pipe(gulp.dest(`dist/unzipped/${banner}`));
     });
+
+    return merge(streams);
   }
 
   function htmlStudioTask() {
-    return Object.keys(banners.banners).forEach(banner => {
+    const streams = Object.keys(banners.banners).map(banner => {
       const { orientation } = banners.banners[banner];
       const dataObject = {
         studio: 'studio',
@@ -65,31 +68,28 @@ module.exports = (gulp, banners) => {
         .pipe(htmlmin({collapseWhitespace: true}))
         .pipe(gulp.dest(`dist/unzipped/${banner}`));
     });
+
+    return merge(streams);
   }
 
   gulp.task('html-campaign-develop', () => {
-    htmlCampaignTask(false);
+    return htmlCampaignTask(false);
   });
 
   gulp.task('html-campaign-production', () => {
-    htmlCampaignTask(true);
+    return htmlCampaignTask(true);
   });
 
   gulp.task('html-studio-develop', () => {
-    htmlStudioTask(false);
+    return htmlStudioTask(false);
   });
 
   gulp.task('html-studio-production', () => {
-    htmlStudioTask(true);
-  });
-
-  gulp.task('transfer-index', () => {
-    // return gulp.src(`${HTML_PATH}/index.html`).pipe(gulp.dest('dist/unzipped'));
+    return htmlStudioTask(true);
   });
 
   // Watch Files For Changes
-  gulp.task('html-campaign-watch', () => {
-    gulp.start(['html-campaign-develop', 'transfer-index']);
+  gulp.task('html-campaign-watch', ['html-campaign-develop'], () => {
     gulp.watch([
       `${HTML_PATH}/**/*.html`,
       `${HTML_PATH}/*.html`,
@@ -97,8 +97,7 @@ module.exports = (gulp, banners) => {
     ['html-campaign-develop']);
   });
 
-  gulp.task('html-studio-watch', () => {
-    gulp.start(['html-studio-develop', 'transfer-index']);
+  gulp.task('html-studio-watch', ['html-studio-develop'], () => {
     gulp.watch([
       `${HTML_PATH}/**/*.html`,
       `${HTML_PATH}/*.html`,

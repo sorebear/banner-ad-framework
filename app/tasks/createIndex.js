@@ -6,6 +6,12 @@ const TEMPLATE_PATH = 'app/templates';
 const DIST_PATH = 'dist';
 
 module.exports = (gulp, banners) => {
+  const checkThenMakeDir = path => {
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path);
+    }
+  };
+
   gulp.task('create-index', () => {
     let indexLinks = '';
     for (let bannerTitle in banners.banners) {
@@ -18,11 +24,6 @@ module.exports = (gulp, banners) => {
     indexPage = indexPage.replace(/<%links%>/g, indexLinks);
     checkThenMakeDir(DIST_PATH);
     fs.writeFileSync(`${DIST_PATH}/index.html`, indexPage);
+    return;
   });
-
-  const checkThenMakeDir = path => {
-    if (!fs.existsSync(path)) {
-      fs.mkdirSync(path);
-    }
-  };
 };

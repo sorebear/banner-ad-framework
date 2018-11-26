@@ -197,4 +197,5 @@ module.exports = (gulp, banners) => {
   // Re-Scaffold Task
   gulp.task('rescaffold', ['scaffold:clean', 'scaffold']);
   gulp.task('re-scaffold', ['scaffold:clean', 'scaffold']);
+  gulp.task('rescaffold', ['scaffold:clean', 'scaffold']);
 };
