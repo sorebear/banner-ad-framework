@@ -1,6 +1,5 @@
 
 var Isi = require('./components/isi.js');
-var IScroll = require('./vendor/iscroll-probe.js');
 
 module.exports = class Expanding {
   constructor() {

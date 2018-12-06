@@ -1,5 +1,4 @@
 const Isi = require('./components/isi.js');
-const IScroll = require('./vendor/iscroll-probe.js');
 const helperFunctions = require('./util/helper-functions');
 
 module.exports = class MainJs {

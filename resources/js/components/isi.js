@@ -5,6 +5,7 @@ module.exports = function(IScroll, id) {
   this.isiScroll = new IScroll(`#${this.id}-container`, {
     mouseWheel: true,
     scrollbars: true,
+    preventDefault: false,
     probeType: 3
   });
   
@@ -78,4 +79,5 @@ module.exports = function(IScroll, id) {
   // Set event listeners
   this.isiContainer.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
   this.isiContainer.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+  this.isi.addEventListener('touchmove', (e) => event.preventDefault(), { passive: false});
 };
