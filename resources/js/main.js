@@ -33,7 +33,5 @@ module.exports = class MainJs {
   init() {
     this.isi.init();
     this.animator.init();
-
-
   }
 };

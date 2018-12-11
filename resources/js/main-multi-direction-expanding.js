@@ -4,9 +4,11 @@ var Isi = require('./components/isi.js');
 module.exports = class Expanding {
   constructor() {
     this.isi = new Isi(IScroll);
+    this.callback = null;
     this.mainPanel = document.getElementById('main-panel');
     this.expandedPanel = document.getElementById('expanded-panel');
     this.collapsedPanel = document.getElementById('collapsed-panel');
+    this.expandedContentWrapper = document.getElementById('expanded-content-wrapper');
     
     this.expandStartAnimation = this.expandStartAnimation.bind(this);
     this.expandFinishAnimation = this.expandFinishAnimation.bind(this);
@@ -23,25 +25,28 @@ module.exports = class Expanding {
     this.expandedPanel.classList.add('expand');
     this.collapsedPanel.style.display = 'none';
 
-    if (callback) {
-      callback();
-    }
+    this.expandedContentWrapper.addEventListener('transitionend', () => {
+      if (callback) {
+        callback();
+      }
+    }, { once: true });
   }
 
   expandFinishAnimation() {
     // Do stuff when the expansion finishes
     this.isi.refresh();
-
   }
 
   collapseStartAnimation(callback) {
     // Do stuff, then call callback after it is complete
     this.expandedPanel.classList.remove('expand');
-    this.collapsedPanel.style.display = 'block';
 
-    if (callback) {
-      callback();
-    }
+    this.expandedContentWrapper.addEventListener('transitionend', () => {
+      this.collapsedPanel.style.display = 'block';
+      if (callback) {
+        callback();
+      }
+    }, { once: true });
   }
 
   collapseFinishAnimation() {
