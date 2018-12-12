@@ -58,6 +58,7 @@ module.exports = class SetupMultiDirectionExpandingBanner {
     const domCollapseHandler = document.getElementById(domCollapseHandlerId);
     if (domCollapseHandler) {
       domCollapseHandler.addEventListener(eventListenerType, () => {
+        console.log('BUTTON CLICKED', this.isExpanded, this.inTransition);
         if (this.isExpanded && !this.inTransition) {
           this.inTransition = true;
           this.studio ? Enabler.requestCollapse() : this.collapseStartHandler();
@@ -101,6 +102,7 @@ module.exports = class SetupMultiDirectionExpandingBanner {
   }
 
   collapseStartHandler() {
+    console.log('START COLLAPSE');
     this.mainMultiExpandingDirectionJs.collapseStartAnimation(() => {
       this.studio ? Enabler.finishCollapse() : this.collapseFinishHandler();
     });

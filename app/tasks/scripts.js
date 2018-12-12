@@ -3,6 +3,7 @@ const browserify = require('browserify');
 const uglify = require('gulp-uglify');
 const buffer = require('vinyl-buffer');
 const merge = require('merge-stream');
+const eslint = require('gulp-eslint');
 
 // File Paths to Watch
 const JS_PATH = 'resources/js';
