@@ -19,11 +19,9 @@
     bottom: 0;
     right: 0;
 
-    &.screen-1 {
-      display: none;
-      padding: $content-outer-padding;
-      justify-content: center;
-      align-items: center;
-    }
+    display: none;
+    padding: $content-outer-padding;
+    justify-content: center;
+    align-items: center;
   }
 }

@@ -15,6 +15,10 @@
   width: <%collapsedWidth%>px;
   height: <%collapsedHeight%>px;
 
+  .main-content-wrapper {
+    height: 100%;
+  }
+
   /* Declare banner specific styles here */
 
 }
