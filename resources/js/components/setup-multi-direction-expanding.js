@@ -19,7 +19,7 @@ module.exports = class SetupMultiDirectionExpandingBanner {
     this.expandedPanel = document.getElementById('expanded-panel');
     this.politeLoadImg = document.getElementById('polite-load-img');
     this.studio = document.getElementById('main-panel').classList.contains('studio');
-    this.localExpandDirectionNum = 0;
+    this.localExpandDirectionNum = 3;
     this.expandDirectionArr = ['tl', 'tr', 'bl', 'br'];
     this.politeLoad = this.politeLoad.bind(this);
     this.enablerInitHandler = this.enablerInitHandler.bind(this);
@@ -39,9 +39,17 @@ module.exports = class SetupMultiDirectionExpandingBanner {
   }
 
   politeLoad() {
+    this.initExpandDirection();
+    setTimeout(() => document.getElementById('main-panel').classList.remove('remove-animations-on-load', 1));
     this.addDomEventListeners();
     if (this.politeLoadImg) { this.politeLoadImg.hide(); }
     this.mainMultiExpandingDirectionJs.init();
+  }
+
+  initExpandDirection() {
+    const initialValue = !this.studio || Enabler.getExpandDirection() ? this.localExpandDirectionNum : 
+      Enabler.getExpandDirection()['a'] === 0 ? 3 : Enabler.getExpandDirection()['a'] - 1;
+    this.expandedPanel.classList.add(`direction-${this.expandDirectionArr[initialValue]}`);
   }
   
   addDomEventListeners() {
@@ -58,7 +66,6 @@ module.exports = class SetupMultiDirectionExpandingBanner {
     const domCollapseHandler = document.getElementById(domCollapseHandlerId);
     if (domCollapseHandler) {
       domCollapseHandler.addEventListener(eventListenerType, () => {
-        console.log('BUTTON CLICKED', this.isExpanded, this.inTransition);
         if (this.isExpanded && !this.inTransition) {
           this.inTransition = true;
           this.studio ? Enabler.requestCollapse() : this.collapseStartHandler();
@@ -102,7 +109,6 @@ module.exports = class SetupMultiDirectionExpandingBanner {
   }
 
   collapseStartHandler() {
-    console.log('START COLLAPSE');
     this.mainMultiExpandingDirectionJs.collapseStartAnimation(() => {
       this.studio ? Enabler.finishCollapse() : this.collapseFinishHandler();
     });
