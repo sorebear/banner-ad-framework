@@ -1,4 +1,5 @@
 .main-content-wrapper {
+  position: relative;
   height: $main-content-height;
   width: $main-content-width;
   background: linear-gradient($gradient-direction, $peach, $light-blue);
@@ -19,11 +20,9 @@
     bottom: 0;
     right: 0;
 
-    &.screen-1 {
-      display: none;
-      padding: $content-outer-padding;
-      justify-content: center;
-      align-items: center;
-    }
+    display: none;
+    padding: $content-outer-padding;
+    justify-content: center;
+    align-items: center;
   }
 }

@@ -12,15 +12,37 @@ module.exports = class MainJs {
     const animator = {};
     const animationSpeed = 2000;
 
+    // reference variables to DOM elements
+    const screen1 = document.querySelector('.screen-1');
+    const screen1title = screen1.querySelector('h1');
+    const screen2 = document.querySelector('.screen-2');
+
     function fadeInScreen1() {
-      const screen1 = document.querySelector('.screen-1');
+      // helperFuctions.fadeIn works similarly to jQuery's fadeIn method
       helperFunctions.fadeIn(screen1, animationSpeed, () => {
-        helperFunctions.animate(document.querySelector('.screen-1 h1'), { marginTop: '150px', transform: 'rotate(360deg)' }, 'ease-in-out', () => {
-					
+
+        // helpferFunctions.animate works similarly to jQuery's animate method
+        helperFunctions.animate(document.querySelector('.screen-1 h1'), { marginTop: '150px' }, 'ease-in-out', () => {
+
+          setTimeout(() => {
+            // helperFunctions.fadeOut works similarly to jQuery's fadeOut method
+            helperFunctions.fadeOut(screen1, animationSpeed, () => {
+              fadeInScreen2();
+              screen1title.style.marginTop = '.67em';
+            });
+          }, 1000);
         });
       });
-      // Do something after screen 1 fades in
-			
+    }
+
+    function fadeInScreen2() {
+      helperFunctions.fadeIn(screen2, animationSpeed, () => {
+        setTimeout(() => {
+          helperFunctions.fadeOut(screen2, animationSpeed, () => {
+            fadeInScreen1();
+          });
+        }, 1000);
+      });
     }
 
     animator.init = function() {

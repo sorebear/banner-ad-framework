@@ -30,6 +30,7 @@ module.exports = class ExpandingBanner {
   }
 
   politeLoad() {
+    setTimeout(() => document.getElementById('main-panel').classList.remove('remove-animations-on-load'), 1);
     this.addDomEventListeners();
     if (this.politeLoadImg) { this.politeLoadImg.style.display = 'none'; }
     this.mainExpandingJs.init();
