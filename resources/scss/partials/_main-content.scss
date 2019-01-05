@@ -1,4 +1,5 @@
 .main-content-wrapper {
+  position: relative;
   height: $main-content-height;
   width: $main-content-width;
   background: linear-gradient($gradient-direction, $peach, $light-blue);

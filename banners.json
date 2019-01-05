@@ -38,7 +38,7 @@
         "width": 600,
         "height": 800,
         "expandEventHandler": "click",
-        "expandDirection": ["left", "right"]
+        "expandDirection": ["left", "right", "up", "down"]
       }
     },
     "sample-multi-direction-expanding-hor": {
