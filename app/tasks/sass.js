@@ -7,7 +7,7 @@ const merge = require('merge-stream');
 const notifier = require('node-notifier');
 
 // File Paths to Watch
-const SCSS_PATH = 'resources/scss';
+const SCSS_PATH = 'src/scss';
 
 module.exports = (gulp, banners) => {
   gulp.task('styles-develop', () => {

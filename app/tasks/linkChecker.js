@@ -1,11 +1,12 @@
 const http = require('http');
+const https = require('https');
 const notifier = require('node-notifier');
 
 module.exports = (gulp, banners) => {
   gulp.task('check-links', () => {
     Object.keys(banners.links).map(link => {
       const { href, displayName } = banners.links[link];
-      const request = http.request(href);
+      const request = href.includes('https') ? https.request(href) : http.request(href);
     
       request.on('error', () => {
         notifier.notify({

@@ -3,10 +3,10 @@ const prompt = require('gulp-prompt');
 const beautify = require('js-beautify');
 const notify = require('gulp-notify');
 
-const HTML_PATH = 'resources/html/pages';
-const SCSS_PATH = 'resources/scss/pages';
-const JS_PATH = 'resources/js/pages';
-const IMG_PATH = 'resources/img/pages';
+const HTML_PATH = 'src/html/pages';
+const SCSS_PATH = 'src/scss/pages';
+const JS_PATH = 'src/js/pages';
+const IMG_PATH = 'src/img/pages';
 
 module.exports = (gulp, banners) => {
   gulp.task('rename', () => {
