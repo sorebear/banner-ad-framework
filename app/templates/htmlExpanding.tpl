@@ -1,5 +1,8 @@
 {% set width = <%width%> %} 
 {% set height = <%height%> %}
+{% block expandingPixelOffsets %}
+  <script>function pixelOffsets() { Enabler.setExpandingPixelOffsets(<%leftOffset%>, <%topOffset%>, <%expandedWidth%>, <%expandedHeight%>); }</script>
+{% endblock %}
 
 {% set banner = "<%fileName%>" %}
 {% block bannerClass %}{% endblock %}
