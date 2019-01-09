@@ -1,0 +1,102 @@
+@import "../vendor/normalize";
+@import "../modules/all";
+@import "../orientation/vertical";
+@import "../type/multi-direction-expanding";
+
+/* Alter variables for one specific banner by redefining them here */
+
+
+@import "../partials/all";
+
+#main-panel.sample-multi-direction-expanding-banner {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 900px;
+  height: 1000px;
+
+  #collapsed-panel,
+  #collapsed-content-wrapper {
+    position: absolute;
+    width: 300px;
+    height: 600px;
+  }
+
+  #collapsed-panel {
+    top: 200px;
+    left: 300px;
+  }
+
+  #expanded-panel {
+    position: absolute;
+    width: 600px;
+    height: 800px;
+  }
+
+  #expanded-content-wrapper {
+    position: absolute;
+    top: 200px;
+    left: 300px;
+    width: 300px;
+    height: 600px;
+    
+    
+  }
+
+  #expanded-panel.expand #expanded-content-wrapper {
+    width: 600px;
+    height: 800px;
+  }
+
+  #expanded-panel.direction-tl {
+    top: 0px;
+    left: 0px;
+
+    #expanded-content-wrapper {
+      top: auto;
+      right: 0;
+      bottom: 0;
+      left: auto;
+    }
+  }
+
+  #expanded-panel.direction-tr {
+    top: 0px;
+    left: 300px;
+
+    #expanded-content-wrapper {
+      top: auto;
+      right: auto;
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  #expanded-panel.direction-bl {
+    top: 200px;
+    left: 0px;
+
+    #expanded-content-wrapper {
+      top: 0;
+      right: 0;
+      bottom: auto;
+      left: auto;
+    }
+  }
+
+  #expanded-panel.direction-br {
+    top: 200px;
+    left: 300px;
+
+    #expanded-content-wrapper {
+      top: 0;
+      right: auto;
+      bottom: auto;
+      left: 0;
+    }
+  }
+
+  /* Declare banner specific styles here */
+
+
+}

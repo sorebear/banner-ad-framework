@@ -2,7 +2,7 @@ const imagemin = require('gulp-imagemin');
 const merge = require('merge-stream');
 
 // File Paths to Watch
-const IMG_PATH = 'resources/img';
+const IMG_PATH = 'src/img';
 const IMG_EXTENSION = '*.{png,svg,gif,jpg,jpeg}';
 
 module.exports = (gulp, banners) => {

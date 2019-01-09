@@ -1,0 +1,56 @@
+@import "../vendor/normalize";
+@import "../modules/all";
+@import "../orientation/vertical";
+@import "../type/expanding";
+
+/* Alter variables for one specific banner by redefining them here */
+
+
+@import "../partials/all";
+
+#main-panel.sample-expanding-banner {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 640px;
+  height: 250px;
+
+  #collapsed-panel,
+  #collapsed-content-wrapper {
+    position: absolute;
+    width: 320px;
+    height: 250px;
+  }
+
+  #collapsed-panel {
+    top: 0px;
+    right: 0px;
+  }
+
+  #expanded-panel {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 640px;
+    height: 250px;
+  }
+
+  #expanded-content-wrapper {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 320px;
+    height: 250px;
+    
+    
+  }
+
+  #expanded-panel.expand #expanded-content-wrapper {
+    width: 640px;
+    height: 250px;
+  }
+
+  /* Declare banner specific styles here */
+
+
+}

@@ -1,6 +1,6 @@
 @import "../vendor/normalize";
 @import "../modules/all";
-@import "../orientation/<%orientation%>";
+@import "../orientation/vertical";
 @import "../type/static";
 
 /* Alter variables for one specific banner by redefining them here */
@@ -8,12 +8,12 @@
 
 @import "../partials/all";
 
-#main-panel.<%banner-title%> {
+#main-panel.sample-static-banner {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: <%collapsedWidth%>px;
-  height: <%collapsedHeight%>px;
+  width: 336px;
+  height: 280px;
 
   .main-content-wrapper {
     height: 100%;

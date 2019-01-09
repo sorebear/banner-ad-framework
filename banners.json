@@ -1,7 +1,11 @@
 {
   "links": {
-    "testLink": {
-      "displayName": "Test Link",
+    "testLink1": {
+      "displayName": "Test Link - Ecosia",
+      "href": "https://www.ecosia.org/"
+    },
+    "testLink2": {
+      "displayName": "Test Link 2 - Google",
       "href": "http://google.com"
     }
   },
@@ -38,7 +42,7 @@
         "width": 600,
         "height": 800,
         "expandEventHandler": "click",
-        "expandDirection": ["left", "right"]
+        "expandDirection": ["left", "right", "up", "down"]
       }
     },
     "sample-multi-direction-expanding-hor": {

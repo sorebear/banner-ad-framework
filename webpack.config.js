@@ -3,9 +3,9 @@ var path = require('path');
 
 module.exports = {
   entry: {
-    horizontal: './resources/js/horizontal.js',
-    vertical: './resources/js/vertical.js',
-    vendor: ['./resources/js/vendor/iscroll.js', './resources/js/vendor/jquery-3.3.1.min.js']
+    horizontal: './src/js/horizontal.js',
+    vertical: './src/js/vertical.js',
+    vendor: ['./src/js/vendor/iscroll.js', './src/js/vendor/jquery-3.3.1.min.js']
   },
   output: {
     path: path.join(__dirname, 'dist'),

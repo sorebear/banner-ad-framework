@@ -5,15 +5,15 @@ module.exports = (gulp, banners) => {
     const streams = Object.keys(banners.banners).map(banner => {
       return gulp
         .src([
-          'resources/**/*',
-          '!resources/html',
-          '!resources/html/**/*',
-          '!resources/img',
-          '!resources/img/**/*',
-          '!resources/js',
-          '!resources/js/**/*',
-          '!resources/scss',
-          '!resources/scss/**/*',
+          'src/**/*',
+          '!src/html',
+          '!src/html/**/*',
+          '!src/img',
+          '!src/img/**/*',
+          '!src/js',
+          '!src/js/**/*',
+          '!src/scss',
+          '!src/scss/**/*',
         ])
         .pipe(gulp.dest(`dist/unzipped/${banner}/`));
     });
@@ -23,6 +23,6 @@ module.exports = (gulp, banners) => {
 
   // Watch Files For Changes
   gulp.task('transfer-watch', ['transfer-production'], () => {
-    gulp.watch(['resources/**/*'], ['transfer-production']);
+    gulp.watch(['src/**/*'], ['transfer-production']);
   });
 };

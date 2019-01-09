@@ -1,0 +1,31 @@
+#expand-handler,
+#collapse-handler {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+#collapse-handler {
+  z-index: 10;
+}
+
+#collapsed-main-content {
+  z-index: 20;
+}
+
+#expand-handler {
+  z-index: 30;
+}
+
+#expanded-content-wrapper {
+  transition: .5s;
+}
+
+// This allows the Banner to be initialized in the right position
+// without displaying a transition animation.
+// This class is removed by JavaScript in Expanding Banners on politeLoad()
+#main-panel.remove-animations-on-load {
+  * {
+    transition: 0s !important;
+  }
+}

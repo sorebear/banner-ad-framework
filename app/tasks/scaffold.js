@@ -25,20 +25,20 @@ const del = require('del');
 const fs = require('fs');
 const beautify = require('js-beautify');
 
-const RESOURCES_PATH = 'resources';
+const SRC_PATH = 'src';
 const TEMPLATE_PATH = 'app/templates';
-const HTML_PATH = 'resources/html/';
-const JS_PATH = 'resources/js/';
-const SCSS_PATH = 'resources/scss/';
-const IMG_PATH = 'resources/img/';
+const HTML_PATH = 'src/html/';
+const JS_PATH = 'src/js/';
+const SCSS_PATH = 'src/scss/';
+const IMG_PATH = 'src/img/';
 
 module.exports = (gulp, banners) => {
   gulp.task('scaffold', () => {
-    checkThenMakeDir(RESOURCES_PATH);
+    checkThenMakeDir(SRC_PATH);
     const subFolders = ['html', 'scss', 'js', 'img'];
     subFolders.forEach(subFolder => {
-      checkThenMakeDir(`${RESOURCES_PATH}/${subFolder}`);
-      checkThenMakeDir(`${RESOURCES_PATH}/${subFolder}/pages`);
+      checkThenMakeDir(`${SRC_PATH}/${subFolder}`);
+      checkThenMakeDir(`${SRC_PATH}/${subFolder}/pages`);
     });
     for (let bannerTitle in banners.banners) {
       const banner = banners.banners[bannerTitle];
@@ -149,6 +149,7 @@ module.exports = (gulp, banners) => {
     for (const link in banners.links) {
       let exitLink = fs.readFileSync(`${TEMPLATE_PATH}/exitLink.tpl`, 'utf8');
       exitLink = exitLink.replace(/<%exit%>/g, link);
+      exitLink = exitLink.replace(/<%exitHref%>/g, banners.links[link].href);
       exitLink = exitLink.replace(/<%exitFormatted%>/g, banners.links[link].displayName);
       exitLinks += exitLink;
     }
@@ -187,10 +188,10 @@ module.exports = (gulp, banners) => {
   // Clean Scaffold
   gulp.task('scaffold:clean', () => {
     return del.sync([
-      `${RESOURCES_PATH}/html/pages`,
-      `${RESOURCES_PATH}/scss/pages`,
-      `${RESOURCES_PATH}/js/pages`,
-      `${RESOURCES_PATH}/img/pages`
+      `${SRC_PATH}/html/pages`,
+      `${SRC_PATH}/scss/pages`,
+      `${SRC_PATH}/js/pages`,
+      `${SRC_PATH}/img/pages`
     ]);
   });
 

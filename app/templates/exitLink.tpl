@@ -4,7 +4,7 @@ if (document.getElementsByClassName('<%exit%>').length) {
     links[i].addEventListener('click', e => {
       e.preventDefault();
       e.stopPropagation();
-      Enabler.exit('<%exitFormatted%>');
+      Enabler.exit('<%exitFormatted%>', '<%exitHref%>');
     });
   }
 }

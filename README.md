@@ -87,7 +87,7 @@ This task will build out the source file-structure based on the contents of `ban
 ```
 gulp re-scaffold
 ```
-This task will clear out all the files from `resources/html/pages`, `resources/scss/pages`, `resources/js/pages`, and `resources/img/pages`, and then re-scaffold your project from `banners.json`. Be careful before running this command and double-check you aren't overwriting something you need.
+This task will clear out all the files from `src/html/pages`, `src/scss/pages`, `src/js/pages`, and `src/img/pages`, and then re-scaffold your project from `banners.json`. Be careful before running this command and double-check you aren't overwriting something you need.
 
 ### Understanding and Customizing Scaffolding
 
@@ -99,20 +99,20 @@ To see the scaffolding script, open up `app/tasks/scaffold.js`. Here is a quick 
     * The scaffoldHTML, scaffoldSCSS, scaffoldJS, and scaffoldIMG functions are called, passing in the name of each banner and each banner's *dims* object.
     * Each of these scaffold functions selects and reads a template file from `app/templates`, a template is determined by whether the banner is standard, static, expanding, or multi-direction expanding. 
     * It then takes this template and replaces several placeholder tags in the template with information about the banner from the *dims* object. 
-    * The newly written files are then placed in their respective banner folder within the `resources` directory. 
-* An Exit Links module is built from the *links* object in `banner.json` and written to `resources/js/components/exit-links.js`.
-* A Click Tag Links module is built from the *links* object and written to `resources/js/macros/clickTags/links.html`.
+    * The newly written files are then placed in their respective banner folder within the `src` directory. 
+* An Exit Links module is built from the *links* object in `banner.json` and written to `src/js/components/exit-links.js`.
+* A Click Tag Links module is built from the *links* object and written to `src/js/macros/clickTags/links.html`.
 
 #### Example
 A banner titled 'banner-banter' would:
-* Create the HTML file `resources/html/pages/banner-banter.html`
-* Create the SCSS file `resources/scss/pages/banner-banter.scss`
-* Create the JS file `resources/js/pages/banner-banter.js`
-* Create the IMG folder `resources/img/pages/banner-banter`
+* Create the HTML file `src/html/pages/banner-banter.html`
+* Create the SCSS file `src/scss/pages/banner-banter.scss`
+* Create the JS file `src/js/pages/banner-banter.js`
+* Create the IMG folder `src/img/pages/banner-banter`
 
 ### Note on Scaffolding and Re-Scaffolding
 
-While `gulp scaffold` will not overwrite any HTML, SCSS, Javascript, or Image files within the pages subfolder, it will **always** rewrite `resources/html/macros/clickTags/links.html` and `resources/js/components/exitLinks.js`. This is because it is common to add in additional banners or links when you are halfway through a project and always want to ensure the exit links and index file are up to date. 
+While `gulp scaffold` will not overwrite any HTML, SCSS, Javascript, or Image files within the pages subfolder, it will **always** rewrite `src/html/macros/clickTags/links.html` and `src/js/components/exitLinks.js`. This is because it is common to add in additional banners or links when you are halfway through a project and always want to ensure the exit links and index file are up to date. 
 
 ## 1.3: Gulp Build and Develop Tasks Overview
 
@@ -157,7 +157,7 @@ This option can be selected when running `gulp develop` or can be directly acces
 gulp develop:campaign
 ```
 
-This task will build your project, place it in `dist`, and then watch for any updates within `resources`. It will not minify your CSS or Javascript, making it easier to debug. It will also include an 'EXPAND ISI' button in the top right corner of non-static banners, which clients often ask for to proof check the ISI content on smaller banners.
+This task will build your project, place it in `dist`, and then watch for any updates within `src`. It will not minify your CSS or Javascript, making it easier to debug. It will also include an 'EXPAND ISI' button in the top right corner of non-static banners, which clients often ask for to proof check the ISI content on smaller banners.
 
 This build process is for *DoubleClick Campaign Manager Banners*, which means that:
 
@@ -172,7 +172,7 @@ This option can be selected when running `gulp develop` or can be directly acces
 ```
 gulp develop:studio
 ```	
-This task will build your project, place it in `dist`, and then watch for any updates within `resources`. It will not minify your CSS or Javascript, making it easier to debug.
+This task will build your project, place it in `dist`, and then watch for any updates within `src`. It will not minify your CSS or Javascript, making it easier to debug.
 It will also include an 'EXPAND ISI' button in the top right corner of non-static banners, which clients often ask for to proof check the ISI content on smaller banners.
 
 This build process is for *Doubleclick Studio Banners*, which means that:
@@ -270,21 +270,21 @@ This command helps avoid the hassle of manually alterning your banners.json and 
 
 #### Overview - HTML, SCSS, JS
 
-The bulk of your development work will be working within the `resources` folder. The entry point for each banner's HTML, SCSS, and Javascript will be that banner's respective self-titled file within the `resources/<html/scss/javascript>/pages` folder.
+The bulk of your development work will be working within the `src` folder. The entry point for each banner's HTML, SCSS, and Javascript will be that banner's respective self-titled file within the `src/<html/scss/javascript>/pages` folder.
 
 For example, if you created a banner called `my-awesome-banner`:
-* The HTML entry point would be `resources/html/pages/my-awesome-banner.html`.
-* The SCSS entry point would be `resources/scss/pages/my-awesome-banner.scss`.
-* The Javascript entry point would be `resources/javascript/pages/my-awesome-banner.js`. 
+* The HTML entry point would be `src/html/pages/my-awesome-banner.html`.
+* The SCSS entry point would be `src/scss/pages/my-awesome-banner.scss`.
+* The Javascript entry point would be `src/javascript/pages/my-awesome-banner.js`. 
 
 Each banner's HTML, SCSS, and Javascript file pulls in common components, but the individual entry point allows you a great deal of customization for each banner when necessary.
 
 #### Overview - Images
 
 If "my-awesome-banner" was marked as a "static" banner, it would pull in all the images from:
-* `resources/img/shared`
-* `resources/img/shared-static`
-* `resources/img/pages/my-awesome-banner`.
+* `src/img/shared`
+* `src/img/shared-static`
+* `src/img/pages/my-awesome-banner`.
 
 Banners will always pull in the globablly shared image folder, the banner type shared image folder, and the banner specific image folder.
 
@@ -292,7 +292,7 @@ Banners will always pull in the globablly shared image folder, the banner type s
 
 This framework uses Nunjucks Rendering to create HTML files during its build process. You can learn more by reading the <a href="https://mozilla.github.io/nunjucks/">Nunjucks Documentation</a>
 
-Navigate to `resources/html/pages` to see the HTML entry point for each banner, generated by the scaffolding process. We will quickly walk through each section in this file. 
+Navigate to `src/html/pages` to see the HTML entry point for each banner, generated by the scaffolding process. We will quickly walk through each section in this file. 
 
 ### Setting Meta-Data
 
@@ -317,7 +317,7 @@ The banner file name will set the title and set the class of outermost banner di
 {% from "./links.html" import link, closeLink, enabler %}
 ```
 
-This line imports Macros to build either click tags or exit links depending on which develop/build process is run. When `gulp develop:campaign` or `gulp build:campaign` is run, it will import the macros from `resources/html/macros/clickTags/links.html`. When `gulp develop:studio` or `gulp build:studio` is run, it will import the macros from `resources/html/macros/exitLinks/links.html`.
+This line imports Macros to build either click tags or exit links depending on which develop/build process is run. When `gulp develop:campaign` or `gulp build:campaign` is run, it will import the macros from `src/html/macros/clickTags/links.html`. When `gulp develop:studio` or `gulp build:studio` is run, it will import the macros from `src/html/macros/exitLinks/links.html`.
 
 ### Extending Layouts
 
@@ -332,7 +332,7 @@ This line imports Macros to build either click tags or exit links depending on w
 {% extends "layout-expanding.html %}
 ```
 
-These three layout files can all be found within `resources/html/components`. You can edit these files for changes you would like to see across all banners of one type.
+These three layout files can all be found within `src/html/components`. You can edit these files for changes you would like to see across all banners of one type.
 
 ### Content Blocks
 
@@ -350,9 +350,9 @@ We will look at the content blocks for Standard Banners, Static Banners, and Exp
   {% include './isi.html' %}
 {% endblock %}
 ```
-All standard banners will include the content located in `resources/html/components/main-content.html`. The bulk of your HTML development will happen in this file.
+All standard banners will include the content located in `src/html/components/main-content.html`. The bulk of your HTML development will happen in this file.
 
-All standard banners will also include the "Important Safety Information" content located in `resources/html/components/isi.html`. 
+All standard banners will also include the "Important Safety Information" content located in `src/html/components/isi.html`. 
 
 #### Main Content - Static Banners
 
@@ -363,7 +363,7 @@ All standard banners will also include the "Important Safety Information" conten
 
 {% endblock %}
 ```
-All static banners will include the content located in `resources/html/components/main-content-static.html`. The bulk of your HTML development will happen in this file.
+All static banners will include the content located in `src/html/components/main-content-static.html`. The bulk of your HTML development will happen in this file.
 
 Static banners typically do not include the Important Safety Information, which is why the "isi" block is excluded by default.
 
@@ -389,13 +389,13 @@ Static banners typically do not include the Important Safety Information, which 
 {% endblock %}
 ```
 
-The required structure for an expanding banner is to have one main panel, with a collapsed panel and expanded panel inside of it. Typically, the main content of your collapsed banner and your expanded banner will be different, so each block is pulling in a different file (either `resources/html/components/main-content-collapsed.html` or `resources/html/components/main-content-expanded.html`.
+The required structure for an expanding banner is to have one main panel, with a collapsed panel and expanded panel inside of it. Typically, the main content of your collapsed banner and your expanded banner will be different, so each block is pulling in a different file (either `src/html/components/main-content-collapsed.html` or `src/html/components/main-content-expanded.html`.
 
 It is easiest to only have the ISI block on the `main-content-expanded` and crop the `main-content-collapsed` to have that ISI block show through when the banner is collapsed.
 
 ## 2.2: File Structure - SCSS
 
-The entry point for each banner's styles is that banner's specific SCSS file within `resources/scss/pages`. All common SCSS files used by that banner will need to be imported into this file. Let's walk through the file structure by section.
+The entry point for each banner's styles is that banner's specific SCSS file within `src/scss/pages`. All common SCSS files used by that banner will need to be imported into this file. Let's walk through the file structure by section.
 
 ### Import Modules and Orientation Styles
 ```scss
@@ -406,15 +406,15 @@ The entry point for each banner's styles is that banner's specific SCSS file wit
 ```
 First, we will import normalize.scss. This is a commonly used 3rd party stylesheet to help normalize some inconsistencies across browsers.
 
-Second, we will import all of our modules. This could include variables, animations, and other stylesheets that don't directly apply styles to the DOM. By default, several variables will be pulled in from `resources/scss/modules/_variables.scss`. It is good to open up this file to view, edit, and add variables to your project. 
+Second, we will import all of our modules. This could include variables, animations, and other stylesheets that don't directly apply styles to the DOM. By default, several variables will be pulled in from `src/scss/modules/_variables.scss`. It is good to open up this file to view, edit, and add variables to your project. 
 
-Third, depending on the banner's orientation, we will import either `resources/scss/orientation/vertical.scss` or `resources/scss/orientation/horizontal`. If you open up these files, you will see some additional variables. This is a great place to add or overwrite global variables that are orientation specific.
+Third, depending on the banner's orientation, we will import either `src/scss/orientation/vertical.scss` or `src/scss/orientation/horizontal`. If you open up these files, you will see some additional variables. This is a great place to add or overwrite global variables that are orientation specific.
 
 Fourth, depending on the banner type, we will import one of the following four:
-* `resources/scss/type/static`;
-* `resources/scss/type/standard`;
-* `resources/scss/type/expanding`;
-* `resources/scss/type/multi-direction-expanding`;
+* `src/scss/type/static`;
+* `src/scss/type/standard`;
+* `src/scss/type/expanding`;
+* `src/scss/type/multi-direction-expanding`;
 
 These files will allow you to create general styles scoped for each banner type.
 
@@ -504,10 +504,10 @@ Look at the last block which is targeting `#expanded-panel.expand #expanded-cont
 
 ## 2.3: File Structure - Javascript
 
-The entry point for each banner's javascript is that banner's specific JS file within `resources/js/pages`. Let's quickly look at this entry point for each type of banner.
+The entry point for each banner's javascript is that banner's specific JS file within `src/js/pages`. Let's quickly look at this entry point for each type of banner.
 
 ### banner.jS - Standard Banners
-Example: `resources/js/pages/my-standard-banner.js`
+Example: `src/js/pages/my-standard-banner.js`
 
 ```javascript
 const SetupStandardBanner = require('../components/setup-standard');
@@ -518,7 +518,7 @@ window.addEventListener('load', () => {
 });
 ```
 
-This code creates an instance of the SetupStandardBanner class and then initializes that object. Let's look at the code for that class located in `resources/js/components/setup-standard.js`.
+This code creates an instance of the SetupStandardBanner class and then initializes that object. Let's look at the code for that class located in `src/js/components/setup-standard.js`.
 
 ```javascript
 var MainJs = require('../main.js');
@@ -553,24 +553,24 @@ module.exports = class SetupStandardBanner {
   }
 };
 ```
-The majority of this code is simply conditionally initializing the HTML5 "Enabler" and importing `resources/js/main.js`.
+The majority of this code is simply conditionally initializing the HTML5 "Enabler" and importing `src/js/main.js`.
 
-When your project is built for DoubleClick Studio, it will properly initialize the Enabler script, import your configured exit links, and then run `resources/js/main.js`. When your project is not built for DoubleClick Campaign Manager, this file will simply import and run `resources/js/main.js`. 
+When your project is built for DoubleClick Studio, it will properly initialize the Enabler script, import your configured exit links, and then run `src/js/main.js`. When your project is not built for DoubleClick Campaign Manager, this file will simply import and run `src/js/main.js`. 
 
 If you would like to better understand how the Enabler is initialized and loaded, you can visit <a href="https://support.google.com/richmedia/answer/2672545?hl=en&ref_topic=2672541&visit_id=1-636613313005899523-3765677550&rd=1">DoubleClick's documentation</a>
 
 ### banner.js - Static Banners
-Example: `resources/js/pages/my-static-banner.js`
+Example: `src/js/pages/my-static-banner.js`
 
-The code within static banners and within `resources/js/components/setup-static.js` will look almost identical to that of standard banners. The only difference is that once Enabler.js is initialized and loaded in DoubleClick Studio banners it loads nothing else, and in DoubleClick Campaign Manager banners it verifies it doesn't have the class "studio" and loads nothing.
+The code within static banners and within `src/js/components/setup-static.js` will look almost identical to that of standard banners. The only difference is that once Enabler.js is initialized and loaded in DoubleClick Studio banners it loads nothing else, and in DoubleClick Campaign Manager banners it verifies it doesn't have the class "studio" and loads nothing.
 
 ### banner.js - Expanding Banners
-Example: `resources/js/pages/my-expand-banner.js`
+Example: `src/js/pages/my-expand-banner.js`
 
 This section will be added to the documentation soon. Please reach out to `sbaird@envivent.com` if you have questions about the file structure for expanding banners.
 
 ### main.js - Standard Banners
-Path: `resources/js/main.js`
+Path: `src/js/main.js`
 
 By default, `main.js` is set up with base functionality that will be typical for most banner projects. 
 
@@ -622,9 +622,9 @@ First, we will create a new ISI (Important Safety Information) Component using i
 Next we will build an animationLoader object, return that object, and then call its `init()` method. When the animationLoader component is initialized it will run the function `fadeInScreen1()`, which finds the DOM element with the class ".screen-1" and causes it to fade in. From here you can build out additional methods to be called in sequence.
 
 ### main-expanding.js - Expanding Banners
-Path: `resources/js/main-expanding.js`.
+Path: `src/js/main-expanding.js`.
 
-The first 27 lines of this file are almost identical to `resources/js/main.js`. The unique features of expanding banners are the next four methods 
+The first 27 lines of this file are almost identical to `src/js/main.js`. The unique features of expanding banners are the next four methods 
 
 ```javascript
 expandStartAnimation(callback) {
@@ -682,7 +682,7 @@ If something needs to execute *after* the collapse animation is complete, add it
 
 ### isi.js
 
-Navigate to `resources/js/components/isi.js`.
+Navigate to `src/js/components/isi.js`.
 
 ```javascript
 this.id = id ? id : 'isi';
