@@ -7,6 +7,10 @@ module.exports = (gulp, banners) => {
 
       Object.keys(banners.links).sort().forEach((link, index) => {
         const num = index === 0 ? '' : index + 1;
+        html = html.replace(
+          new RegExp(`var ${link} = "${banners.links[link].href}"`),
+          `var clickTag${num} = "${banners.links[link].href}"`
+        );
         html = html.replace(new RegExp(`(window.${link})`, 'g'), `(window.clickTag${num})`);
       });
 

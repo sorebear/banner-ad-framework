@@ -6,7 +6,7 @@ const merge = require('merge-stream');
 const eslint = require('gulp-eslint');
 
 // File Paths to Watch
-const JS_PATH = 'resources/js';
+const JS_PATH = 'src/js';
 
 module.exports = (gulp, banners) => {
   gulp.task('scripts-develop', () => {

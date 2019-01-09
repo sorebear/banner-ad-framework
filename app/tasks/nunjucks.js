@@ -2,10 +2,10 @@
  * NUNJUCKS HTML TEMPLATING
  *
  * Nunjucks templating for key message HTML as well as AJAX'ed html files.
- * All html is compiled from the resources/html directory.
+ * All html is compiled from the src/html directory.
  *
  * An HTML file for each banner is generated from the directory
- * resources/html/pages. A template for each file will be found
+ * src/html/pages. A template for each file will be found
  * in that folder, named [banner-name].html. If it's a file is missing run
  * `gulp scaffold` to generate it from the banners.json.
  *
@@ -16,13 +16,15 @@
  */
 
 const nunjucksRender = require('gulp-nunjucks-render');
+const beautify = require('js-beautify');
 const htmlmin = require('gulp-htmlmin');
 const merge = require('merge-stream');
 
-const HTML_PATH = './resources/html';
+const HTML_PATH = './src/html';
 
-module.exports = (gulp, banners) => {
+module.exports = (gulp, banners) => {  
   function htmlCampaignTask(production) {
+
     const streams = Object.keys(banners.banners).map(banner => {
       const { orientation } = banners.banners[banner];
       const dataObject = {

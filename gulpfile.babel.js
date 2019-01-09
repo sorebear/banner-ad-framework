@@ -82,4 +82,4 @@ gulp.task('build:studio-step-2',
 /**
  * Clean dist folders
  */
-gulp.task('clean-dist', () => del.sync('dist'));
+gulp.task('clean-dist', ['update-links'], () => del.sync('dist'));
