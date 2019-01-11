@@ -1,12 +1,16 @@
 {
+  "settings": {
+    "allow-broken-links": false,
+    "allow-oversized-banners": false
+  },
   "links": {
     "testLink1": {
-      "displayName": "Test Link - Ecosia",
-      "href": "https://www.ecosia.org/"
+      "displayName": "Test Link 1 - Duck Duck Go",
+      "href": "https://duckduckgo.com"
     },
     "testLink2": {
-      "displayName": "Test Link 2 - Google",
-      "href": "http://google.com"
+      "displayName": "Test Link 2 - Ecosia",
+      "href": "https://www.ecosia.org"
     }
   },
   "banners": {
