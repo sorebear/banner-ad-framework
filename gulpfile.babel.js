@@ -50,17 +50,17 @@ gulp.task('build', () => {
     }));
 });
 
-gulp.task('develop:campaign', ['clean-dist'], () => runSequence('develop:campaign-step-2'));
+gulp.task('develop:campaign', ['clean-dist-develop'], () => runSequence('develop:campaign-step-2'));
 gulp.task('develop:campaign-step-2',
   ['images-watch', 'styles-watch', 'scripts-watch', 'html-campaign-watch', 'transfer-watch'],
-  () => runSequence([ 'create-index', 'check-size', 'check-links', 'rename-clicktags' ])
+  () => runSequence([ 'create-index', 'size-checker-watch', 'link-checker-watch', 'rename-clicktags' ])
 );
 
-gulp.task('develop:studio', ['clean-dist'], () => runSequence('develop:studio-step-2'));
-gulp.task('develop:doubleclick', ['clean-dist'], () => runSequence('develop:studio-step-2'));
+gulp.task('develop:studio', ['clean-dist-develop'], () => runSequence('develop:studio-step-2'));
+gulp.task('develop:doubleclick', ['clean-dist-develop'], () => runSequence('develop:studio-step-2'));
 gulp.task('develop:studio-step-2',
   ['images-watch', 'styles-watch', 'scripts-watch', 'html-studio-watch', 'transfer-watch'],
-  () => runSequence([ 'create-index', 'check-size', 'check-links' ])
+  () => runSequence([ 'create-index', 'size-checker-watch', 'link-checker-watch' ])
 );
 
 gulp.task('build:campaign', ['clean-dist'], () => runSequence('build:campaign-step-2'));
@@ -68,7 +68,7 @@ gulp.task('build:campaign-step-2',
   ['images-production', 'styles-production', 'scripts-production', 'html-campaign-production', 'transfer-production'],
   () => runSequence([ 'build:campaign-step-3' ]));
 gulp.task('build:campaign-step-3',
-  ['create-index', 'check-size', 'check-links', 'rename-clicktags'],
+  ['create-index', 'size-checker', 'link-checker', 'rename-clicktags'],
   () => runSequence([ 'zip' ])
 );
 
@@ -76,10 +76,11 @@ gulp.task('build:studio', ['clean-dist'], () => runSequence('build:studio-step-2
 gulp.task('build:doubleclick', ['clean-dist'], () => runSequence('build:studio-step-2'));
 gulp.task('build:studio-step-2',
   ['images-production', 'styles-production', 'scripts-production', 'html-studio-production', 'transfer-production'],
-  () => runSequence([ 'create-index', 'check-size', 'check-links', 'zip' ])
+  () => runSequence([ 'create-index', 'size-checker', 'link-checker', 'zip' ])
 );
 
 /**
  * Clean dist folders
  */
+gulp.task('clean-dist-develop', ['watch-links'], () => del.sync('dist'));
 gulp.task('clean-dist', ['update-links'], () => del.sync('dist'));

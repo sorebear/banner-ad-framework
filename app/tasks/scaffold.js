@@ -90,6 +90,12 @@ module.exports = (gulp, banners) => {
     tpl = tpl.replace(/<%fileName%>/g, banner);
     tpl = tpl.replace(/<%width%>/g, dims.collapsedWidth);
     tpl = tpl.replace(/<%height%>/g, dims.collapsedHeight);
+    if (dims.expanding) {
+      tpl = tpl.replace(/<%leftOffset%>/g, dims.leftOffset);
+      tpl = tpl.replace(/<%topOffset%>/g, dims.topOffset);
+      tpl = tpl.replace(/<%expandedWidth%>/g, dims.expandedWidth);
+      tpl = tpl.replace(/<%expandedHeight%>/g, dims.expandedHeight);
+    }
     checkThenWriteFile(`${HTML_PATH}/pages/${banner}.html`, tpl);
   };
 

@@ -49,6 +49,11 @@ module.exports = function(IScroll, id) {
     setTimeout(() => {
       this.isiScroll.refresh();
     }, 0);
+
+    setTimeout(() => {
+      this.pauseScroll();
+      this.resumeScroll();
+    }, 1);
   };
 
   this.pauseScroll = function() {

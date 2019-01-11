@@ -1,5 +1,8 @@
 {% set width = 300 %} 
 {% set height = 600 %}
+{% block expandingPixelOffsets %}
+  <script>function pixelOffsets() { Enabler.setExpandingPixelOffsets(300, 200, 600, 800); }</script>
+{% endblock %}
 
 {% set banner = "sample-multi-direction-expanding-banner" %}
 {% block bannerClass %}{% endblock %}

@@ -5,7 +5,7 @@ module.exports = function() {
       links[i].addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
-        Enabler.exit('Test Link - Ecosia', 'https://www.ecosia.org/');
+        Enabler.exit('Test Link 1 - Duck Duck Go', 'https://duckduckgo.com');
       });
     }
   }
@@ -15,7 +15,7 @@ module.exports = function() {
       links[i].addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
-        Enabler.exit('Test Link 2 - Google', 'http://google.com');
+        Enabler.exit('Test Link 2 - Ecosia', 'https://www.ecosia.org');
       });
     }
   }
