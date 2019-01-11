@@ -39,17 +39,10 @@ module.exports = class SetupMultiDirectionExpandingBanner {
   }
 
   politeLoad() {
-    this.initExpandDirection();
     setTimeout(() => document.getElementById('main-panel').classList.remove('remove-animations-on-load', 1));
     this.addDomEventListeners();
     if (this.politeLoadImg) { this.politeLoadImg.hide(); }
     this.mainMultiExpandingDirectionJs.init();
-  }
-
-  initExpandDirection() {
-    const initialValue = !this.studio || Enabler.getExpandDirection() ? this.localExpandDirectionNum : 
-      Enabler.getExpandDirection()['a'] === 0 ? 3 : Enabler.getExpandDirection()['a'] - 1;
-    this.expandedPanel.classList.add(`direction-${this.expandDirectionArr[initialValue]}`);
   }
   
   addDomEventListeners() {
@@ -76,7 +69,8 @@ module.exports = class SetupMultiDirectionExpandingBanner {
 
   enablerInitHandler() {
     Enabler.setIsMultiDirectional(true);
-    this.setExpandingPixelOffsets();
+    // this.setExpandingPixelOffsets();
+    window.pixelOffsets();
 
     Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, () => this.expandStartHandler());
     Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, () => this.expandFinishHandler());

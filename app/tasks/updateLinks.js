@@ -5,8 +5,10 @@ const JS_PATH = 'src/js';
 const HTML_PATH = 'src/html';
 const TEMPLATE_PATH = 'app/templates';
 
-module.exports = (gulp, banners) => {
+module.exports = (gulp, _) => {
   gulp.task('update-links', () => {
+    const banners = JSON.parse(fs.readFileSync('banners.json'));
+
     scaffoldExitLinksJS(banners);
     scaffoldClickTags(banners);
   });
@@ -35,4 +37,8 @@ module.exports = (gulp, banners) => {
     tpl = tpl.replace(/<%clickTags%>/g, clickTags);
     fs.writeFileSync(`${HTML_PATH}/macros/clickTags/links.html`, tpl);
   };
+
+  gulp.task('watch-links', ['update-links'], () => {
+    gulp.watch(['banners.json'], ['update-links']);
+  });
 };
