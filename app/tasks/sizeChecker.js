@@ -1,8 +1,14 @@
 const fs = require('fs');
 const notifier = require('node-notifier');
 
-module.exports = (gulp, banners) => {
-  gulp.task('check-size', () => {
+module.exports = (gulp, _) => {
+  gulp.task('size-checker', () => {
+    const banners = JSON.parse(fs.readFileSync('banners.json'));
+
+    if (banners.settings['allow-oversized-banners']) {
+      return;
+    }
+
     const overSizedBanners = [];
 
     const isFileOrDir = (sum, input) => {
@@ -35,5 +41,9 @@ module.exports = (gulp, banners) => {
     }
 
     return;
+  });
+
+  gulp.task('size-checker-watch', ['size-checker'], () => {
+    gulp.watch(['dist/unzipped/*'], ['size-checker']);
   });
 };

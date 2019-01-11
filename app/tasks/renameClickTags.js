@@ -1,7 +1,8 @@
 const fs = require('fs');
 
-module.exports = (gulp, banners) => {
+module.exports = (gulp, _) => {
   gulp.task('rename-clicktags', () => {
+    const banners = JSON.parse(fs.readFileSync('banners.json'));
     return Object.keys(banners.banners).forEach(banner => {
       let html = fs.readFileSync(`dist/unzipped/${banner}/${banner}.html`, 'utf8');
 

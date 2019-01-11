@@ -15,16 +15,16 @@
  * The style should be familar to those who've used jinja2.
  */
 
-const nunjucksRender = require('gulp-nunjucks-render');
-const beautify = require('js-beautify');
+const fs = require('fs');
 const htmlmin = require('gulp-htmlmin');
 const merge = require('merge-stream');
+const nunjucksRender = require('gulp-nunjucks-render');
 
 const HTML_PATH = './src/html';
 
-module.exports = (gulp, banners) => {  
+module.exports = (gulp, _) => {  
   function htmlCampaignTask(production) {
-
+    const banners = JSON.parse(fs.readFileSync('banners.json'));
     const streams = Object.keys(banners.banners).map(banner => {
       const { orientation } = banners.banners[banner];
       const dataObject = {
@@ -50,6 +50,7 @@ module.exports = (gulp, banners) => {
   }
 
   function htmlStudioTask() {
+    const banners = JSON.parse(fs.readFileSync('banners.json'));
     const streams = Object.keys(banners.banners).map(banner => {
       const { orientation } = banners.banners[banner];
       const dataObject = {
