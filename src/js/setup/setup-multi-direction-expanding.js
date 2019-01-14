@@ -1,20 +1,29 @@
-const MainExpandingJs = require('../main-expanding.js');
+const MainMultiDirectionExpanding = require('../main-multi-direction-expanding.js');
 const exitLinks = require('../components/exit-links.js');
 
+/*
+domExpandHandler is the DOM element listening for an event to trigger banner expansion
+domCollapseHandles is the DOM element listening for an event to trigger banner collapse
+eventListenerType is the EVENT the expand and collapse handlers are listening for 
+*/
 const domExpandHandlerId = 'expand-handler';
 const domCollapseHandlerId = 'collapse-handler';
 const eventListenerType = 'click';
 
-module.exports = class ExpandingBanner {
+
+module.exports = class SetupMultiDirectionExpandingBanner {
   constructor(setExpandingPixelOffsets) {
-    this.mainExpandingJs = new MainExpandingJs();
+    this.mainMultiExpandingDirectionJs = new MainMultiDirectionExpanding();
     this.isExpanded = false;
     this.inTransition = false;
+    this.expandedPanel = document.getElementById('expanded-panel');
     this.politeLoadImg = document.getElementById('polite-load-img');
     this.studio = document.getElementById('main-panel').classList.contains('studio');
-    this.setExpandingPixelOffsets = setExpandingPixelOffsets;
+    this.localExpandDirectionNum = 3;
+    this.expandDirectionArr = ['tl', 'tr', 'bl', 'br'];
     this.politeLoad = this.politeLoad.bind(this);
     this.enablerInitHandler = this.enablerInitHandler.bind(this);
+    this.setExpandingPixelOffsets = setExpandingPixelOffsets;
   }
 
   init() {
@@ -24,18 +33,18 @@ module.exports = class ExpandingBanner {
       } else {
         Enabler.addEventListener(studio.events.StudioEvent.INIT, this.enablerInitHandler);
       }
-    } else {	
+    } else {
       this.politeLoad();
     }
   }
 
   politeLoad() {
-    setTimeout(() => document.getElementById('main-panel').classList.remove('remove-animations-on-load'), 1);
+    setTimeout(() => document.getElementById('main-panel').classList.remove('remove-animations-on-load', 1));
     this.addDomEventListeners();
-    if (this.politeLoadImg) { this.politeLoadImg.style.display = 'none'; }
-    this.mainExpandingJs.init();
+    if (this.politeLoadImg) { this.politeLoadImg.hide(); }
+    this.mainMultiExpandingDirectionJs.init();
   }
-
+  
   addDomEventListeners() {
     const domExpandHandler = document.getElementById(domExpandHandlerId);
     if (domExpandHandler) {
@@ -59,13 +68,15 @@ module.exports = class ExpandingBanner {
   }
 
   enablerInitHandler() {
-    this.setExpandingPixelOffsets();
-    
+    Enabler.setIsMultiDirectional(true);
+    // this.setExpandingPixelOffsets();
+    window.pixelOffsets();
+
     Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, () => this.expandStartHandler());
     Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, () => this.expandFinishHandler());
     Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_START, () => this.collapseStartHandler());
     Enabler.addEventListener(studio.events.StudioEvent.COLLAPSE_FINISH, () => this.collapseFinishHandler());
-
+    
     exitLinks();
 
     if (Enabler.isPageLoaded()) {
@@ -76,7 +87,11 @@ module.exports = class ExpandingBanner {
   }
 
   expandStartHandler() {
-    this.mainExpandingJs.expandStartAnimation(() => {
+    this.expandedPanel.classList.remove(`direction-${this.expandDirectionArr[this.localExpandDirectionNum]}`);
+    this.localExpandDirectionNum = this.studio && Enabler.getExpandDirection() ? Enabler.getExpandDirection()['a'] : 
+      this.localExpandDirectionNum === 3 ? 0 : this.localExpandDirectionNum + 1;
+    this.expandedPanel.classList.add(`direction-${this.expandDirectionArr[this.localExpandDirectionNum]}`);
+    this.mainMultiExpandingDirectionJs.expandStartAnimation(() => {
       this.studio ? Enabler.finishExpand() : this.expandFinishHandler();
     });
   }
@@ -84,11 +99,11 @@ module.exports = class ExpandingBanner {
   expandFinishHandler() {
     this.isExpanded = true;
     this.inTransition = false;
-    this.mainExpandingJs.expandFinishAnimation();
+    this.mainMultiExpandingDirectionJs.expandFinishAnimation();
   }
 
   collapseStartHandler() {
-    this.mainExpandingJs.collapseStartAnimation(() => {
+    this.mainMultiExpandingDirectionJs.collapseStartAnimation(() => {
       this.studio ? Enabler.finishCollapse() : this.collapseFinishHandler();
     });
   }
@@ -96,6 +111,6 @@ module.exports = class ExpandingBanner {
   collapseFinishHandler() {
     this.isExpanded = false;
     this.inTransition = false;
-    this.mainExpandingJs.collapseFinishAnimation();
+    this.mainMultiExpandingDirectionJs.collapseFinishAnimation();
   }
 };
