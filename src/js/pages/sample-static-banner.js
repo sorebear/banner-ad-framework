@@ -1,4 +1,4 @@
-const SetupStaticBanner = require('../components/setup-static');
+const SetupStaticBanner = require('../setup/setup-static');
 
 window.addEventListener('load', () => {
   const staticBanner = new SetupStaticBanner();

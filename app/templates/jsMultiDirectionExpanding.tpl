@@ -1,4 +1,4 @@
-const SetupMultiExpandingDirection = require('../components/setup-multi-direction-expanding');
+const SetupMultiExpandingDirection = require('../setup/setup-multi-direction-expanding');
 
 window.addEventListener('load', () => {
   const setPixelOffsets = () => Enabler.setExpandingPixelOffsets(

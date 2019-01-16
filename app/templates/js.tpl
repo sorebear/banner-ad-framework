@@ -1,4 +1,4 @@
-const SetupStandardBanner = require('../components/setup-standard');
+const SetupStandardBanner = require('../setup/setup-standard');
 
 window.addEventListener('load', () => {
   const standardBanner = new SetupStandardBanner();

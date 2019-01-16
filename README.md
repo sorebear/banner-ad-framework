@@ -2,22 +2,25 @@
 
 ## Bolognese Banners - Table of Contents
 1. [Quick Start](#1-quick-start)
-   1. [Getting Started](#11-getting-started)
-   1. [Scaffolding](#12-scaffolding)
-   1. [Gulp Tasks](#13-gulp-build-tasks-overview)
-   1. [Banner Links](#14-banner-links)
-   1. [Renaming Banners](#15-renaming-banners)
+  1. [Getting Started](#11-getting-started)
+  1. [Scaffolding](#12-scaffolding)
+  1. [Gulp Tasks](#13-gulp-build-tasks-overview)
+  1. [Banner Links](#14-banner-links)
+  1. [Renaming Banners](#15-renaming-banners)
 
 1. [File Structure](#2-file-structure)
-   1. [File Structure - HTML](#21-file-structure-html)
-   1. [File Structure - SCSS](#22-file-structure-scss)
-   1. [File Structure - Javascript](#23-file-structure-javascript)
-      1. [banner.js - Standard Banners](#bannerjs-standard-banners)
-      1. [banner.js - Static Banners](#bannerjs-static-banners)
-      1. [banner.js - Expanding Banners](#bannerjs-expanding-banners)
-      1. [main-js - Standard Banners](#mainjs-standard-banners)
-      1. [main-expanded.js - Expanding Banners](#main-expandingjs-expanding-banners)
-      1. [isi.js](#isijs)
+  1. [File Structure - HTML](#21-file-structure-html)
+  1. [File Structure - SCSS](#22-file-structure-scss)
+  1. [File Structure - Javascript](#23-file-structure-javascript)
+    1. [banner.js - Standard Banners](#bannerjs-standard-banners)
+    1. [banner.js - Static Banners](#bannerjs-static-banners)
+    1. [banner.js - Expanding Banners](#bannerjs-expanding-banners)
+    1. [main-js - Standard Banners](#mainjs-standard-banners)
+    1. [main-expanded.js - Expanding Banners](#main-expandingjs-expanding-banners)
+    1. [isi.js](#isijs)
+1. [Additional Features](#3-additional-features)
+  1. [Helper Functions (To Avoid jQuery)](#31-helper-functions)
+  1. [Polite Loading](#32-polite-loading)
 
 
 # 1: Quick Start
@@ -64,6 +67,18 @@ Once everything is installed, open up `banners.json` in the root directory to cu
   }
 }
 ```
+
+### Settings
+```javascript
+"settings": {
+  "allow-broken-links": false, // @bool
+  "allow-oversized-banners": false, // @bool
+},
+```
+
+If `"allow-broken-links"` is false, a check will be run on all links in the project and throw a notification if a link is broken. You might want to set this to true if you're pointing the banner to a future site that doesn't exist yet, to avoid continually seeing the error.
+
+If `"allow-oversized-banners"` is false, a check will run to see if all banners are under 200kb and throw a notification if one or more is not. You might want to set this to true if you are planning on delivering a banner that is over 200kb. You can customize this check in `app/tasks/sizeChecker.js` if needed.
 
 ### Links
 ```javascript
@@ -216,7 +231,7 @@ gulp build:studio
 ```
 gulp zip
 ```
-This task will take each folder currently in `dist/unzipped`, zip it, and place it in `dist/zipped`. It will also take all the folders in `dist/unzipped` and create one zip file placed in `dist/single-zip`.
+This task will take each folder currently in `dist/unzipped`, zip it, and place it in `dist/zipped`. It will also take all the folders in `dist/unzipped` and create one zip file placed in `dist/single-zip`. This command will be automatically run when running the command `gulp build:campaign` or `gulp build:studio`.
 
 ## 1.4: Banner Links
 
@@ -236,11 +251,13 @@ When your run `gulp develop:campaign` or `gulp build:campaign` the links will be
 ```html
 <!-- The following link -->
 
-{{ link('myCoolLink', 'exit-link awesome-class') }}Click Here{{ closeLink() }}
+{{ link('myCoolLink', 'click-tag awesome-class') }}Click Here{{ closeLink() }}
 
 <!-- Will be rendered to -->
 <span onclick="window.open(window.myCoolLink)" class="exit-link awesome-class">Click Here</a>
 ```
+
+Additionally, Campaign Manager often requires click tags to be named 'clickTag', 'clickTag2', 'clickTag3', etc. Links will automatically be renamed in the dist folder after the code has compiled. This task can be found in `app/tasks/renameClickTags.js`.
 
 ### Links for DoubleClick Studio
 
@@ -264,7 +281,12 @@ gulp rename
 ```
 This will return a list of all the current banner names and prompt you to select which banner you would like to rename. It will then ask you what you'd like to rename the banner to.
 
-This command helps avoid the hassle of manually alterning your banners.json and renaming several files. 
+You can also rename banners in command by using the following:
+```
+gulp rename --old <current-name-of-banner> --new <new-name-of-banner>
+```
+
+These commands help avoid the hassle of manually alterning your banners.json and renaming several files. 
 
 # 2: File Structure
 
@@ -500,7 +522,49 @@ There is then space to add your banner-specific styles.
 ```
 If you are making an expanding banner, there will be some additional sizing styles for the multiple panels within your file structure. 
 
-Look at the last block which is targeting `#expanded-panel.expand #expanded-content-wrapper`. As seen here, the size of the collapsed panel and the expanded panel should not change, so the visual expansion is best done by expanding the content within the expanded panel. Simply adding a transition to the expanded-content-wrapper will make the expanding and collapsing appear animated.
+Look at the last block which is targeting `#expanded-panel.expand #expanded-content-wrapper`. As seen here, the size of the collapsed panel and the expanded panel should not change, so the visual expansion is best done by expanding the content within the expanded panel.
+
+### Expanding Styles
+
+The styles for all expanding banners are found in `src/scss/partials/_expanding.scss`:
+
+```scss
+#expand-handler,
+#collapse-handler {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+#collapse-handler {
+  z-index: 10;
+}
+
+#collapsed-main-content {
+  z-index: 20;
+}
+
+#expand-handler {
+  z-index: 30;
+}
+
+#expanded-content-wrapper {
+  transition: .5s;
+}
+
+// This allows the Banner to be initialized in the right position
+// without displaying a transition animation.
+// This class is removed by JavaScript in Expanding Banners on politeLoad()
+#main-panel.remove-animations-on-load {
+  * {
+    transition: 0s !important;
+  }
+}
+```
+Here some `z-index` is applied to correctly stack the different panels and buttons. A transition is also added to make the banner expansion and collapse animated.
+
+At the very bottom a class is added to prevent transition animations until everything is correctly initialized on the screen. 
+
 
 ## 2.3: File Structure - Javascript
 
@@ -510,7 +574,7 @@ The entry point for each banner's javascript is that banner's specific JS file w
 Example: `src/js/pages/my-standard-banner.js`
 
 ```javascript
-const SetupStandardBanner = require('../components/setup-standard');
+const SetupStandardBanner = require('../setup/setup-standard');
 
 window.addEventListener('load', () => {
   const standardBanner = new SetupStandardBanner();
@@ -518,42 +582,9 @@ window.addEventListener('load', () => {
 });
 ```
 
-This code creates an instance of the SetupStandardBanner class and then initializes that object. Let's look at the code for that class located in `src/js/components/setup-standard.js`.
+This code creates an instance of the SetupStandardBanner, located in `src/js/setup/setup-standard`.
 
-```javascript
-var MainJs = require('../main.js');
-var exitLinks = require('../components/exit-links.js');
-
-module.exports = class SetupStandardBanner {
-  constructor() {
-    this.mainJs = new MainJs();
-    this.enablerInitHandler = this.enablerInitHandler.bind(this);
-  }
-
-  enablerInitHandler() {
-    exitLinks();
-
-    if (Enabler.isPageLoaded()) {
-      this.mainJs.init();
-    } else {
-      Enabler.addEventListener(studio.events.StudioEvent.PAGE_LOADED, this.mainJs.init);
-    }
-  }
-
-  init() {
-    if (document.getElementById('main-panel').classList.contains('studio')) {
-      if (Enabler.isInitialized()) {
-        this.enablerInitHandler();
-      } else {
-        Enabler.addEventListener(studio.events.StudioEvent.INIT, this.enablerInitHandler);
-      }
-    } else {
-      this.mainJs.init();
-    }
-  }
-};
-```
-The majority of this code is simply conditionally initializing the HTML5 "Enabler" and importing `src/js/main.js`.
+The majority of the setupd code is conditionally initializing the HTML5 "Enabler" and importing `src/js/main.js`.
 
 When your project is built for DoubleClick Studio, it will properly initialize the Enabler script, import your configured exit links, and then run `src/js/main.js`. When your project is not built for DoubleClick Campaign Manager, this file will simply import and run `src/js/main.js`. 
 
@@ -565,9 +596,30 @@ Example: `src/js/pages/my-static-banner.js`
 The code within static banners and within `src/js/components/setup-static.js` will look almost identical to that of standard banners. The only difference is that once Enabler.js is initialized and loaded in DoubleClick Studio banners it loads nothing else, and in DoubleClick Campaign Manager banners it verifies it doesn't have the class "studio" and loads nothing.
 
 ### banner.js - Expanding Banners
-Example: `src/js/pages/my-expand-banner.js`
+Example: `src/js/pages/sample-expanding-banner.js`
 
-This section will be added to the documentation soon. Please reach out to `sbaird@envivent.com` if you have questions about the file structure for expanding banners.
+This code is very similar to the static and standard banners. The main difference here is we create a function that calls `Enabler.setExpandingPixelOffsets` with values that are specific to the banners size. This function will be called inside of `src/js/setup/setup-expanding.js` when the banner is initalized.
+
+```javascript
+const SetupExpanding = require('../setup/setup-expanding');
+
+window.addEventListener('load', () => {
+  const setPixelOffsets = () => Enabler.setExpandingPixelOffsets(
+    320,
+    0,
+    640,
+    250
+  );
+  const expandingBanner = new SetupExpanding(setPixelOffsets);
+  expandingBanner.init();
+});
+```
+
+### banner.js - Multi-Direction Expanding Banners
+Example: `src/js/pages/sample-multi-direction-expanding-banner.js`
+
+This code is very similar to the regular expanding banner.
+
 
 ### main.js - Standard Banners
 Path: `src/js/main.js`
@@ -612,7 +664,6 @@ module.exports = class MainJs {
     this.isi.init();
     this.animator.init();
 
-    // helperFunctions.isiScroll(.5, this.isi);
   }
 };
 ```
@@ -778,4 +829,62 @@ If you are using programmatic scrolling in your project, here is a quick overvie
 * When the mouse enters the ISI container, `this.mouseOverIsi` is flipped to `true`. Then, if the component has been initialized, it will pause the scroll.
 * When the mouse leaves the ISI container, `this.mouseOverIsi` is flipped to `false`. Then, if the component has been initialized, it will resume the scroll.
 
+# 3: Additional Features
 
+## 3.1: Helper Functions
+
+Many projects include jQuery, though only a couple of elements are used from the library. To avoid importing unnecessary code, Bolognese Banners ships with equivalents to the three most frequently used functions: `fadeIn()`, `fadeOut()`, and `animate()`. The helper functions can be found at `src/js/util/helper-functions.js`.
+
+### fadeIn()
+
+```javascript
+fadeIn(element, duration, callback)
+
+//example
+fadeIn(document.querySelector('#my-id'), 1500, () => {
+  console.log('Fade in complete');
+})
+```
+
+### fadeOut()
+
+```javascript
+fadeOut(element, duration, callback)
+
+//example
+fadeOut(document.querySelector('.my-class'), 2000, () => {
+  console.log('Fade out complete');
+})
+```
+
+### animate()
+
+```javascript
+animate(element, propertiesObj, duration = 400, easing = 'ease-in', callback);
+
+//example
+animate(document.querySelector('.item-to-animate'), { height: '150px' }, 1000, 'ease-out', () => {
+  console.log('Animation complete');
+})
+```
+
+## 3.2: Polite Loading
+
+Polite loading is an option (and sometimes a requirement) for uploading banners. Polite loading essentially shows a low-res image (screenshot) of the banner, until the actual banner has finished loading and initializing. Once the banner is ready, the polite load image is then hidden to show the actual banner. You can read more about it [here](https://support.google.com/richmedia/answer/2672514?hl=en).
+
+Bolognese banners supports polite loading on Standard, Expanding, and Multi-Direction expanding banners. All you need to do is give the polite load image an ID of 'polite-load-img', position it correctly, and the framework will take care of hiding it.
+
+Example:
+```html
+<!--File: src/html/components/main-content.html -->
+<img id="polite-load-img" src="img/my-image.jpg">
+<div class="animated-content">
+  <div class="screen screen-1">
+    <h1>Screen 1</h1>
+  </div>
+  <div class="screen screen-2">
+    <h1>Screen 2</h1>
+    {{ link('testLink2', 'additional-custom-class')}}Test Link 2{{ closeLink() }}
+  </div>
+</div>
+```

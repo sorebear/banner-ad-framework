@@ -5,15 +5,16 @@ module.exports = class SetupStandardBanner {
   constructor() {
     this.mainJs = new MainJs();
     this.enablerInitHandler = this.enablerInitHandler.bind(this);
+    this.politeLoad = this.politeLoad.bind(this);
   }
 
   enablerInitHandler() {
     exitLinks();
 
     if (Enabler.isPageLoaded()) {
-      this.mainJs.init();
+      this.politeLoad();
     } else {
-      Enabler.addEventListener(studio.events.StudioEvent.PAGE_LOADED, this.mainJs.init);
+      Enabler.addEventListener(studio.events.StudioEvent.PAGE_LOADED, this.politeLoad);
     }
   }
 
@@ -25,7 +26,14 @@ module.exports = class SetupStandardBanner {
         Enabler.addEventListener(studio.events.StudioEvent.INIT, this.enablerInitHandler);
       }
     } else {
-      this.mainJs.init();
+      this.politeLoad();
     }
+  }
+
+  politeLoad() {
+    if (this.politeLoadImg) { 
+      this.politeLoadImg.style.display = 'none'; 
+    }
+    this.mainJs.init();
   }
 };

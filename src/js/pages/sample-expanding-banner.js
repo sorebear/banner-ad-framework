@@ -1,4 +1,4 @@
-const SetupExpanding = require('../components/setup-expanding');
+const SetupExpanding = require('../setup/setup-expanding');
 
 window.addEventListener('load', () => {
   const setPixelOffsets = () => Enabler.setExpandingPixelOffsets(
