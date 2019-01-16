@@ -257,6 +257,8 @@ When your run `gulp develop:campaign` or `gulp build:campaign` the links will be
 <span onclick="window.open(window.myCoolLink)" class="exit-link awesome-class">Click Here</a>
 ```
 
+Additionally, Campaign Manager often requires click tags to be named 'clickTag', 'clickTag2', 'clickTag3', etc. Links will automatically be renamed in the dist folder after the code has compiled. This task can be found in `app/tasks/renameClickTags.js`.
+
 ### Links for DoubleClick Studio
 
 When you run `gulp develop:studio` or `gulp build:studio` the links will be rendered as "span" elements. The link name and "exit" will be automatically be added as classes.
