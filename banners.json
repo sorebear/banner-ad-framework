@@ -1,7 +1,8 @@
 {
   "settings": {
     "allow-broken-links": false,
-    "allow-oversized-banners": false
+    "allow-oversized-banners": false,
+    "run-expand-pixel-offsets-in-window": false
   },
   "links": {
     "testLink1": {

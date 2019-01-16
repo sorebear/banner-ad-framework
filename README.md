@@ -2,22 +2,25 @@
 
 ## Bolognese Banners - Table of Contents
 1. [Quick Start](#1-quick-start)
-   1. [Getting Started](#11-getting-started)
-   1. [Scaffolding](#12-scaffolding)
-   1. [Gulp Tasks](#13-gulp-build-tasks-overview)
-   1. [Banner Links](#14-banner-links)
-   1. [Renaming Banners](#15-renaming-banners)
+  1. [Getting Started](#11-getting-started)
+  1. [Scaffolding](#12-scaffolding)
+  1. [Gulp Tasks](#13-gulp-build-tasks-overview)
+  1. [Banner Links](#14-banner-links)
+  1. [Renaming Banners](#15-renaming-banners)
 
 1. [File Structure](#2-file-structure)
-   1. [File Structure - HTML](#21-file-structure-html)
-   1. [File Structure - SCSS](#22-file-structure-scss)
-   1. [File Structure - Javascript](#23-file-structure-javascript)
-      1. [banner.js - Standard Banners](#bannerjs-standard-banners)
-      1. [banner.js - Static Banners](#bannerjs-static-banners)
-      1. [banner.js - Expanding Banners](#bannerjs-expanding-banners)
-      1. [main-js - Standard Banners](#mainjs-standard-banners)
-      1. [main-expanded.js - Expanding Banners](#main-expandingjs-expanding-banners)
-      1. [isi.js](#isijs)
+  1. [File Structure - HTML](#21-file-structure-html)
+  1. [File Structure - SCSS](#22-file-structure-scss)
+  1. [File Structure - Javascript](#23-file-structure-javascript)
+    1. [banner.js - Standard Banners](#bannerjs-standard-banners)
+    1. [banner.js - Static Banners](#bannerjs-static-banners)
+    1. [banner.js - Expanding Banners](#bannerjs-expanding-banners)
+    1. [main-js - Standard Banners](#mainjs-standard-banners)
+    1. [main-expanded.js - Expanding Banners](#main-expandingjs-expanding-banners)
+    1. [isi.js](#isijs)
+1. [Additional Features](#3-additional-features)
+  1. [Helper Functions (To Avoid jQuery)](#31-helper-functions)
+  1. [Polite Loading](#32-polite-loading)
 
 
 # 1: Quick Start
@@ -591,9 +594,30 @@ Example: `src/js/pages/my-static-banner.js`
 The code within static banners and within `src/js/components/setup-static.js` will look almost identical to that of standard banners. The only difference is that once Enabler.js is initialized and loaded in DoubleClick Studio banners it loads nothing else, and in DoubleClick Campaign Manager banners it verifies it doesn't have the class "studio" and loads nothing.
 
 ### banner.js - Expanding Banners
-Example: `src/js/pages/my-expand-banner.js`
+Example: `src/js/pages/sample-expanding-banner.js`
 
-This section will be added to the documentation soon. Please reach out to `sbaird@envivent.com` if you have questions about the file structure for expanding banners.
+This code is very similar to the static and standard banners. The main difference here is we create a function that calls `Enabler.setExpandingPixelOffsets` with values that are specific to the banners size. This function will be called inside of `src/js/setup/setup-expanding.js` when the banner is initalized.
+
+```javascript
+const SetupExpanding = require('../setup/setup-expanding');
+
+window.addEventListener('load', () => {
+  const setPixelOffsets = () => Enabler.setExpandingPixelOffsets(
+    320,
+    0,
+    640,
+    250
+  );
+  const expandingBanner = new SetupExpanding(setPixelOffsets);
+  expandingBanner.init();
+});
+```
+
+### banner.js - Multi-Direction Expanding Banners
+Example: `src/js/pages/sample-multi-direction-expanding-banner.js`
+
+This code is very similar to the regular expanding banner.
+
 
 ### main.js - Standard Banners
 Path: `src/js/main.js`
@@ -638,7 +662,6 @@ module.exports = class MainJs {
     this.isi.init();
     this.animator.init();
 
-    // helperFunctions.isiScroll(.5, this.isi);
   }
 };
 ```
@@ -804,3 +827,62 @@ If you are using programmatic scrolling in your project, here is a quick overvie
 * When the mouse enters the ISI container, `this.mouseOverIsi` is flipped to `true`. Then, if the component has been initialized, it will pause the scroll.
 * When the mouse leaves the ISI container, `this.mouseOverIsi` is flipped to `false`. Then, if the component has been initialized, it will resume the scroll.
 
+# 3: Additional Features
+
+## 3.1: Helper Functions
+
+Many projects include jQuery, though only a couple of elements are used from the library. To avoid importing unnecessary code, Bolognese Banners ships with equivalents to the three most frequently used functions: `fadeIn()`, `fadeOut()`, and `animate()`. The helper functions can be found at `src/js/util/helper-functions.js`.
+
+### fadeIn()
+
+```javascript
+fadeIn(element, duration, callback)
+
+//example
+fadeIn(document.querySelector('#my-id'), 1500, () => {
+  console.log('Fade in complete');
+})
+```
+
+### fadeOut()
+
+```javascript
+fadeOut(element, duration, callback)
+
+//example
+fadeOut(document.querySelector('.my-class'), 2000, () => {
+  console.log('Fade out complete');
+})
+```
+
+### animate()
+
+```javascript
+animate(element, propertiesObj, duration = 400, easing = 'ease-in', callback);
+
+//example
+animate(document.querySelector('.item-to-animate'), { height: '150px' }, 1000, 'ease-out', () => {
+  console.log('Animation complete');
+})
+```
+
+## 3.2: Polite Loading
+
+Polite loading is an option (and sometimes a requirement) for uploading banners. Polite loading essentially shows a low-res image (screenshot) of the banner, until the actual banner has finished loading and initializing. Once the banner is ready, the polite load image is then hidden to show the actual banner. You can read more about it [here](https://support.google.com/richmedia/answer/2672514?hl=en).
+
+Bolognese banners supports polite loading on Standard, Expanding, and Multi-Direction expanding banners. All you need to do is give the polite load image an ID of 'polite-load-img', position it correctly, and the framework will take care of hiding it.
+
+Example:
+```html
+<!--File: src/html/components/main-content.html -->
+<img id="polite-load-img" src="img/my-image.jpg">
+<div class="animated-content">
+  <div class="screen screen-1">
+    <h1>Screen 1</h1>
+  </div>
+  <div class="screen screen-2">
+    <h1>Screen 2</h1>
+    {{ link('testLink2', 'additional-custom-class')}}Test Link 2{{ closeLink() }}
+  </div>
+</div>
+```
