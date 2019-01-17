@@ -69,8 +69,7 @@ module.exports = class SetupMultiDirectionExpandingBanner {
 
   enablerInitHandler() {
     Enabler.setIsMultiDirectional(true);
-    // this.setExpandingPixelOffsets();
-    window.pixelOffsets();
+    this.setExpandingPixelOffsets();
 
     Enabler.addEventListener(studio.events.StudioEvent.EXPAND_START, () => this.expandStartHandler());
     Enabler.addEventListener(studio.events.StudioEvent.EXPAND_FINISH, () => this.expandFinishHandler());

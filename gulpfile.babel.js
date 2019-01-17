@@ -41,8 +41,10 @@ gulp.task('build', () => {
     }, result => {
       switch (result.buildType) {
       case '1':
+        console.log('RUN 1');
         return runSequence('build:campaign');
       case '2':
+        console.log('RUN 1');
         return runSequence('build:studio');
       default:
         return log.error('ERROR: Please select a valid build type.');
@@ -53,14 +55,14 @@ gulp.task('build', () => {
 gulp.task('develop:campaign', ['clean-dist-develop'], () => runSequence('develop:campaign-step-2'));
 gulp.task('develop:campaign-step-2',
   ['images-watch', 'styles-watch', 'scripts-watch', 'html-campaign-watch', 'transfer-watch'],
-  () => runSequence([ 'create-index', 'size-checker-watch', 'link-checker-watch', 'rename-clicktags' ])
+  () => runSequence(['create-index', 'size-checker-watch', 'link-checker-watch', 'rename-clicktags' ])
 );
 
 gulp.task('develop:studio', ['clean-dist-develop'], () => runSequence('develop:studio-step-2'));
 gulp.task('develop:doubleclick', ['clean-dist-develop'], () => runSequence('develop:studio-step-2'));
 gulp.task('develop:studio-step-2',
   ['images-watch', 'styles-watch', 'scripts-watch', 'html-studio-watch', 'transfer-watch'],
-  () => runSequence([ 'create-index', 'size-checker-watch', 'link-checker-watch' ])
+  () => runSequence(['create-index', 'size-checker-watch', 'link-checker-watch' ])
 );
 
 gulp.task('build:campaign', ['clean-dist'], () => runSequence('build:campaign-step-2'));
