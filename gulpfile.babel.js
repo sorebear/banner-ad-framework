@@ -44,7 +44,7 @@ gulp.task('build', () => {
         console.log('RUN 1');
         return runSequence('build:campaign');
       case '2':
-        console.log('RUN 1');
+        console.log('RUN 2');
         return runSequence('build:studio');
       default:
         return log.error('ERROR: Please select a valid build type.');
