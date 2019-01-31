@@ -1,6 +1,6 @@
 {
   "name": "bolognese-banners",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "description": "A scaffold for creating HTML Banner Ads",
   "main": "gulpfile.babel.js",
   "scripts": {
