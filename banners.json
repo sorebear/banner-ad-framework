@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "name": "bolognese-banners",
+    "client_or_agency": "test-agency"
+  },
   "settings": {
     "allow-broken-links": false,
     "allow-oversized-banners": false,

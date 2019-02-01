@@ -1,0 +1,11 @@
+{
+  "USER": "jsmith",
+  "PASSWORD": "hunter2",
+  "HOST": "oc.envivent.com",
+  "dir": "/wwwstage/sandbox.envivent.com/banners/",
+  "loc": "http://sandbox.envivent.com/banners",
+  "settings":
+  {
+    "parallel": 4
+  }
+}

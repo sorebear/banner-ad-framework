@@ -19,6 +19,7 @@
 		"no-unused-vars": "off",
 		"no-undef": "warn",
 		"no-console": "off",
-		"no-debugger": "off"
+		"no-debugger": "off",
+		"no-irregular-whitespace": "off"
 	}
 }

@@ -1,26 +1,27 @@
 <img width="1212px" src="https://res.cloudinary.com/sorebear/image/upload/v1526145174/envivent/bolognese-banners.png">
 
 ## Bolognese Banners - Table of Contents
-1. [Quick Start](#1-quick-start)
-  1. [Getting Started](#11-getting-started)
-  1. [Scaffolding](#12-scaffolding)
-  1. [Gulp Tasks](#13-gulp-build-tasks-overview)
-  1. [Banner Links](#14-banner-links)
-  1. [Renaming Banners](#15-renaming-banners)
+* [Quick Start](#1-quick-start)
+  * [Getting Started](#11-getting-started)
+  * [Scaffolding](#12-scaffolding)
+  * [Gulp Tasks](#13-gulp-build-tasks-overview)
+  * [Banner Links](#14-banner-links)
+  * [Renaming Banners](#15-renaming-banners)
 
-1. [File Structure](#2-file-structure)
-  1. [File Structure - HTML](#21-file-structure-html)
-  1. [File Structure - SCSS](#22-file-structure-scss)
-  1. [File Structure - Javascript](#23-file-structure-javascript)
-    1. [banner.js - Standard Banners](#bannerjs-standard-banners)
-    1. [banner.js - Static Banners](#bannerjs-static-banners)
-    1. [banner.js - Expanding Banners](#bannerjs-expanding-banners)
-    1. [main-js - Standard Banners](#mainjs-standard-banners)
-    1. [main-expanded.js - Expanding Banners](#main-expandingjs-expanding-banners)
-    1. [isi.js](#isijs)
-1. [Additional Features](#3-additional-features)
-  1. [Helper Functions (To Avoid jQuery)](#31-helper-functions)
-  1. [Polite Loading](#32-polite-loading)
+* [File Structure](#2-file-structure)
+  * [File Structure - HTML](#21-file-structure-html)
+  * [File Structure - SCSS](#22-file-structure-scss)
+  * [File Structure - Javascript](#23-file-structure-javascript)
+    * [banner.js - Standard Banners](#bannerjs-standard-banners)
+    * [banner.js - Static Banners](#bannerjs-static-banners)
+    * [banner.js - Expanding Banners](#bannerjs-expanding-banners)
+    * [main-js - Standard Banners](#mainjs-standard-banners)
+    * [main-expanded.js - Expanding Banners](#main-expandingjs-expanding-banners)
+    * [isi.js](#isijs)
+* [Additional Features](#3-additional-features)
+  * [Helper Functions (To Avoid jQuery)](#31-helper-functions)
+  * [Polite Loading](#32-polite-loading)
+  * [Automzted Deployment](#33-automated-deployment)
 
 
 # 1: Quick Start
@@ -887,4 +888,33 @@ Example:
     {{ link('testLink2', 'additional-custom-class')}}Test Link 2{{ closeLink() }}
   </div>
 </div>
+```
+
+## 3.3: Automated Deployment
+
+You can deploy your compiled banner project (the contents of your `/dist` folder) to a server using FTP. Create a copy of `app/sbxs/example.json`, place it in the same folder, and fill in your server and authorization information. 
+
+In this example the SBX is created for the OC server and would be named `oc.json`.
+
+```
+{
+  "USER": "your_username",
+  "PASSWORD": "your_password",
+  "HOST": "oc.envivent.com",
+  "dir": "/sandbox.envivent.com/banners/",
+  "loc": "http://sandbox.envivent.com/banners",
+  "settings":
+  {
+    "parallel": 4
+  }
+}
+```
+
+Banners can then be deployed by running the following command in your terminal:
+
+```
+gulp deploy --sbx <your-sbx-filename>
+
+// oc example
+gulp deploy --sbx oc
 ```

@@ -1,3 +1,12 @@
+# standard ignores
 node_modules
+.sass-cache
 npm-debug.log
+.vscode
+
+# build projects
 dist
+
+# contain SBX credentials
+app/sbxs/*
+!app/sbxs/example.json
